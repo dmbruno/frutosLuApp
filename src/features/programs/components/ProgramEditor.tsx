@@ -76,11 +76,13 @@ export function ProgramEditor({ programId }: ProgramEditorProps) {
   function handlePickExercise(exercise: Exercise) {
     if (!pickerTarget) return;
     const day = program!.days.find((d) => d.id === pickerTarget.dayId);
+    const exercisesInBlock = day?.exercises.filter((e) => e.block === pickerTarget.block) ?? [];
     addExercise.mutate(
       {
         program_day_id: pickerTarget.dayId,
         exercise_id: exercise.id,
         block: pickerTarget.block,
+        order_code: String(exercisesInBlock.length + 1),
         position: (day?.exercises.length ?? 0) + 1,
         sets_reps_text: '3X10',
       },
@@ -154,7 +156,7 @@ export function ProgramEditor({ programId }: ProgramEditorProps) {
             key={day.id}
             day={day}
             onAddExercise={(block) => setPickerTarget({ dayId: day.id, block })}
-            onEditExercise={(id, text) => editExercise.mutate({ id, input: { sets_reps_text: text } })}
+            onEditExercise={(id, input) => editExercise.mutate({ id, input })}
             onRemoveExercise={(id, name) => setPendingRemoval({ type: 'exercise', id, label: name })}
             onRemoveDay={() => setPendingRemoval({ type: 'day', id: day.id, label: day.title })}
           />
