@@ -112,7 +112,22 @@ export interface Database {
           created_at?: string;
         };
         Update: Partial<Database['public']['Tables']['programs']['Insert']>;
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: 'programs_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'programs_template_id_fkey';
+            columns: ['template_id'];
+            isOneToOne: false;
+            referencedRelation: 'programs';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       program_days: {
         Row: {
@@ -132,7 +147,15 @@ export interface Database {
           weekday?: number | null;
         };
         Update: Partial<Database['public']['Tables']['program_days']['Insert']>;
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: 'program_days_program_id_fkey';
+            columns: ['program_id'];
+            isOneToOne: false;
+            referencedRelation: 'programs';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       program_exercises: {
         Row: {
@@ -170,7 +193,22 @@ export interface Database {
           coach_note?: string | null;
         };
         Update: Partial<Database['public']['Tables']['program_exercises']['Insert']>;
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: 'program_exercises_program_day_id_fkey';
+            columns: ['program_day_id'];
+            isOneToOne: false;
+            referencedRelation: 'program_days';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'program_exercises_exercise_id_fkey';
+            columns: ['exercise_id'];
+            isOneToOne: false;
+            referencedRelation: 'exercises';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       workout_sessions: {
         Row: {
@@ -194,7 +232,22 @@ export interface Database {
           created_at?: string;
         };
         Update: Partial<Database['public']['Tables']['workout_sessions']['Insert']>;
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: 'workout_sessions_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'workout_sessions_program_day_id_fkey';
+            columns: ['program_day_id'];
+            isOneToOne: false;
+            referencedRelation: 'program_days';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       set_logs: {
         Row: {
@@ -224,7 +277,29 @@ export interface Database {
           logged_at?: string;
         };
         Update: Partial<Database['public']['Tables']['set_logs']['Insert']>;
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: 'set_logs_session_id_fkey';
+            columns: ['session_id'];
+            isOneToOne: false;
+            referencedRelation: 'workout_sessions';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'set_logs_program_exercise_id_fkey';
+            columns: ['program_exercise_id'];
+            isOneToOne: false;
+            referencedRelation: 'program_exercises';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'set_logs_exercise_id_fkey';
+            columns: ['exercise_id'];
+            isOneToOne: false;
+            referencedRelation: 'exercises';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       body_metrics: {
         Row: {
@@ -262,7 +337,15 @@ export interface Database {
           note?: string | null;
         };
         Update: Partial<Database['public']['Tables']['body_metrics']['Insert']>;
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: 'body_metrics_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       progress_photos: {
         Row: {
@@ -282,7 +365,15 @@ export interface Database {
           storage_path: string;
         };
         Update: Partial<Database['public']['Tables']['progress_photos']['Insert']>;
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: 'progress_photos_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
       };
     };
     Views: {
