@@ -22,10 +22,11 @@ const BLOCK_LABELS: Record<ExerciseBlock, string> = {
 export function ExercisesPage() {
   const [search, setSearch] = useState('');
   const [blockFilter, setBlockFilter] = useState<ExerciseBlock | null>(null);
+  const [showArchived, setShowArchived] = useState(false);
   const [editing, setEditing] = useState<Exercise | null>(null);
   const [showForm, setShowForm] = useState(false);
-  const { data: exercises, isLoading, isError } = useExercises(search, blockFilter ?? undefined);
-  const { create, update, archive, remove } = useExerciseMutations();
+  const { data: exercises, isLoading, isError } = useExercises(search, blockFilter ?? undefined, showArchived);
+  const { create, update, archive, reactivate, remove } = useExerciseMutations();
   const { showToast } = useToast();
 
   function openCreate() {
@@ -68,6 +69,13 @@ export function ExercisesPage() {
 
       <Input placeholder="Buscar por nombre…" value={search} onChange={(e) => setSearch(e.target.value)} />
 
+      <button
+        onClick={() => setShowArchived((v) => !v)}
+        className="self-start text-sm font-medium text-neutral-500 underline"
+      >
+        {showArchived ? '← Volver al catálogo activo' : 'Ver archivados'}
+      </button>
+
       <div className="grid grid-cols-3 gap-2">
         <button
           onClick={() => setBlockFilter(null)}
@@ -94,8 +102,10 @@ export function ExercisesPage() {
         exercises={exercises}
         loading={isLoading}
         error={isError}
+        emptyDescription={showArchived ? 'No archivaste ningún ejercicio todavía.' : undefined}
         onEdit={openEdit}
         onArchive={(id) => archive.mutateAsync(id)}
+        onReactivate={(id) => reactivate.mutateAsync(id)}
         onDelete={(id) => remove.mutateAsync(id)}
       />
 

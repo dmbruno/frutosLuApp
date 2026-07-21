@@ -5,8 +5,8 @@ import type { Database, ExerciseBlock } from '../../types/database';
 type ExerciseInsert = Database['public']['Tables']['exercises']['Insert'];
 type ExerciseUpdate = Database['public']['Tables']['exercises']['Update'];
 
-export async function listExercises(search?: string, block?: ExerciseBlock): Promise<Exercise[]> {
-  let query = supabase.from('exercises').select('*').eq('is_archived', false).order('name');
+export async function listExercises(search?: string, block?: ExerciseBlock, archived = false): Promise<Exercise[]> {
+  let query = supabase.from('exercises').select('*').eq('is_archived', archived).order('name');
   if (search) {
     query = query.ilike('name', `%${search}%`);
   }
@@ -32,6 +32,11 @@ export async function updateExercise(id: string, input: ExerciseUpdate): Promise
 
 export async function archiveExercise(id: string): Promise<void> {
   const { error } = await supabase.from('exercises').update({ is_archived: true }).eq('id', id);
+  if (error) throw error;
+}
+
+export async function reactivateExercise(id: string): Promise<void> {
+  const { error } = await supabase.from('exercises').update({ is_archived: false }).eq('id', id);
   if (error) throw error;
 }
 

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createExercise, updateExercise, archiveExercise, deleteExercise } from '../api';
+import { createExercise, updateExercise, archiveExercise, reactivateExercise, deleteExercise } from '../api';
 import type { Database } from '../../../types/database';
 
 type ExerciseInsert = Database['public']['Tables']['exercises']['Insert'];
@@ -24,10 +24,15 @@ export function useExerciseMutations() {
     onSuccess: invalidate,
   });
 
+  const reactivate = useMutation({
+    mutationFn: (id: string) => reactivateExercise(id),
+    onSuccess: invalidate,
+  });
+
   const remove = useMutation({
     mutationFn: (id: string) => deleteExercise(id),
     onSuccess: invalidate,
   });
 
-  return { create, update, archive, remove };
+  return { create, update, archive, reactivate, remove };
 }
