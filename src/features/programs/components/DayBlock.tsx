@@ -31,14 +31,16 @@ export function DayBlock({ day, onAddExercise, onEditExercise, onRemoveExercise,
                 + agregar
               </button>
             </div>
-            {exercisesInBlock.map((pe) => (
-              <ProgramExerciseRow
-                key={pe.id}
-                programExercise={pe}
-                onChangeSetsReps={(text) => onEditExercise(pe.id, text)}
-                onRemove={() => onRemoveExercise(pe.id, pe.exercise.name)}
-              />
-            ))}
+            <div className="flex flex-col gap-2">
+              {exercisesInBlock.map((pe) => (
+                <ProgramExerciseRow
+                  key={pe.id}
+                  programExercise={pe}
+                  onChangeSetsReps={(text) => onEditExercise(pe.id, text)}
+                  onRemove={() => onRemoveExercise(pe.id, pe.exercise.name)}
+                />
+              ))}
+            </div>
           </div>
         );
       })}

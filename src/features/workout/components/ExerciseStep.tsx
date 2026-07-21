@@ -17,6 +17,9 @@ export function ExerciseStep({ exercise, sessionId, onSetLogged }: ExerciseStepP
       <p className="text-xs font-semibold uppercase text-neutral-400">{exercise.order_code}</p>
       <h3 className="font-display text-lg font-semibold">{exercise.exercise.name}</h3>
       <p className="text-sm text-neutral-500">{exercise.sets_reps_text}</p>
+      {exercise.exercise.instructions && (
+        <p className="mt-2 whitespace-pre-line text-sm text-neutral-600">{exercise.exercise.instructions}</p>
+      )}
       {exercise.coach_note && (
         <p className="mt-1 rounded-lg bg-brand-amber/10 p-2 text-sm text-brand-amber">{exercise.coach_note}</p>
       )}

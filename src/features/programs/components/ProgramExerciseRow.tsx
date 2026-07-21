@@ -20,22 +20,31 @@ export function ProgramExerciseRow({ programExercise, onChangeSetsReps, onRemove
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-2 border-b border-neutral-100 py-2 text-sm">
-      <span className="w-8 shrink-0 font-mono text-xs text-neutral-400">{programExercise.order_code}</span>
-      <span className="min-w-[100px] flex-1 truncate">{programExercise.exercise.name}</span>
-      <Input
-        className="w-24 shrink-0"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        onBlur={handleBlur}
-      />
-      <span className="w-16 shrink-0 text-xs text-neutral-400">
-        {preview.sets ?? '—'}x{preview.reps ?? '—'}
-        {preview.isPerSide ? ' /lado' : ''}
-      </span>
-      <button onClick={onRemove} className="shrink-0 text-xs text-neutral-400">
-        ✕
-      </button>
+    <div className="rounded-xl border border-neutral-100 p-3">
+      <div className="flex items-start gap-2">
+        {programExercise.order_code && (
+          <span className="mt-0.5 shrink-0 rounded bg-neutral-100 px-1.5 py-0.5 font-mono text-xs text-neutral-500">
+            {programExercise.order_code}
+          </span>
+        )}
+        <p className="min-w-0 flex-1 text-sm font-medium">{programExercise.exercise.name}</p>
+        <button onClick={onRemove} className="shrink-0 text-xs text-neutral-400">
+          ✕
+        </button>
+      </div>
+      <div className="mt-2 flex items-center gap-2">
+        <Input
+          className="flex-1"
+          placeholder="ej: 3X10"
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          onBlur={handleBlur}
+        />
+        <span className="shrink-0 whitespace-nowrap text-xs text-neutral-400">
+          {preview.sets ?? '—'}x{preview.reps ?? '—'}
+          {preview.isPerSide ? ' /lado' : ''}
+        </span>
+      </div>
     </div>
   );
 }
