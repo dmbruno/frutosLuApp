@@ -92,3 +92,23 @@ export async function deleteProgramExercise(id: string) {
   const { error } = await supabase.from('program_exercises').delete().eq('id', id);
   if (error) throw error;
 }
+
+export async function assignTemplate(templateId: string, userId: string, startsOn: string): Promise<string> {
+  const { data, error } = await supabase.rpc('assign_template', {
+    p_template_id: templateId,
+    p_user_id: userId,
+    p_starts_on: startsOn,
+  });
+  if (error) throw error;
+  return data;
+}
+
+export async function listStudentPrograms(userId: string): Promise<Program[]> {
+  const { data, error } = await supabase
+    .from('programs')
+    .select('*')
+    .eq('user_id', userId)
+    .order('created_at', { ascending: false });
+  if (error) throw error;
+  return data;
+}
