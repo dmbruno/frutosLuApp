@@ -18,8 +18,8 @@ export function LoginForm({ onSent }: LoginFormProps) {
     try {
       await signInWithOtp(email);
       onSent(email);
-    } catch {
-      setError('No pudimos enviar el link. Probá de nuevo.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'No pudimos enviar el link. Probá de nuevo.');
     } finally {
       setLoading(false);
     }
