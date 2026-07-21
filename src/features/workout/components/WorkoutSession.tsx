@@ -2,7 +2,10 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { EmptyState, Spinner } from '../../../components/ui';
 import { ExerciseStep } from './ExerciseStep';
+import { RestTimer } from './RestTimer';
+import { SessionSummary } from './SessionSummary';
 import { useWorkoutSession } from '../hooks/useWorkoutSession';
+import { useRestTimer } from '../hooks/useRestTimer';
 import type { ProgramExerciseWithExercise } from '../../../types/domain';
 
 interface WorkoutSessionProps {
@@ -25,11 +28,13 @@ function groupSteps(exercises: ProgramExerciseWithExercise[]): ProgramExerciseWi
 }
 
 export function WorkoutSession({ programDayId }: WorkoutSessionProps) {
-  const { day, loading, sessionId, finish } = useWorkoutSession(programDayId);
+  const { day, loading, session, finish } = useWorkoutSession(programDayId);
+  const { secondsLeft, start, skip } = useRestTimer();
   const [stepIndex, setStepIndex] = useState(0);
+  const [showSummary, setShowSummary] = useState(false);
   const navigate = useNavigate();
 
-  if (loading || !day) return <Spinner />;
+  if (loading || !day || !session) return <Spinner />;
   if (day.exercises.length === 0) {
     return <EmptyState title="Día sin ejercicios cargados" />;
   }
@@ -37,14 +42,23 @@ export function WorkoutSession({ programDayId }: WorkoutSessionProps) {
   const steps = groupSteps(day.exercises);
   const step = steps[stepIndex];
   const isLast = stepIndex === steps.length - 1;
+  const isSuperset = step.length > 1;
 
-  async function handleNext() {
+  function handleNext() {
     if (isLast) {
-      await finish(3, null);
-      navigate('/');
+      setShowSummary(true);
     } else {
       setStepIndex((i) => i + 1);
     }
+  }
+
+  async function handleFinish(feeling: number, note: string | null) {
+    await finish(feeling, note);
+    navigate('/');
+  }
+
+  if (showSummary) {
+    return <SessionSummary sessionId={session.id} startedAt={session.started_at} onFinish={handleFinish} />;
   }
 
   return (
@@ -65,9 +79,22 @@ export function WorkoutSession({ programDayId }: WorkoutSessionProps) {
         </button>
       </div>
 
+      {isSuperset && (
+        <p className="self-start rounded-full bg-brand-pink/10 px-3 py-1 text-xs font-semibold text-brand-pink">
+          Superserie
+        </p>
+      )}
+
       {step.map((exercise) => (
-        <ExerciseStep key={exercise.id} exercise={exercise} sessionId={sessionId!} onSetLogged={() => {}} />
+        <ExerciseStep
+          key={exercise.id}
+          exercise={exercise}
+          sessionId={session.id}
+          onSetLogged={(restSec) => start(restSec ?? 60)}
+        />
       ))}
+
+      {secondsLeft !== null && <RestTimer secondsLeft={secondsLeft} onSkip={skip} />}
     </div>
   );
 }

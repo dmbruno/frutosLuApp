@@ -112,6 +112,20 @@ export async function logSet(setLog: SetLogInsert) {
   return data;
 }
 
+export async function getSessionSummary(sessionId: string, startedAt: string) {
+  const { data, error } = await supabase.from('set_logs').select('weight_kg, reps').eq('session_id', sessionId);
+  if (error) throw error;
+
+  const totalVolumeKg = (data ?? []).reduce((sum, s) => {
+    if (s.weight_kg == null || s.reps == null) return sum;
+    return sum + s.weight_kg * s.reps;
+  }, 0);
+  const totalSets = data?.length ?? 0;
+  const durationMin = Math.max(1, Math.round((Date.now() - new Date(startedAt).getTime()) / 60_000));
+
+  return { totalVolumeKg, totalSets, durationMin };
+}
+
 export async function getLastPerformances(
   programExerciseId: string,
 ): Promise<Record<number, { weight_kg: number | null; reps: number | null }>> {
