@@ -41,3 +41,20 @@ export async function setSubscription(userId: string, status: 'active' | 'inacti
   const { error } = await supabase.from('profiles').update({ subscription_status: status }).eq('id', userId);
   if (error) throw error;
 }
+
+export async function getStudentNote(userId: string): Promise<string> {
+  const { data, error } = await supabase
+    .from('student_notes')
+    .select('note')
+    .eq('user_id', userId)
+    .maybeSingle();
+  if (error) throw error;
+  return data?.note ?? '';
+}
+
+export async function setStudentNote(userId: string, note: string): Promise<void> {
+  const { error } = await supabase
+    .from('student_notes')
+    .upsert({ user_id: userId, note, updated_at: new Date().toISOString() });
+  if (error) throw error;
+}

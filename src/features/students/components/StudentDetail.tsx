@@ -1,6 +1,7 @@
 import { EmptyState, Spinner } from '../../../components/ui';
 import { AdherenceLight } from './AdherenceLight';
 import { SubscriptionToggle } from './SubscriptionToggle';
+import { PrivateNote } from './PrivateNote';
 import { ProgramEditor } from '../../programs/components/ProgramEditor';
 import { MeasurementHistory } from '../../body-tracking/components/MeasurementHistory';
 import { PhotoGrid } from '../../body-tracking/components/PhotoGrid';
@@ -37,6 +38,8 @@ export function StudentDetail({ userId }: StudentDetailProps) {
         </div>
         <SubscriptionToggle userId={profile.id} status={profile.subscription_status} />
       </div>
+
+      <PrivateNote userId={userId} />
 
       <div className="rounded-2xl bg-white p-4 shadow-sm">
         <p className="mb-2 text-xs font-semibold uppercase text-neutral-400">Anamnesis</p>

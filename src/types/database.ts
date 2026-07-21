@@ -375,6 +375,28 @@ export interface Database {
           },
         ];
       };
+      student_notes: {
+        Row: {
+          user_id: string;
+          note: string | null;
+          updated_at: string;
+        };
+        Insert: {
+          user_id: string;
+          note?: string | null;
+          updated_at?: string;
+        };
+        Update: Partial<Database['public']['Tables']['student_notes']['Insert']>;
+        Relationships: [
+          {
+            foreignKeyName: 'student_notes_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: true;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
     };
     Views: {
       v_adherence: {
