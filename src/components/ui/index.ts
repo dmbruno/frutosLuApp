@@ -4,6 +4,7 @@ export * from './Input';
 export * from './Toggle';
 export * from './Pill';
 export * from './Modal';
+export * from './ConfirmDialog';
 export * from './Spinner';
 export * from './EmptyState';
 export * from './Toast';

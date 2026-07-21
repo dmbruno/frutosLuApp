@@ -7,7 +7,7 @@ interface DayBlockProps {
   day: DayWithExercises;
   onAddExercise: (block: ExerciseBlock) => void;
   onEditExercise: (programExerciseId: string, setsRepsText: string) => void;
-  onRemoveExercise: (programExerciseId: string) => void;
+  onRemoveExercise: (programExerciseId: string, exerciseName: string) => void;
   onRemoveDay: () => void;
 }
 
@@ -36,7 +36,7 @@ export function DayBlock({ day, onAddExercise, onEditExercise, onRemoveExercise,
                 key={pe.id}
                 programExercise={pe}
                 onChangeSetsReps={(text) => onEditExercise(pe.id, text)}
-                onRemove={() => onRemoveExercise(pe.id)}
+                onRemove={() => onRemoveExercise(pe.id, pe.exercise.name)}
               />
             ))}
           </div>

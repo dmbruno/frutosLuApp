@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Button, Input, Modal } from '../../../components/ui';
 import { useStudents } from '../../students/hooks/useStudents';
 import { useAssignTemplate } from '../hooks/useAssignTemplate';
+import { useToast } from '../../../lib/ToastProvider';
 
 interface AssignModalProps {
   open: boolean;
@@ -16,6 +17,7 @@ export function AssignModal({ open, onClose, templateId }: AssignModalProps) {
   const [startsOn, setStartsOn] = useState('');
   const assignTemplate = useAssignTemplate();
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   function handleAssign() {
     assignTemplate.mutate(
@@ -23,6 +25,7 @@ export function AssignModal({ open, onClose, templateId }: AssignModalProps) {
       {
         onSuccess: () => {
           onClose();
+          showToast('Plantilla asignada');
           navigate(`/admin/alumnos/${studentId}`);
         },
       },

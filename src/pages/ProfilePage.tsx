@@ -6,11 +6,13 @@ import { useProgressPhotos } from '../features/body-tracking/hooks/useProgressPh
 import { MeasurementsForm } from '../features/body-tracking/components/MeasurementsForm';
 import { MeasurementHistory } from '../features/body-tracking/components/MeasurementHistory';
 import { PhotoGrid } from '../features/body-tracking/components/PhotoGrid';
+import { useToast } from '../lib/ToastProvider';
 
 export function ProfilePage() {
   const { user } = useAuth();
   const { measurements, add } = useBodyMetrics(user?.id ?? '');
   const { photos, upload } = useProgressPhotos(user?.id ?? '');
+  const { showToast } = useToast();
 
   return (
     <div className="flex flex-col gap-4 p-4 pb-24">
@@ -19,7 +21,9 @@ export function ProfilePage() {
       <section className="flex flex-col gap-2">
         <h2 className="font-display text-lg font-semibold">Medidas</h2>
         <MeasurementsForm
-          onSubmit={(input) => user && add.mutate({ ...input, user_id: user.id })}
+          onSubmit={(input) =>
+            user && add.mutate({ ...input, user_id: user.id }, { onSuccess: () => showToast('Medidas guardadas') })
+          }
           submitting={add.isPending}
         />
         <MeasurementHistory measurements={measurements} />
@@ -27,7 +31,12 @@ export function ProfilePage() {
 
       <section className="flex flex-col gap-2">
         <h2 className="font-display text-lg font-semibold">Fotos de progreso</h2>
-        <PhotoGrid photos={photos} onUpload={(file, pose, stage) => upload.mutate({ file, pose, stage })} />
+        <PhotoGrid
+          photos={photos}
+          onUpload={(file, pose, stage) =>
+            upload.mutate({ file, pose, stage }, { onSuccess: () => showToast('Foto subida') })
+          }
+        />
       </section>
 
       <Button onClick={() => signOut()} className="bg-neutral-200 text-neutral-700">

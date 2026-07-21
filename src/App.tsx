@@ -4,6 +4,7 @@ import { RouterProvider } from 'react-router-dom';
 import { queryClient } from './lib/queryClient';
 import { router } from './routes';
 import { registerOfflineQueueSync } from './features/workout/offlineQueue';
+import { ToastProvider } from './lib/ToastProvider';
 
 export function App() {
   useEffect(() => {
@@ -12,7 +13,9 @@ export function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <ToastProvider>
+        <RouterProvider router={router} />
+      </ToastProvider>
     </QueryClientProvider>
   );
 }

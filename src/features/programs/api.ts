@@ -24,6 +24,11 @@ export async function createTemplate(name: string): Promise<Program> {
   return data;
 }
 
+export async function deleteTemplate(id: string): Promise<void> {
+  const { error } = await supabase.from('programs').delete().eq('id', id);
+  if (error) throw error;
+}
+
 export async function updateProgram(id: string, input: ProgramUpdate): Promise<Program> {
   const { data, error } = await supabase.from('programs').update(input).eq('id', id).select().single();
   if (error) throw error;

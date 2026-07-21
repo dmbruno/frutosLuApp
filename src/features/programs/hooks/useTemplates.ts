@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { listTemplates, createTemplate } from '../api';
+import { listTemplates, createTemplate, deleteTemplate } from '../api';
 
 export function useTemplates() {
   const queryClient = useQueryClient();
@@ -10,5 +10,10 @@ export function useTemplates() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['templates'] }),
   });
 
-  return { ...query, create };
+  const remove = useMutation({
+    mutationFn: (id: string) => deleteTemplate(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['templates'] }),
+  });
+
+  return { ...query, create, remove };
 }
