@@ -50,6 +50,7 @@ export interface Database {
           created_at?: string;
         };
         Update: Partial<Database['public']['Tables']['profiles']['Insert']>;
+        Relationships: [];
       };
       exercises: {
         Row: {
@@ -81,6 +82,7 @@ export interface Database {
           created_at?: string;
         };
         Update: Partial<Database['public']['Tables']['exercises']['Insert']>;
+        Relationships: [];
       };
       programs: {
         Row: {
@@ -110,6 +112,7 @@ export interface Database {
           created_at?: string;
         };
         Update: Partial<Database['public']['Tables']['programs']['Insert']>;
+        Relationships: [];
       };
       program_days: {
         Row: {
@@ -129,6 +132,7 @@ export interface Database {
           weekday?: number | null;
         };
         Update: Partial<Database['public']['Tables']['program_days']['Insert']>;
+        Relationships: [];
       };
       program_exercises: {
         Row: {
@@ -166,6 +170,7 @@ export interface Database {
           coach_note?: string | null;
         };
         Update: Partial<Database['public']['Tables']['program_exercises']['Insert']>;
+        Relationships: [];
       };
       workout_sessions: {
         Row: {
@@ -189,6 +194,7 @@ export interface Database {
           created_at?: string;
         };
         Update: Partial<Database['public']['Tables']['workout_sessions']['Insert']>;
+        Relationships: [];
       };
       set_logs: {
         Row: {
@@ -218,6 +224,7 @@ export interface Database {
           logged_at?: string;
         };
         Update: Partial<Database['public']['Tables']['set_logs']['Insert']>;
+        Relationships: [];
       };
       body_metrics: {
         Row: {
@@ -255,6 +262,7 @@ export interface Database {
           note?: string | null;
         };
         Update: Partial<Database['public']['Tables']['body_metrics']['Insert']>;
+        Relationships: [];
       };
       progress_photos: {
         Row: {
@@ -274,6 +282,7 @@ export interface Database {
           storage_path: string;
         };
         Update: Partial<Database['public']['Tables']['progress_photos']['Insert']>;
+        Relationships: [];
       };
     };
     Views: {
@@ -286,6 +295,7 @@ export interface Database {
           traffic_light: 'verde' | 'amarillo' | 'rojo';
           sessions_7d: number;
         };
+        Relationships: [];
       };
     };
     Functions: {
