@@ -407,6 +407,7 @@ export interface Database {
           last_workout_at: string | null;
           traffic_light: 'verde' | 'amarillo' | 'rojo';
           sessions_7d: number;
+          subscription_expires_at: string | null;
         };
         Relationships: [];
       };

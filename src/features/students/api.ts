@@ -42,6 +42,27 @@ export async function setSubscription(userId: string, status: 'active' | 'inacti
   if (error) throw error;
 }
 
+export async function inviteStudent(email: string, fullName: string, days: number): Promise<void> {
+  const { data, error } = await supabase.functions.invoke('invite-student', {
+    body: { email, full_name: fullName, days },
+  });
+  if (error) throw error;
+  if (data?.error) throw new Error(data.error);
+}
+
+export async function renewSubscription(userId: string, days: number): Promise<void> {
+  const expiresAt = new Date();
+  expiresAt.setDate(expiresAt.getDate() + days);
+  const { error } = await supabase
+    .from('profiles')
+    .update({
+      subscription_status: 'active',
+      subscription_expires_at: expiresAt.toISOString().slice(0, 10),
+    })
+    .eq('id', userId);
+  if (error) throw error;
+}
+
 export async function getStudentNote(userId: string): Promise<string> {
   const { data, error } = await supabase
     .from('student_notes')
