@@ -23,6 +23,10 @@ export interface WeekPlan {
   days: DayWithExercises[];
 }
 
+export interface WeekDay extends DayWithExercises {
+  completed: boolean;
+}
+
 export interface ProgramFull extends Program {
   days: DayWithExercises[];
 }
