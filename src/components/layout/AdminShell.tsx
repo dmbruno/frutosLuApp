@@ -6,7 +6,7 @@ export function AdminShell({ children }: PropsWithChildren) {
   return (
     <div className="flex min-h-dvh bg-neutral-50">
       <Sidebar />
-      <main className="flex-1 p-6 pb-20 md:pb-6">{children}</main>
+      <main className="min-w-0 flex-1 overflow-x-hidden p-6 pb-20 md:pb-6">{children}</main>
       <AdminBottomNav />
     </div>
   );

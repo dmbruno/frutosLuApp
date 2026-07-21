@@ -8,7 +8,7 @@ interface WeekTabsProps {
 
 export function WeekTabs({ weekNumbers, activeWeek, onSelect, onAddWeek, onDuplicatePrevious }: WeekTabsProps) {
   return (
-    <div className="flex items-center gap-2 overflow-x-auto border-b border-neutral-200 pb-2">
+    <div className="flex min-w-0 items-center gap-2 overflow-x-auto border-b border-neutral-200 pb-2">
       {weekNumbers.map((week) => (
         <button
           key={week}

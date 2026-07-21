@@ -18,9 +18,10 @@ export function TemplateLibrary({ templates, loading }: TemplateLibraryProps) {
       {templates.map((template) => (
         <Link key={template.id} to={`/admin/plantillas/${template.id}`}>
           <Card className="hover:shadow-md">
-            <p className="font-medium">{template.name}</p>
+            <p className="truncate font-medium">{template.name}</p>
             <p className="text-sm text-neutral-500">
-              {template.total_weeks ?? '—'} semanas · ciclo {template.cycle_pattern?.join(',') ?? '—'}
+              {template.total_weeks ?? '—'} semanas · {new Set(template.cycle_pattern ?? []).size || '—'} tipos de
+              semana
             </p>
           </Card>
         </Link>
