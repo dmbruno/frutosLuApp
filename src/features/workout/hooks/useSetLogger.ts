@@ -1,10 +1,11 @@
 import { useCallback } from 'react';
 import { logSet } from '../api';
+import { enqueueSetLog } from '../offlineQueue';
 import type { Database } from '../../../types/database';
 
 type SetLogInsert = Database['public']['Tables']['set_logs']['Insert'];
 
-export type SetLogStatus = 'saved' | 'error';
+export type SetLogStatus = 'saved' | 'queued';
 
 export function useSetLogger() {
   const submit = useCallback(async (input: Omit<SetLogInsert, 'id'>): Promise<SetLogStatus> => {
@@ -13,7 +14,8 @@ export function useSetLogger() {
       await logSet(setLog);
       return 'saved';
     } catch {
-      return 'error';
+      await enqueueSetLog(setLog);
+      return 'queued';
     }
   }, []);
 

@@ -40,12 +40,8 @@ export function SetRow({
       weight_kg: weight ? Number(weight) : null,
       reps: reps ? Number(reps) : null,
     });
-    if (result === 'saved') {
-      setStatus('saved');
-      onLogged();
-    } else {
-      setStatus('idle');
-    }
+    setStatus(result);
+    onLogged();
   }
 
   const done = status === 'saved' || status === 'queued';
@@ -97,6 +93,7 @@ export function SetRow({
       >
         {status === 'saving' ? '…' : '✓'}
       </button>
+      {status === 'queued' && <span className="text-xs text-amber-500">guardado offline</span>}
     </div>
   );
 }
