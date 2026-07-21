@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input } from '../../../components/ui';
 import { parseSetsReps } from '../../../lib/utils/parseSetsReps';
 import type { ProgramExerciseWithExercise } from '../../../types/domain';
@@ -11,16 +11,26 @@ export interface ProgramExerciseEdit {
 
 interface ProgramExerciseRowProps {
   programExercise: ProgramExerciseWithExercise;
+  fallbackOrderCode: string;
   onEdit: (input: ProgramExerciseEdit) => void;
   onRemove: () => void;
 }
 
-export function ProgramExerciseRow({ programExercise, onEdit, onRemove }: ProgramExerciseRowProps) {
+export function ProgramExerciseRow({ programExercise, fallbackOrderCode, onEdit, onRemove }: ProgramExerciseRowProps) {
   const { exercise } = programExercise;
   const [text, setText] = useState(programExercise.sets_reps_text);
-  const [orderCode, setOrderCode] = useState(programExercise.order_code ?? '');
+  const [orderCode, setOrderCode] = useState(programExercise.order_code || fallbackOrderCode);
   const [coachNote, setCoachNote] = useState(programExercise.coach_note ?? '');
   const preview = parseSetsReps(text);
+
+  // Ejercicios agregados antes de que existiera la numeración automática se
+  // guardaron con order_code vacío: se auto-completan la primera vez que se ven.
+  useEffect(() => {
+    if (!programExercise.order_code) {
+      onEdit({ order_code: fallbackOrderCode });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="rounded-xl border border-neutral-200 p-3">

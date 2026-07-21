@@ -32,10 +32,11 @@ export function DayBlock({ day, onAddExercise, onEditExercise, onRemoveExercise,
               </button>
             </div>
             <div className="flex flex-col gap-2">
-              {exercisesInBlock.map((pe) => (
+              {exercisesInBlock.map((pe, index) => (
                 <ProgramExerciseRow
                   key={pe.id}
                   programExercise={pe}
+                  fallbackOrderCode={String(index + 1)}
                   onEdit={(input) => onEditExercise(pe.id, input)}
                   onRemove={() => onRemoveExercise(pe.id, pe.exercise.name)}
                 />
