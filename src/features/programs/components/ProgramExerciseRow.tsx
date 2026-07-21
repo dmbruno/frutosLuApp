@@ -20,11 +20,16 @@ export function ProgramExerciseRow({ programExercise, onChangeSetsReps, onRemove
   }
 
   return (
-    <div className="flex items-center gap-2 border-b border-neutral-100 py-2 text-sm">
+    <div className="flex flex-wrap items-center gap-2 border-b border-neutral-100 py-2 text-sm">
       <span className="w-8 shrink-0 font-mono text-xs text-neutral-400">{programExercise.order_code}</span>
-      <span className="flex-1 truncate">{programExercise.exercise.name}</span>
-      <Input className="w-28" value={text} onChange={(e) => setText(e.target.value)} onBlur={handleBlur} />
-      <span className="w-20 shrink-0 text-xs text-neutral-400">
+      <span className="min-w-[100px] flex-1 truncate">{programExercise.exercise.name}</span>
+      <Input
+        className="w-24 shrink-0"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        onBlur={handleBlur}
+      />
+      <span className="w-16 shrink-0 text-xs text-neutral-400">
         {preview.sets ?? '—'}x{preview.reps ?? '—'}
         {preview.isPerSide ? ' /lado' : ''}
       </span>

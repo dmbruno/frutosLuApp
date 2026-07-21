@@ -16,9 +16,9 @@ export function PersonalRecords({ records, loading }: PersonalRecordsProps) {
   return (
     <div className="flex flex-col gap-2">
       {records.slice(0, 10).map((r) => (
-        <div key={r.exerciseId} className="flex items-center justify-between rounded-xl bg-white p-3 shadow-sm">
-          <p className="font-medium">{r.exerciseName}</p>
-          <p className="text-sm text-neutral-500">{formatKg(r.maxWeightKg)} máx</p>
+        <div key={r.exerciseId} className="flex items-center justify-between gap-3 rounded-xl bg-white p-3 shadow-sm">
+          <p className="min-w-0 flex-1 truncate font-medium">{r.exerciseName}</p>
+          <p className="shrink-0 text-sm text-neutral-500">{formatKg(r.maxWeightKg)} máx</p>
         </div>
       ))}
     </div>

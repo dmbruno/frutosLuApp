@@ -10,7 +10,7 @@ interface ExerciseRowProps {
 export function ExerciseRow({ exercise, onEdit, onArchive }: ExerciseRowProps) {
   return (
     <div className="flex items-center justify-between gap-3 border-b border-neutral-100 py-3">
-      <div>
+      <div className="min-w-0 flex-1">
         <p className="font-medium">{exercise.name}</p>
         <div className="mt-1 flex flex-wrap gap-1">
           <Pill>{exercise.primary_muscle}</Pill>
@@ -18,7 +18,7 @@ export function ExerciseRow({ exercise, onEdit, onArchive }: ExerciseRowProps) {
           {exercise.needs_filming && <Pill className="bg-red-100 text-red-600">*FILMAR</Pill>}
         </div>
       </div>
-      <div className="flex gap-3 text-sm">
+      <div className="flex shrink-0 gap-3 text-sm">
         <button onClick={onEdit} className="text-brand-pink">
           Editar
         </button>

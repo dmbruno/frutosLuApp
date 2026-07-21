@@ -47,53 +47,57 @@ export function SetRow({
   const done = status === 'saved' || status === 'queued';
 
   return (
-    <div className="flex items-center gap-2 py-2">
-      <span className="w-6 shrink-0 text-center text-sm font-semibold text-neutral-400">{setNumber}</span>
-      <span className="w-20 shrink-0 text-xs text-neutral-400">
-        {lastWeightKg != null && lastReps != null ? `${lastWeightKg}kg × ${lastReps}` : '—'}
-      </span>
-      <div className="flex items-center gap-1">
-        <button
-          type="button"
-          onClick={() => step(-2.5)}
-          className="h-12 w-8 shrink-0 rounded-lg bg-neutral-100 text-sm text-neutral-500"
-        >
-          −
-        </button>
+    <div className="flex flex-col gap-1.5 py-2">
+      <div className="flex items-center gap-2 text-xs text-neutral-400">
+        <span className="w-6 shrink-0 text-center text-sm font-semibold">{setNumber}</span>
+        <span className="truncate">
+          {lastWeightKg != null && lastReps != null ? `Última vez: ${lastWeightKg}kg × ${lastReps}` : 'Sin registro previo'}
+        </span>
+      </div>
+      <div className="flex flex-wrap items-center gap-2 pl-8">
+        <div className="flex shrink-0 items-center gap-1">
+          <button
+            type="button"
+            onClick={() => step(-2.5)}
+            className="h-12 w-8 shrink-0 rounded-lg bg-neutral-100 text-sm text-neutral-500"
+          >
+            −
+          </button>
+          <input
+            type="number"
+            inputMode="decimal"
+            placeholder="kg"
+            value={weight}
+            onChange={(e) => setWeight(e.target.value)}
+            className="h-12 w-14 rounded-xl border border-neutral-300 text-center text-base"
+          />
+          <button
+            type="button"
+            onClick={() => step(2.5)}
+            className="h-12 w-8 shrink-0 rounded-lg bg-neutral-100 text-sm text-neutral-500"
+          >
+            +
+          </button>
+        </div>
         <input
           type="number"
-          inputMode="decimal"
-          placeholder="kg"
-          value={weight}
-          onChange={(e) => setWeight(e.target.value)}
-          className="h-12 w-16 rounded-xl border border-neutral-300 text-center text-base"
+          inputMode="numeric"
+          placeholder="reps"
+          value={reps}
+          onChange={(e) => setReps(e.target.value)}
+          className="h-12 w-14 shrink-0 rounded-xl border border-neutral-300 text-center text-base"
         />
         <button
-          type="button"
-          onClick={() => step(2.5)}
-          className="h-12 w-8 shrink-0 rounded-lg bg-neutral-100 text-sm text-neutral-500"
+          onClick={handleCheck}
+          disabled={status === 'saving'}
+          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-xl ${
+            done ? 'bg-green-100 text-green-600' : 'bg-brand-pink text-white'
+          }`}
         >
-          +
+          {status === 'saving' ? '…' : '✓'}
         </button>
+        {status === 'queued' && <span className="text-xs text-amber-500">guardado offline</span>}
       </div>
-      <input
-        type="number"
-        inputMode="numeric"
-        placeholder="reps"
-        value={reps}
-        onChange={(e) => setReps(e.target.value)}
-        className="h-12 w-16 shrink-0 rounded-xl border border-neutral-300 text-center text-base"
-      />
-      <button
-        onClick={handleCheck}
-        disabled={status === 'saving'}
-        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-xl ${
-          done ? 'bg-green-100 text-green-600' : 'bg-brand-pink text-white'
-        }`}
-      >
-        {status === 'saving' ? '…' : '✓'}
-      </button>
-      {status === 'queued' && <span className="text-xs text-amber-500">guardado offline</span>}
     </div>
   );
 }

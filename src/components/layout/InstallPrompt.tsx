@@ -28,7 +28,7 @@ export function InstallPrompt() {
 
   return (
     <div className="fixed inset-x-4 bottom-20 z-30 flex items-center justify-between gap-3 rounded-2xl bg-white p-4 shadow-lg">
-      <p className="text-sm font-medium">Instalá Frutos Lu en tu teléfono</p>
+      <p className="min-w-0 flex-1 text-sm font-medium">Instalá Frutos Lu en tu teléfono</p>
       <div className="flex shrink-0 gap-2">
         <button onClick={() => setDismissed(true)} className="text-sm text-neutral-400">
           Ahora no
