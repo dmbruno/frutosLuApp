@@ -8,6 +8,7 @@ export type ProgramExercise = Database['public']['Tables']['program_exercises'][
 export type WorkoutSession = Database['public']['Tables']['workout_sessions']['Row'];
 export type SetLog = Database['public']['Tables']['set_logs']['Row'];
 export type BodyMetric = Database['public']['Tables']['body_metrics']['Row'];
+export type ProgressPhoto = Database['public']['Tables']['progress_photos']['Row'];
 export type Adherence = Database['public']['Views']['v_adherence']['Row'];
 
 export interface ProgramExerciseWithExercise extends ProgramExercise {

@@ -2,9 +2,13 @@ import { EmptyState, Spinner } from '../../../components/ui';
 import { AdherenceLight } from './AdherenceLight';
 import { SubscriptionToggle } from './SubscriptionToggle';
 import { ProgramEditor } from '../../programs/components/ProgramEditor';
+import { MeasurementHistory } from '../../body-tracking/components/MeasurementHistory';
+import { PhotoGrid } from '../../body-tracking/components/PhotoGrid';
 import { useStudentDetail } from '../hooks/useStudentDetail';
 import { useStudentPrograms } from '../../programs/hooks/useStudentPrograms';
 import { useAdherence } from '../hooks/useAdherence';
+import { useBodyMetrics } from '../../body-tracking/hooks/useBodyMetrics';
+import { useProgressPhotos } from '../../body-tracking/hooks/useProgressPhotos';
 
 interface StudentDetailProps {
   userId: string;
@@ -14,6 +18,8 @@ export function StudentDetail({ userId }: StudentDetailProps) {
   const { data: detail, isLoading: loadingDetail } = useStudentDetail(userId);
   const { data: programs, isLoading: loadingPrograms } = useStudentPrograms(userId);
   const { data: adherenceList } = useAdherence();
+  const { measurements } = useBodyMetrics(userId);
+  const { photos } = useProgressPhotos(userId);
 
   if (loadingDetail || loadingPrograms) return <Spinner />;
   if (!detail) return <EmptyState title="Alumno no encontrado" />;
@@ -68,6 +74,16 @@ export function StudentDetail({ userId }: StudentDetailProps) {
             ))}
           </div>
         )}
+      </div>
+
+      <div className="rounded-2xl bg-white p-4 shadow-sm">
+        <p className="mb-2 text-xs font-semibold uppercase text-neutral-400">Medidas</p>
+        <MeasurementHistory measurements={measurements} />
+      </div>
+
+      <div className="rounded-2xl bg-white p-4 shadow-sm">
+        <p className="mb-2 text-xs font-semibold uppercase text-neutral-400">Fotos de progreso</p>
+        <PhotoGrid photos={photos} readOnly />
       </div>
 
       {activeProgram ? (
