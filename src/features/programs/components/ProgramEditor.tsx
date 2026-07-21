@@ -161,9 +161,7 @@ export function ProgramEditor({ programId }: ProgramEditorProps) {
             onRemoveDay={() => setPendingRemoval({ type: 'day', id: day.id, label: day.title })}
           />
         ))}
-        <Button onClick={handleAddDay} className="bg-neutral-200 text-neutral-700">
-          + Agregar día
-        </Button>
+        <Button onClick={handleAddDay}>+ Agregar día</Button>
       </div>
 
       <ExercisePicker open={!!pickerTarget} onClose={() => setPickerTarget(null)} onPick={handlePickExercise} />
