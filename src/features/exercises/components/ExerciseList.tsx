@@ -77,7 +77,7 @@ export function ExerciseList({
         description={
           pending
             ? pending.type === 'archive'
-              ? `"${pending.exercise.name}" deja de aparecer en el catálogo, pero el historial de las alumnas no se pierde.`
+              ? `"${pending.exercise.name}" deja de aparecer en el catálogo, pero el historial de los alumnos no se pierde.`
               : `"${pending.exercise.name}" se borra por completo. Si ya tiene series o rutinas asociadas, no se va a poder — usá "Archivar" en ese caso.`
             : undefined
         }

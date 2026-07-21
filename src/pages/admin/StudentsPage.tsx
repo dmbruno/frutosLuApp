@@ -17,14 +17,14 @@ export function StudentsPage() {
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between gap-3">
         <h1 className="font-display text-xl font-semibold">Alumnos</h1>
-        <Button onClick={() => setShowInvite(true)}>+ Agregar alumna</Button>
+        <Button onClick={() => setShowInvite(true)}>+ Agregar alumno</Button>
       </div>
 
       <button
         onClick={() => setShowInactive((v) => !v)}
         className="self-start text-sm font-medium text-neutral-500 underline"
       >
-        {showInactive ? '← Volver a activas' : 'Ver desactivados'}
+        {showInactive ? '← Volver a activos' : 'Ver desactivados'}
       </button>
 
       <StudentList students={filtered} loading={isLoading} mode={showInactive ? 'inactive' : 'active'} />

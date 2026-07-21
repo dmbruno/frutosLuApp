@@ -19,7 +19,7 @@ export function PrivateNote({ userId }: PrivateNoteProps) {
           onBlur={(e) => {
             if (e.target.value !== note) save.mutate(e.target.value);
           }}
-          placeholder="Anotaciones que no ve la alumna…"
+          placeholder="Anotaciones que no ve el alumno…"
           className="w-full rounded-xl border border-neutral-300 p-3 text-sm"
           rows={3}
         />

@@ -48,7 +48,7 @@ export function TemplateLibrary({ templates, loading, onDelete }: TemplateLibrar
         title="¿Eliminar esta plantilla?"
         description={
           pendingDelete
-            ? `"${pendingDelete.name}" se va a borrar. Las alumnas que ya la tienen asignada no se ven afectadas.`
+            ? `"${pendingDelete.name}" se va a borrar. Los alumnos que ya la tienen asignada no se ven afectados.`
             : undefined
         }
         onConfirm={handleConfirmDelete}

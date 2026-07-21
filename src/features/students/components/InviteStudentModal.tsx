@@ -26,7 +26,7 @@ export function InviteStudentModal({ open, onClose }: InviteStudentModalProps) {
           setFullName('');
           setDays('30');
         },
-        onError: (err) => showToast(err instanceof Error ? err.message : 'No pudimos invitar a la alumna'),
+        onError: (err) => showToast(err instanceof Error ? err.message : 'No pudimos invitar al alumno'),
       },
     );
   }
@@ -34,7 +34,7 @@ export function InviteStudentModal({ open, onClose }: InviteStudentModalProps) {
   return (
     <Modal open={open} onClose={onClose}>
       <div className="flex flex-col gap-3">
-        <p className="font-display text-lg font-semibold">Nueva alumna</p>
+        <p className="font-display text-lg font-semibold">Nuevo alumno</p>
         <Input placeholder="Nombre completo" value={fullName} onChange={(e) => setFullName(e.target.value)} />
         <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <label className="flex flex-col gap-1 text-xs text-neutral-500">

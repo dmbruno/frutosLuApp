@@ -23,7 +23,7 @@ export function SubscriptionToggle({ userId, status }: SubscriptionToggleProps) 
     <Toggle
       checked={status === 'active'}
       onChange={handleChange}
-      label={isPending ? 'Actualizando…' : status === 'active' ? 'Activa' : 'Inactiva'}
+      label={isPending ? 'Actualizando…' : status === 'active' ? 'Activo' : 'Inactivo'}
     />
   );
 }

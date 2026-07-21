@@ -26,8 +26,8 @@ export function StudentList({ students, loading, mode }: StudentListProps) {
   if (!students || students.length === 0) {
     return (
       <EmptyState
-        title={mode === 'inactive' ? 'Sin alumnas desactivadas' : 'Sin alumnas'}
-        description={mode === 'active' ? 'Agregalas con el botón de arriba.' : undefined}
+        title={mode === 'inactive' ? 'Sin alumnos desactivados' : 'Sin alumnos'}
+        description={mode === 'active' ? 'Agregalos con el botón de arriba.' : undefined}
       />
     );
   }
@@ -36,10 +36,10 @@ export function StudentList({ students, loading, mode }: StudentListProps) {
     if (!deleting) return;
     try {
       await deleteStudent.mutateAsync(deleting.user_id);
-      showToast(`"${deleting.full_name}" eliminada para siempre`);
+      showToast(`"${deleting.full_name}" eliminado para siempre`);
       setDeleting(null);
     } catch (err) {
-      showToast(err instanceof Error ? err.message : 'No pudimos eliminar a la alumna');
+      showToast(err instanceof Error ? err.message : 'No pudimos eliminar al alumno');
       setDeleting(null);
     }
   }
