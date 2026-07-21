@@ -43,17 +43,27 @@ export async function setSubscription(userId: string, status: 'active' | 'inacti
   if (error) throw error;
 }
 
+async function throwFunctionError(error: unknown): Promise<never> {
+  if (error instanceof FunctionsHttpError) {
+    const body = await error.context.json().catch(() => null);
+    throw new Error(body?.error ?? error.message);
+  }
+  throw error;
+}
+
 export async function inviteStudent(email: string, fullName: string, days: number): Promise<void> {
   const { data, error } = await supabase.functions.invoke('invite-student', {
     body: { email, full_name: fullName, days },
   });
-  if (error) {
-    if (error instanceof FunctionsHttpError) {
-      const body = await error.context.json().catch(() => null);
-      throw new Error(body?.error ?? error.message);
-    }
-    throw error;
-  }
+  if (error) await throwFunctionError(error);
+  if (data?.error) throw new Error(data.error);
+}
+
+export async function deleteStudent(userId: string): Promise<void> {
+  const { data, error } = await supabase.functions.invoke('delete-student', {
+    body: { userId },
+  });
+  if (error) await throwFunctionError(error);
   if (data?.error) throw new Error(data.error);
 }
 
