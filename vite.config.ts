@@ -10,6 +10,10 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
+      workbox: {
+        navigateFallback: '/index.html',
+        cleanupOutdatedCaches: true,
+      },
       manifest: {
         name: 'Frutos Lu',
         short_name: 'Frutos Lu',

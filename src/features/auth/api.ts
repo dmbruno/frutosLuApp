@@ -1,3 +1,4 @@
+import type { AuthChangeEvent, Session } from '@supabase/supabase-js';
 import { supabase } from '../../lib/supabase';
 import type { Profile } from '../../types/domain';
 
@@ -15,6 +16,11 @@ export async function getSession() {
   const { data, error } = await supabase.auth.getSession();
   if (error) throw error;
   return data.session;
+}
+
+export function onAuthStateChange(callback: (event: AuthChangeEvent, session: Session | null) => void) {
+  const { data } = supabase.auth.onAuthStateChange(callback);
+  return () => data.subscription.unsubscribe();
 }
 
 export async function getProfile(userId: string): Promise<Profile | null> {

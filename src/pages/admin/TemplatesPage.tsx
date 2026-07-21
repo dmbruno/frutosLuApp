@@ -1,21 +1,20 @@
 import { useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 import { Button, Input, Modal } from '../../components/ui';
 import { TemplateLibrary } from '../../features/programs/components/TemplateLibrary';
 import { useTemplates } from '../../features/programs/hooks/useTemplates';
-import { createTemplate } from '../../features/programs/api';
 
 export function TemplatesPage() {
-  const { data: templates, isLoading } = useTemplates();
+  const { data: templates, isLoading, create } = useTemplates();
   const [showForm, setShowForm] = useState(false);
   const [name, setName] = useState('');
-  const queryClient = useQueryClient();
 
-  async function handleCreate() {
-    await createTemplate(name);
-    queryClient.invalidateQueries({ queryKey: ['templates'] });
-    setShowForm(false);
-    setName('');
+  function handleCreate() {
+    create.mutate(name, {
+      onSuccess: () => {
+        setShowForm(false);
+        setName('');
+      },
+    });
   }
 
   return (
@@ -30,7 +29,9 @@ export function TemplatesPage() {
       <Modal open={showForm} onClose={() => setShowForm(false)}>
         <div className="flex flex-col gap-3">
           <Input placeholder="Nombre de la plantilla" value={name} onChange={(e) => setName(e.target.value)} />
-          <Button onClick={handleCreate}>Crear</Button>
+          <Button onClick={handleCreate} disabled={create.isPending}>
+            {create.isPending ? 'Creando…' : 'Crear'}
+          </Button>
         </div>
       </Modal>
     </div>
