@@ -22,7 +22,7 @@ export const router = createBrowserRouter([
   {
     path: '/onboarding',
     element: (
-      <ProtectedRoute requireOnboarding={false}>
+      <ProtectedRoute requireOnboarding={false} requireSubscription={false}>
         <OnboardingPage />
       </ProtectedRoute>
     ),

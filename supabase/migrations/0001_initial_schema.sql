@@ -149,11 +149,14 @@ create table progress_photos (
 
 -- ============ PROTECCIÓN DE COLUMNAS EN PROFILES ============
 -- alumno no puede auto-otorgarse rol admin ni activar su propia suscripción
+-- auth.uid() es null fuera de una request autenticada (Table Editor, SQL Editor,
+-- service_role, migraciones): esos contextos son de confianza y no se protegen.
+-- Solo se revierte el cambio si lo intenta un alumno autenticado no-admin.
 create or replace function protect_profile_columns() returns trigger
 language plpgsql as $$
 begin
-  if not (
-    exists (select 1 from profiles where id = auth.uid() and role = 'admin')
+  if auth.uid() is not null and not exists (
+    select 1 from profiles where id = auth.uid() and role = 'admin'
   ) then
     new.role := old.role;
     new.subscription_status := old.subscription_status;
