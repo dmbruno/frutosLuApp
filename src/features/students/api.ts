@@ -1,3 +1,4 @@
+import { FunctionsHttpError } from '@supabase/supabase-js';
 import { supabase } from '../../lib/supabase';
 import type { Adherence, Profile, WorkoutSession } from '../../types/domain';
 
@@ -46,7 +47,13 @@ export async function inviteStudent(email: string, fullName: string, days: numbe
   const { data, error } = await supabase.functions.invoke('invite-student', {
     body: { email, full_name: fullName, days },
   });
-  if (error) throw error;
+  if (error) {
+    if (error instanceof FunctionsHttpError) {
+      const body = await error.context.json().catch(() => null);
+      throw new Error(body?.error ?? error.message);
+    }
+    throw error;
+  }
   if (data?.error) throw new Error(data.error);
 }
 
