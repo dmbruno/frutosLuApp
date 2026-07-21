@@ -1,4 +1,5 @@
 import { supabase } from '../../lib/supabase';
+import { compressImage } from '../../lib/utils/compressImage';
 import type { Database } from '../../types/database';
 import type { BodyMetric, ProgressPhoto } from '../../types/domain';
 
@@ -32,8 +33,9 @@ export async function uploadProgressPhoto(
   pose: string,
   stage: string,
 ): Promise<ProgressPhoto> {
+  const compressed = await compressImage(file);
   const path = `${userId}/${Date.now()}-${pose}-${stage}.jpg`;
-  const { error: uploadError } = await supabase.storage.from(PHOTOS_BUCKET).upload(path, file);
+  const { error: uploadError } = await supabase.storage.from(PHOTOS_BUCKET).upload(path, compressed);
   if (uploadError) throw uploadError;
 
   const { data, error } = await supabase
