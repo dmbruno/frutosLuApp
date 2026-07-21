@@ -9,7 +9,7 @@ const links = [
 
 export function Sidebar() {
   return (
-    <aside className="w-56 border-r border-neutral-200 bg-white p-4">
+    <aside className="hidden w-56 shrink-0 border-r border-neutral-200 bg-white p-4 md:block">
       <nav className="flex flex-col gap-1">
         {links.map((link) => (
           <NavLink

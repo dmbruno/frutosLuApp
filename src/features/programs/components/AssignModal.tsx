@@ -40,7 +40,7 @@ export function AssignModal({ open, onClose, templateId }: AssignModalProps) {
         >
           <option value="">Elegí un alumno</option>
           {(students ?? []).map((student) => (
-            <option key={student.id} value={student.id}>
+            <option key={student.user_id} value={student.user_id}>
               {student.full_name}
             </option>
           ))}
