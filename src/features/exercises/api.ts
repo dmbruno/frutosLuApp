@@ -1,14 +1,17 @@
 import { supabase } from '../../lib/supabase';
 import type { Exercise } from '../../types/domain';
-import type { Database } from '../../types/database';
+import type { Database, ExerciseBlock } from '../../types/database';
 
 type ExerciseInsert = Database['public']['Tables']['exercises']['Insert'];
 type ExerciseUpdate = Database['public']['Tables']['exercises']['Update'];
 
-export async function listExercises(search?: string): Promise<Exercise[]> {
+export async function listExercises(search?: string, block?: ExerciseBlock): Promise<Exercise[]> {
   let query = supabase.from('exercises').select('*').eq('is_archived', false).order('name');
   if (search) {
     query = query.ilike('name', `%${search}%`);
+  }
+  if (block) {
+    query = query.eq('default_block', block);
   }
   const { data, error } = await query;
   if (error) throw error;
