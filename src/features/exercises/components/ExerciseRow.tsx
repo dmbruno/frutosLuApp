@@ -5,9 +5,10 @@ interface ExerciseRowProps {
   exercise: Exercise;
   onEdit: () => void;
   onArchive: () => void;
+  onDelete: () => void;
 }
 
-export function ExerciseRow({ exercise, onEdit, onArchive }: ExerciseRowProps) {
+export function ExerciseRow({ exercise, onEdit, onArchive, onDelete }: ExerciseRowProps) {
   return (
     <div className="flex items-center justify-between gap-3 border-b border-neutral-100 py-3">
       <div className="min-w-0 flex-1">
@@ -18,12 +19,17 @@ export function ExerciseRow({ exercise, onEdit, onArchive }: ExerciseRowProps) {
           {exercise.needs_filming && <Pill className="bg-red-100 text-red-600">*FILMAR</Pill>}
         </div>
       </div>
-      <div className="flex shrink-0 gap-3 text-sm">
-        <button onClick={onEdit} className="text-brand-pink">
-          Editar
-        </button>
-        <button onClick={onArchive} className="text-neutral-400">
-          Archivar
+      <div className="flex shrink-0 flex-col items-end gap-1 text-sm">
+        <div className="flex gap-3">
+          <button onClick={onEdit} className="text-brand-pink">
+            Editar
+          </button>
+          <button onClick={onArchive} className="text-neutral-400">
+            Archivar
+          </button>
+        </div>
+        <button onClick={onDelete} className="text-xs text-red-400">
+          Eliminar
         </button>
       </div>
     </div>

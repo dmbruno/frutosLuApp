@@ -10,10 +10,13 @@ interface ExerciseListProps {
   error: boolean;
   onEdit: (exercise: Exercise) => void;
   onArchive: (id: string) => Promise<unknown>;
+  onDelete: (id: string) => Promise<unknown>;
 }
 
-export function ExerciseList({ exercises, loading, error, onEdit, onArchive }: ExerciseListProps) {
-  const [pendingArchive, setPendingArchive] = useState<Exercise | null>(null);
+type PendingAction = { type: 'archive' | 'delete'; exercise: Exercise };
+
+export function ExerciseList({ exercises, loading, error, onEdit, onArchive, onDelete }: ExerciseListProps) {
+  const [pending, setPending] = useState<PendingAction | null>(null);
   const { showToast } = useToast();
 
   if (loading) return <Spinner />;
@@ -22,11 +25,21 @@ export function ExerciseList({ exercises, loading, error, onEdit, onArchive }: E
     return <EmptyState title="Sin ejercicios" description="Creá el primero con el botón de arriba." />;
   }
 
-  async function handleConfirmArchive() {
-    if (!pendingArchive) return;
-    await onArchive(pendingArchive.id);
-    showToast(`"${pendingArchive.name}" archivado`);
-    setPendingArchive(null);
+  async function handleConfirm() {
+    if (!pending) return;
+    try {
+      if (pending.type === 'archive') {
+        await onArchive(pending.exercise.id);
+        showToast(`"${pending.exercise.name}" archivado`);
+      } else {
+        await onDelete(pending.exercise.id);
+        showToast(`"${pending.exercise.name}" eliminado`);
+      }
+      setPending(null);
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'No pudimos completar la acción');
+      setPending(null);
+    }
   }
 
   return (
@@ -36,21 +49,24 @@ export function ExerciseList({ exercises, loading, error, onEdit, onArchive }: E
           key={exercise.id}
           exercise={exercise}
           onEdit={() => onEdit(exercise)}
-          onArchive={() => setPendingArchive(exercise)}
+          onArchive={() => setPending({ type: 'archive', exercise })}
+          onDelete={() => setPending({ type: 'delete', exercise })}
         />
       ))}
 
       <ConfirmDialog
-        open={!!pendingArchive}
-        title="¿Archivar este ejercicio?"
+        open={!!pending}
+        title={pending?.type === 'archive' ? '¿Archivar este ejercicio?' : '¿Eliminar este ejercicio para siempre?'}
         description={
-          pendingArchive
-            ? `"${pendingArchive.name}" deja de aparecer en el catálogo, pero el historial de las alumnas no se pierde.`
+          pending
+            ? pending.type === 'archive'
+              ? `"${pending.exercise.name}" deja de aparecer en el catálogo, pero el historial de las alumnas no se pierde.`
+              : `"${pending.exercise.name}" se borra por completo. Si ya tiene series o rutinas asociadas, no se va a poder — usá "Archivar" en ese caso.`
             : undefined
         }
-        confirmLabel="Archivar"
-        onConfirm={handleConfirmArchive}
-        onCancel={() => setPendingArchive(null)}
+        confirmLabel={pending?.type === 'archive' ? 'Archivar' : 'Eliminar'}
+        onConfirm={handleConfirm}
+        onCancel={() => setPending(null)}
       />
     </div>
   );

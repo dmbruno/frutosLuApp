@@ -34,3 +34,15 @@ export async function archiveExercise(id: string): Promise<void> {
   const { error } = await supabase.from('exercises').update({ is_archived: true }).eq('id', id);
   if (error) throw error;
 }
+
+export async function deleteExercise(id: string): Promise<void> {
+  const { error } = await supabase.from('exercises').delete().eq('id', id);
+  if (error) {
+    if (error.code === '23503') {
+      throw new Error(
+        'No se puede eliminar: ya tiene series registradas o está en alguna rutina. Usá "Archivar" en su lugar.',
+      );
+    }
+    throw error;
+  }
+}

@@ -25,7 +25,7 @@ export function ExercisesPage() {
   const [editing, setEditing] = useState<Exercise | null>(null);
   const [showForm, setShowForm] = useState(false);
   const { data: exercises, isLoading, isError } = useExercises(search, blockFilter ?? undefined);
-  const { create, update, archive } = useExerciseMutations();
+  const { create, update, archive, remove } = useExerciseMutations();
   const { showToast } = useToast();
 
   function openCreate() {
@@ -68,10 +68,10 @@ export function ExercisesPage() {
 
       <Input placeholder="Buscar por nombre…" value={search} onChange={(e) => setSearch(e.target.value)} />
 
-      <div className="flex flex-wrap gap-2">
+      <div className="grid grid-cols-3 gap-2">
         <button
           onClick={() => setBlockFilter(null)}
-          className={`rounded-full px-4 py-1.5 text-sm font-medium ${
+          className={`rounded-full px-2 py-1.5 text-sm font-medium ${
             blockFilter === null ? 'bg-brand-pink text-white' : 'bg-neutral-100 text-neutral-600'
           }`}
         >
@@ -81,7 +81,7 @@ export function ExercisesPage() {
           <button
             key={block}
             onClick={() => setBlockFilter(block)}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium ${
+            className={`rounded-full px-2 py-1.5 text-sm font-medium ${
               blockFilter === block ? 'bg-brand-pink text-white' : 'bg-neutral-100 text-neutral-600'
             }`}
           >
@@ -96,6 +96,7 @@ export function ExercisesPage() {
         error={isError}
         onEdit={openEdit}
         onArchive={(id) => archive.mutateAsync(id)}
+        onDelete={(id) => remove.mutateAsync(id)}
       />
 
       <Modal open={showForm} onClose={() => setShowForm(false)}>
