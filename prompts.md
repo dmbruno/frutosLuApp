@@ -366,6 +366,95 @@ completa, se ve con la marca Frutos Lu. **Hito final:** app lista para las alumn
 
 ---
 
+# FASE 4 — AJUSTES UX (aprobados por la profe)
+
+Estos pasos cierran gaps entre lo implementado en Fase 2 y las pantallas de diseño que
+la profe ya vio y aprobó (Hoy, modo entrenamiento, cierre de sesión). No son features
+nuevas: es terminar la UI sobre lógica que ya funciona.
+
+## P16 · Vista Hoy — pills de días + lista de ejercicios
+
+```
+Ajustá TodayView (features/workout/) para que calce con el diseño aprobado por Luciana:
+
+1. Agregá una fila de pills de días L-M-X-J-V arriba de la card "hoy toca", con ✓ en
+   los días ya completados y resaltado en el día actual. Reusá los datos de
+   getWeekView si ya alcanzan; si no, sumá lo que falte a features/workout/api.ts.
+2. Reemplazá el contador "N ejercicios" por la lista real de ejercicios del día
+   (nombre + sets_reps_text de cada uno), igual que se ve en /entrenar pero de solo
+   lectura.
+3. No toques la lógica de getTodayWorkout ni el botón Empezar/Repetir.
+
+Commit "feat: pills de días y lista de ejercicios en vista Hoy".
+```
+
+✅ **Verificar:** en "/" se ven las pills de la semana con los días completados
+marcados, y debajo la lista completa de ejercicios de hoy (no solo la cantidad).
+
+---
+
+## P17 · Modo entrenamiento — header y layout de series
+
+```
+Ajustá WorkoutSession / ExerciseStep / SetRow (features/workout/) para calcar el
+diseño aprobado:
+
+1. Header: "Día {title} · ejercicio {n} de {total}" en vez del contador plano actual.
+2. Tabla de series con columnas #/ÚLTIMA VEZ/KG/REPS/✓ en vez de filas apiladas
+   (mismo dato, otro layout — no cambies la lógica de useSetLogger).
+3. "Siguiente ejercicio" como botón grande al pie de la pantalla, no como link en el
+   header. En el último ejercicio el botón dice "Terminar".
+
+No cambies la lógica de sesión, timer ni cola offline, solo el layout/copy.
+Commit "feat: header y tabla de series en modo entrenamiento".
+```
+
+✅ **Verificar:** entrando a /entrenar/:id el header muestra el día, las series se ven
+en tabla, y el botón de avance es el CTA principal abajo de la pantalla.
+
+---
+
+## P18 · Video embebido de YouTube
+
+```
+Los ejercicios deben poder mostrar su video SIN salir de la app.
+
+1. src/lib/utils/youtube.ts: getYoutubeEmbedUrl(url) que acepta watch?v=, youtu.be/
+   y URLs ya en /embed/, devuelve la URL de embed o null si no matchea.
+2. src/components/ui/VideoEmbed.tsx: botón "Ver video explicativo" (thumbnail +
+   play grande, paleta Frutos Lu) que al tocar carga el iframe embebido (no
+   renderizar el iframe hasta que se toque, para no gastar carga de red gratis).
+3. Reemplazá el iframe siempre visible de ExerciseStep.tsx por este componente.
+4. Tests unitarios de getYoutubeEmbedUrl con los 3 formatos de URL.
+
+Commit "feat: video embebido de YouTube en modo entrenamiento".
+```
+
+✅ **Verificar:** un ejercicio con video_url de YouTube (link normal, no /embed/)
+muestra el botón "Ver video explicativo"; al tocarlo el video se reproduce adentro de
+la app, sin abrir YouTube.
+
+---
+
+## P19 · Cierre de sesión — copy y celebración
+
+```
+Ajustá SessionSummary (features/workout/) para calcar el copy del diseño aprobado:
+
+1. Título "¡Sesión terminada!" con emoji de celebración (sin librerías nuevas de
+   confetti).
+2. Botón final "Guardar sesión" (hoy dice "Terminar").
+3. Label de la nota: "NOTA PARA LUCIANA" en vez del genérico actual.
+4. No toques la lógica de finishSession ni el cálculo de stats.
+
+Commit "feat: copy y celebración en cierre de sesión".
+```
+
+✅ **Verificar:** al terminar una sesión el texto calca el mockup: título, botón y
+label de la nota.
+
+---
+
 ## Reglas para todos los pasos
 
 - **No avances sin verificar.** Un paso mal arrastra el error a todos los de arriba.

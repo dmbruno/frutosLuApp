@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { EmptyState, Spinner } from '../../../components/ui';
+import { Button, EmptyState, Spinner } from '../../../components/ui';
 import { ExerciseStep } from './ExerciseStep';
 import { RestTimer } from './RestTimer';
 import { SessionSummary } from './SessionSummary';
@@ -63,19 +63,16 @@ export function WorkoutSession({ programDayId }: WorkoutSessionProps) {
 
   return (
     <div className="flex flex-col gap-4 p-4 pb-24">
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-1">
+        <span className="text-sm font-medium text-neutral-500">
+          {day.title} · ejercicio {stepIndex + 1} de {steps.length}
+        </span>
         <button
           disabled={stepIndex === 0}
           onClick={() => setStepIndex((i) => i - 1)}
-          className="text-sm text-neutral-400 disabled:opacity-30"
+          className="self-start text-sm text-neutral-400 disabled:opacity-30"
         >
           ← Anterior
-        </button>
-        <span className="text-sm text-neutral-400">
-          {stepIndex + 1} / {steps.length}
-        </span>
-        <button onClick={handleNext} className="text-sm font-medium text-brand-pink">
-          {isLast ? 'Terminar' : 'Siguiente →'}
         </button>
       </div>
 
@@ -93,6 +90,10 @@ export function WorkoutSession({ programDayId }: WorkoutSessionProps) {
           onSetLogged={(restSec) => start(restSec ?? 60)}
         />
       ))}
+
+      <Button onClick={handleNext} className="w-full">
+        {isLast ? 'Terminar' : 'Siguiente ejercicio →'}
+      </Button>
 
       {secondsLeft !== null && <RestTimer secondsLeft={secondsLeft} onSkip={skip} />}
     </div>

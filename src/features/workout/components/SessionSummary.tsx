@@ -26,7 +26,8 @@ export function SessionSummary({ sessionId, startedAt, onFinish }: SessionSummar
 
   return (
     <div className="flex flex-col items-center gap-4 p-6 text-center">
-      <h2 className="font-display text-xl font-semibold">¡Listo!</h2>
+      <span className="text-4xl">🎉</span>
+      <h2 className="font-display text-xl font-semibold">¡Sesión terminada!</h2>
       <div className="flex gap-6 text-sm text-neutral-500">
         <div>
           <p className="font-display text-2xl font-semibold text-brand-pink">{summary.durationMin}'</p>
@@ -54,14 +55,17 @@ export function SessionSummary({ sessionId, startedAt, onFinish }: SessionSummar
           </button>
         ))}
       </div>
-      <textarea
-        placeholder="Nota para tu profe (opcional)"
-        value={note}
-        onChange={(e) => setNote(e.target.value)}
-        className="w-full max-w-sm rounded-xl border border-neutral-300 p-3"
-      />
+      <div className="w-full max-w-sm text-left">
+        <p className="mb-1 text-xs font-semibold uppercase text-neutral-400">Nota para Luciana</p>
+        <textarea
+          placeholder="Opcional"
+          value={note}
+          onChange={(e) => setNote(e.target.value)}
+          className="w-full rounded-xl border border-neutral-300 p-3"
+        />
+      </div>
       <Button disabled={!feeling} onClick={() => feeling && onFinish(feeling, note || null)} className="w-full max-w-sm">
-        Terminar
+        Guardar sesión
       </Button>
     </div>
   );

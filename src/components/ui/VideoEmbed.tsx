@@ -1,0 +1,57 @@
+import { useState } from 'react';
+import { getYoutubeEmbedUrl, getYoutubeThumbnailUrl } from '../../lib/utils/youtube';
+
+interface VideoEmbedProps {
+  url: string;
+  title?: string;
+}
+
+export function VideoEmbed({ url, title }: VideoEmbedProps) {
+  const [expanded, setExpanded] = useState(false);
+  const embedUrl = getYoutubeEmbedUrl(url);
+  const thumbnailUrl = getYoutubeThumbnailUrl(url);
+
+  if (!embedUrl) {
+    return (
+      <a
+        href={url}
+        target="_blank"
+        rel="noreferrer"
+        className="mt-2 flex items-center justify-center rounded-xl bg-brand-pink py-3 text-sm font-semibold text-white"
+      >
+        Ver video
+      </a>
+    );
+  }
+
+  if (expanded) {
+    return (
+      <div className="mt-2 aspect-video overflow-hidden rounded-xl">
+        <iframe
+          src={`${embedUrl}?autoplay=1`}
+          className="h-full w-full"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          title={title ?? 'Video explicativo'}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={() => setExpanded(true)}
+      className="relative mt-2 flex aspect-video w-full items-center justify-center overflow-hidden rounded-xl bg-brand-pink bg-cover bg-center text-white"
+      style={thumbnailUrl ? { backgroundImage: `url(${thumbnailUrl})` } : undefined}
+    >
+      <span className="absolute inset-0 bg-black/30" />
+      <span className="relative flex flex-col items-center gap-2">
+        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-2xl text-brand-pink">
+          ▶
+        </span>
+        <span className="text-sm font-semibold">Ver video explicativo</span>
+      </span>
+    </button>
+  );
+}

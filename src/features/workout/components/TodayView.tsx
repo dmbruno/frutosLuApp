@@ -19,7 +19,17 @@ export function TodayView({ day, loading }: TodayViewProps) {
     <Card className="flex flex-col gap-3">
       <p className="text-sm text-neutral-500">{day.completed ? 'Ya entrenaste hoy' : 'Hoy toca'}</p>
       <h2 className="font-display text-xl font-semibold">{day.title}</h2>
-      <p className="text-sm text-neutral-500">{day.exercises.length} ejercicios</p>
+      <div className="flex flex-col">
+        {day.exercises.map((ex) => (
+          <div
+            key={ex.id}
+            className="flex items-center justify-between border-b border-neutral-100 py-2 last:border-0"
+          >
+            <span className="text-sm text-neutral-700">{ex.exercise.name}</span>
+            <span className="text-sm text-neutral-400">{ex.sets_reps_text}</span>
+          </div>
+        ))}
+      </div>
       {coachNote && <p className="rounded-lg bg-brand-amber/10 p-2 text-sm text-brand-amber">{coachNote}</p>}
       <Link to={`/entrenar/${day.id}`}>
         <Button className="w-full">{day.completed ? 'Repetir' : 'Empezar'}</Button>

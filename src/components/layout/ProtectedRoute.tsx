@@ -19,7 +19,7 @@ export function ProtectedRoute({
 
   if (loading) return <Spinner />;
   if (!user) return <Navigate to="/login" replace />;
-  if (requireOnboarding && (!profile || !profile.onboarding_done)) {
+  if (requireOnboarding && role !== 'admin' && (!profile || !profile.onboarding_done)) {
     return <Navigate to="/onboarding" replace />;
   }
   if (requireRole === 'admin' && role !== 'admin') return <Navigate to="/" replace />;
