@@ -1,11 +1,18 @@
 import type { ButtonHTMLAttributes } from 'react';
 
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary';
+}
 
-export function Button({ className = '', ...props }: ButtonProps) {
+const VARIANT_CLASSES: Record<NonNullable<ButtonProps['variant']>, string> = {
+  primary: 'bg-brand-pink text-white hover:opacity-90',
+  secondary: 'bg-neutral-200 text-neutral-900 hover:bg-neutral-300',
+};
+
+export function Button({ variant = 'primary', className = '', ...props }: ButtonProps) {
   return (
     <button
-      className={`rounded-xl bg-brand-pink px-4 py-3 font-semibold text-white transition active:scale-95 ${className}`}
+      className={`cursor-pointer rounded-xl px-4 py-3 font-semibold transition active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 ${VARIANT_CLASSES[variant]} ${className}`}
       {...props}
     />
   );

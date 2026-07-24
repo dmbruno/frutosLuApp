@@ -24,7 +24,7 @@ export function ExercisePicker({ open, onClose, onPick }: ExercisePickerProps) {
               onPick(exercise);
               onClose();
             }}
-            className="block w-full border-b border-neutral-100 py-2 text-left text-sm"
+            className="block w-full cursor-pointer border-b border-neutral-100 py-2 text-left text-sm transition-colors hover:bg-neutral-50"
           >
             {exercise.name}
           </button>

@@ -49,7 +49,7 @@ export function SessionSummary({ sessionId, startedAt, onFinish }: SessionSummar
           <button
             key={f.value}
             onClick={() => setFeeling(f.value)}
-            className={`text-3xl transition ${feeling === f.value ? 'scale-125' : 'opacity-40'}`}
+            className={`cursor-pointer text-3xl transition hover:opacity-100 ${feeling === f.value ? 'scale-125' : 'opacity-40'}`}
           >
             {f.emoji}
           </button>

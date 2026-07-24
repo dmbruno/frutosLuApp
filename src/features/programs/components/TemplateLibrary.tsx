@@ -30,14 +30,20 @@ export function TemplateLibrary({ templates, loading, onDelete }: TemplateLibrar
     <div className="flex flex-col gap-2">
       {templates.map((template) => (
         <Card key={template.id} className="flex items-center gap-3">
-          <Link to={`/admin/plantillas/${template.id}`} className="min-w-0 flex-1">
+          <Link
+            to={`/admin/plantillas/${template.id}`}
+            className="min-w-0 flex-1 transition-opacity hover:opacity-70"
+          >
             <p className="truncate font-medium">{template.name}</p>
             <p className="text-sm text-neutral-500">
               {template.total_weeks ?? '—'} semanas · {new Set(template.cycle_pattern ?? []).size || '—'} tipos de
               semana
             </p>
           </Link>
-          <button onClick={() => setPendingDelete(template)} className="shrink-0 text-xs text-red-500">
+          <button
+            onClick={() => setPendingDelete(template)}
+            className="shrink-0 cursor-pointer text-xs text-red-500 transition-opacity hover:opacity-70"
+          >
             Eliminar
           </button>
         </Card>

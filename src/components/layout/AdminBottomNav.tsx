@@ -16,7 +16,7 @@ export function AdminBottomNav() {
           to={link.to}
           end={link.to === '/admin'}
           className={({ isActive }) =>
-            `px-2 py-1 text-xs font-medium ${isActive ? 'text-brand-pink' : 'text-neutral-400'}`
+            `px-2 py-1 text-xs font-medium transition-colors ${isActive ? 'text-brand-pink' : 'text-neutral-400 hover:text-neutral-600'}`
           }
         >
           {link.label}

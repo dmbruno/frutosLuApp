@@ -45,7 +45,7 @@ export function ExerciseForm({ initial, onSubmit, onCancel, submitting }: Exerci
 
       <div className="flex gap-2">
         <select
-          className="flex-1 rounded-xl border border-neutral-300 px-3 py-2"
+          className="flex-1 cursor-pointer rounded-xl border border-neutral-300 px-3 py-2"
           value={kind}
           onChange={(e) => setKind(e.target.value as typeof kind)}
         >
@@ -56,7 +56,7 @@ export function ExerciseForm({ initial, onSubmit, onCancel, submitting }: Exerci
           ))}
         </select>
         <select
-          className="flex-1 rounded-xl border border-neutral-300 px-3 py-2"
+          className="flex-1 cursor-pointer rounded-xl border border-neutral-300 px-3 py-2"
           value={defaultBlock}
           onChange={(e) => setDefaultBlock(e.target.value as typeof defaultBlock)}
         >
@@ -69,7 +69,7 @@ export function ExerciseForm({ initial, onSubmit, onCancel, submitting }: Exerci
       </div>
 
       <select
-        className="rounded-xl border border-neutral-300 px-3 py-2"
+        className="cursor-pointer rounded-xl border border-neutral-300 px-3 py-2"
         value={primaryMuscle}
         onChange={(e) => setPrimaryMuscle(e.target.value as typeof primaryMuscle)}
       >
@@ -84,7 +84,7 @@ export function ExerciseForm({ initial, onSubmit, onCancel, submitting }: Exerci
         <p className="mb-1 text-sm text-neutral-500">Músculos secundarios</p>
         <select
           multiple
-          className="h-32 w-full rounded-xl border border-neutral-300 px-3 py-2"
+          className="h-32 w-full cursor-pointer rounded-xl border border-neutral-300 px-3 py-2"
           value={secondaryMuscles}
           onChange={(e) => setSecondaryMuscles(Array.from(e.target.selectedOptions, (o) => o.value))}
         >
@@ -116,7 +116,7 @@ export function ExerciseForm({ initial, onSubmit, onCancel, submitting }: Exerci
         <Button type="submit" disabled={submitting} className="flex-1">
           {submitting ? 'Guardando…' : 'Guardar'}
         </Button>
-        <Button type="button" onClick={onCancel} className="flex-1 bg-neutral-200 text-neutral-700">
+        <Button type="button" variant="secondary" onClick={onCancel} className="flex-1">
           Cancelar
         </Button>
       </div>

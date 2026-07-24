@@ -44,7 +44,7 @@ export function SetPasswordModal({ open, userId, studentName, onClose }: SetPass
           <button
             type="button"
             onClick={() => setPassword(generatePassword())}
-            className="shrink-0 rounded-xl border border-neutral-300 px-3 text-sm text-neutral-600"
+            className="shrink-0 cursor-pointer rounded-xl border border-neutral-300 px-3 text-sm text-neutral-600 transition-colors hover:bg-neutral-100"
           >
             Generar
           </button>

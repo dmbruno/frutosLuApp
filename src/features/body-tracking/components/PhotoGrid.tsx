@@ -46,7 +46,7 @@ export function PhotoGrid({ photos, onUpload, readOnly }: PhotoGridProps) {
             POSES.map((pose) => (
               <label
                 key={`${stage}-${pose}`}
-                className="rounded-xl border border-dashed border-neutral-300 p-2 text-center text-xs text-neutral-500"
+                className="cursor-pointer rounded-xl border border-dashed border-neutral-300 p-2 text-center text-xs text-neutral-500 transition-colors hover:border-brand-pink/50 hover:bg-neutral-50"
               >
                 {stage} · {pose}
                 <input type="file" accept="image/*" className="hidden" onChange={(e) => handleFile(e, pose, stage)} />

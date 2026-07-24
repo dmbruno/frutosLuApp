@@ -62,40 +62,42 @@ export function ExercisesPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between gap-3">
-        <h1 className="font-display text-xl font-semibold">Catálogo de ejercicios</h1>
-        <Button onClick={openCreate}>+ Nuevo</Button>
-      </div>
+      <div className="sticky -top-6 -mx-6 -mt-6 z-10 flex transform-gpu flex-col gap-4 bg-neutral-50 px-6 pt-6 pb-4 [will-change:transform]">
+        <div className="flex items-center justify-between gap-3">
+          <h1 className="font-display text-xl font-semibold">Catálogo de ejercicios</h1>
+          <Button onClick={openCreate}>+ Nuevo</Button>
+        </div>
 
-      <Input placeholder="Buscar por nombre…" value={search} onChange={(e) => setSearch(e.target.value)} />
+        <Input placeholder="Buscar por nombre…" value={search} onChange={(e) => setSearch(e.target.value)} />
 
-      <button
-        onClick={() => setShowArchived((v) => !v)}
-        className="self-start text-sm font-medium text-neutral-500 underline"
-      >
-        {showArchived ? '← Volver al catálogo activo' : 'Ver archivados'}
-      </button>
-
-      <div className="grid grid-cols-3 gap-2">
         <button
-          onClick={() => setBlockFilter(null)}
-          className={`rounded-full px-2 py-1.5 text-sm font-medium ${
-            blockFilter === null ? 'bg-brand-pink text-white' : 'bg-neutral-100 text-neutral-600'
-          }`}
+          onClick={() => setShowArchived((v) => !v)}
+          className="cursor-pointer self-start text-sm font-medium text-neutral-500 underline transition-colors hover:text-neutral-700"
         >
-          Todos
+          {showArchived ? '← Volver al catálogo activo' : 'Ver archivados'}
         </button>
-        {EXERCISE_BLOCKS.map((block) => (
+
+        <div className="grid grid-cols-3 gap-2">
           <button
-            key={block}
-            onClick={() => setBlockFilter(block)}
-            className={`rounded-full px-2 py-1.5 text-sm font-medium ${
-              blockFilter === block ? 'bg-brand-pink text-white' : 'bg-neutral-100 text-neutral-600'
+            onClick={() => setBlockFilter(null)}
+            className={`cursor-pointer rounded-full px-2 py-1.5 text-sm font-medium transition-colors ${
+              blockFilter === null ? 'bg-brand-pink text-white' : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
             }`}
           >
-            {BLOCK_LABELS[block]}
+            Todos
           </button>
-        ))}
+          {EXERCISE_BLOCKS.map((block) => (
+            <button
+              key={block}
+              onClick={() => setBlockFilter(block)}
+              className={`cursor-pointer rounded-full px-2 py-1.5 text-sm font-medium transition-colors ${
+                blockFilter === block ? 'bg-brand-pink text-white' : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
+              }`}
+            >
+              {BLOCK_LABELS[block]}
+            </button>
+          ))}
+        </div>
       </div>
 
       <ExerciseList

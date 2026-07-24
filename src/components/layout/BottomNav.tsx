@@ -16,7 +16,7 @@ export function BottomNav() {
           to={link.to}
           end={link.to === '/'}
           className={({ isActive }) =>
-            `px-3 py-1 text-sm font-medium ${isActive ? 'text-brand-pink' : 'text-neutral-400'}`
+            `px-3 py-1 text-sm font-medium transition-colors ${isActive ? 'text-brand-pink' : 'text-neutral-400 hover:text-neutral-600'}`
           }
         >
           {link.label}

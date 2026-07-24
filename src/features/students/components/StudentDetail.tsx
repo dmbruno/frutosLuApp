@@ -46,10 +46,16 @@ export function StudentDetail({ userId }: StudentDetailProps) {
         <div className="flex shrink-0 flex-col items-end gap-1">
           <DaysRemainingBadge days={daysRemaining(profile.subscription_expires_at)} />
           <div className="flex items-center gap-2">
-            <button onClick={() => setShowRenew(true)} className="text-xs text-brand-pink">
+            <button
+              onClick={() => setShowRenew(true)}
+              className="cursor-pointer text-xs text-brand-pink transition-opacity hover:opacity-70"
+            >
               Renovar
             </button>
-            <button onClick={() => setShowSetPassword(true)} className="text-xs text-brand-pink">
+            <button
+              onClick={() => setShowSetPassword(true)}
+              className="cursor-pointer text-xs text-brand-pink transition-opacity hover:opacity-70"
+            >
               Contraseña
             </button>
             <SubscriptionToggle userId={profile.id} status={profile.subscription_status} />

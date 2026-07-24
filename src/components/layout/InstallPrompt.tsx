@@ -30,10 +30,16 @@ export function InstallPrompt() {
     <div className="fixed inset-x-4 bottom-20 z-30 flex items-center justify-between gap-3 rounded-2xl bg-white p-4 shadow-lg">
       <p className="min-w-0 flex-1 text-sm font-medium">Instalá Frutos Lu en tu teléfono</p>
       <div className="flex shrink-0 gap-2">
-        <button onClick={() => setDismissed(true)} className="text-sm text-neutral-400">
+        <button
+          onClick={() => setDismissed(true)}
+          className="cursor-pointer text-sm text-neutral-400 transition-colors hover:text-neutral-600"
+        >
           Ahora no
         </button>
-        <button onClick={handleInstall} className="rounded-full bg-brand-pink px-3 py-1 text-sm font-medium text-white">
+        <button
+          onClick={handleInstall}
+          className="cursor-pointer rounded-full bg-brand-pink px-3 py-1 text-sm font-medium text-white transition-opacity hover:opacity-90"
+        >
           Instalar
         </button>
       </div>

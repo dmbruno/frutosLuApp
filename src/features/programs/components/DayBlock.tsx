@@ -16,7 +16,10 @@ export function DayBlock({ day, onAddExercise, onEditExercise, onRemoveExercise,
     <div className="rounded-2xl bg-white p-4 shadow-sm">
       <div className="mb-4 flex items-center justify-between">
         <p className="font-display text-xl font-bold">{day.title}</p>
-        <button onClick={onRemoveDay} className="text-xs text-neutral-400">
+        <button
+          onClick={onRemoveDay}
+          className="cursor-pointer text-xs text-neutral-400 transition-colors hover:text-red-400"
+        >
           eliminar día
         </button>
       </div>
@@ -27,7 +30,10 @@ export function DayBlock({ day, onAddExercise, onEditExercise, onRemoveExercise,
           <div key={block} className="mb-6 last:mb-0">
             <div className="mb-2 flex items-center justify-between border-b-2 border-brand-pink/20 pb-1.5">
               <p className="font-display text-base font-bold uppercase tracking-wide text-brand-pink">{block}</p>
-              <button onClick={() => onAddExercise(block)} className="text-xs font-medium text-brand-pink">
+              <button
+                onClick={() => onAddExercise(block)}
+                className="cursor-pointer text-xs font-medium text-brand-pink transition-opacity hover:opacity-70"
+              >
                 + agregar
               </button>
             </div>

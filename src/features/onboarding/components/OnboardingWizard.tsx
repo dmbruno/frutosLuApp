@@ -68,7 +68,7 @@ export function OnboardingWizard({ userId, initialFullName, onDone }: Onboarding
         {step > 0 && (
           <button
             onClick={() => setStep((s) => s - 1)}
-            className="rounded-xl border border-neutral-300 px-4 py-3 font-semibold text-neutral-500"
+            className="cursor-pointer rounded-xl border border-neutral-300 px-4 py-3 font-semibold text-neutral-500 transition-colors hover:bg-neutral-100"
           >
             Atrás
           </button>

@@ -22,7 +22,7 @@ export function StudentsPage() {
 
       <button
         onClick={() => setShowInactive((v) => !v)}
-        className="self-start text-sm font-medium text-neutral-500 underline"
+        className="cursor-pointer self-start text-sm font-medium text-neutral-500 underline transition-colors hover:text-neutral-700"
       >
         {showInactive ? '← Volver a activos' : 'Ver desactivados'}
       </button>

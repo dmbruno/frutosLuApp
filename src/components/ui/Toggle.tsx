@@ -12,7 +12,7 @@ export function Toggle({ checked, onChange, label }: ToggleProps) {
         role="switch"
         aria-checked={checked}
         onClick={() => onChange(!checked)}
-        className={`h-7 w-12 rounded-full transition ${checked ? 'bg-brand-pink' : 'bg-neutral-300'}`}
+        className={`h-7 w-12 cursor-pointer rounded-full transition hover:opacity-80 ${checked ? 'bg-brand-pink' : 'bg-neutral-300'}`}
       >
         <span
           className={`block h-5 w-5 translate-x-1 rounded-full bg-white transition ${checked ? 'translate-x-6' : ''}`}

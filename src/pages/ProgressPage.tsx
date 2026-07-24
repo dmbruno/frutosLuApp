@@ -31,8 +31,8 @@ export function ProgressPage() {
           <button
             key={r.value}
             onClick={() => setRange(r.value)}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium ${
-              range === r.value ? 'bg-brand-pink text-white' : 'bg-neutral-100 text-neutral-600'
+            className={`cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+              range === r.value ? 'bg-brand-pink text-white' : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
             }`}
           >
             {r.label}

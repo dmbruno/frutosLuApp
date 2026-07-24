@@ -56,7 +56,7 @@ export function SetRow({
         <button
           type="button"
           onClick={() => step(-2.5)}
-          className="h-12 w-8 shrink-0 rounded-lg bg-neutral-100 text-sm text-neutral-500"
+          className="h-12 w-8 shrink-0 cursor-pointer rounded-lg bg-neutral-100 text-sm text-neutral-500 transition-colors hover:bg-neutral-200"
         >
           −
         </button>
@@ -71,7 +71,7 @@ export function SetRow({
         <button
           type="button"
           onClick={() => step(2.5)}
-          className="h-12 w-8 shrink-0 rounded-lg bg-neutral-100 text-sm text-neutral-500"
+          className="h-12 w-8 shrink-0 cursor-pointer rounded-lg bg-neutral-100 text-sm text-neutral-500 transition-colors hover:bg-neutral-200"
         >
           +
         </button>
@@ -87,7 +87,7 @@ export function SetRow({
       <button
         onClick={handleCheck}
         disabled={status === 'saving'}
-        className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl text-xl ${
+        className={`flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-xl text-xl transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-60 ${
           done ? 'bg-green-100 text-green-600' : 'bg-brand-pink text-white'
         }`}
       >

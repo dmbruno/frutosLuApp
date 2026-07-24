@@ -7,7 +7,7 @@ export function useCompleteOnboarding(userId: string | undefined) {
   const mutation = useMutation({
     mutationFn: (data: OnboardingData) => completeOnboarding(userId!, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['profile', userId] });
+      return queryClient.invalidateQueries({ queryKey: ['profile', userId] });
     },
   });
 

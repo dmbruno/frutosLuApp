@@ -48,7 +48,10 @@ export function StudentList({ students, loading, mode }: StudentListProps) {
     <div className="flex flex-col gap-2">
       {students.map((student) => (
         <Card key={student.user_id} className="flex items-center gap-3">
-          <Link to={`/admin/alumnos/${student.user_id}`} className="flex min-w-0 flex-1 items-center gap-2">
+          <Link
+            to={`/admin/alumnos/${student.user_id}`}
+            className="flex min-w-0 flex-1 items-center gap-2 transition-opacity hover:opacity-70"
+          >
             {mode === 'active' && <AdherenceLight trafficLight={student.traffic_light} />}
             <div className="min-w-0 flex-1">
               <p className="truncate font-medium">{student.full_name}</p>
@@ -62,7 +65,10 @@ export function StudentList({ students, loading, mode }: StudentListProps) {
             <div className="flex shrink-0 flex-col items-end gap-1">
               <DaysRemainingBadge days={daysRemaining(student.subscription_expires_at)} />
               <div className="flex items-center gap-2">
-                <button onClick={() => setRenewing(student)} className="text-xs text-brand-pink">
+                <button
+                  onClick={() => setRenewing(student)}
+                  className="cursor-pointer text-xs text-brand-pink transition-opacity hover:opacity-70"
+                >
                   Renovar
                 </button>
                 <SubscriptionToggle userId={student.user_id} status={student.subscription_status} />
@@ -70,10 +76,16 @@ export function StudentList({ students, loading, mode }: StudentListProps) {
             </div>
           ) : (
             <div className="flex shrink-0 items-center gap-3 text-xs">
-              <button onClick={() => setRenewing(student)} className="font-medium text-brand-pink">
+              <button
+                onClick={() => setRenewing(student)}
+                className="cursor-pointer font-medium text-brand-pink transition-opacity hover:opacity-70"
+              >
                 Activar
               </button>
-              <button onClick={() => setDeleting(student)} className="text-red-400">
+              <button
+                onClick={() => setDeleting(student)}
+                className="cursor-pointer text-red-400 transition-opacity hover:opacity-70"
+              >
                 Eliminar
               </button>
             </div>

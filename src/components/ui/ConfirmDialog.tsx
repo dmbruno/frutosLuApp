@@ -24,7 +24,7 @@ export function ConfirmDialog({
         <p className="font-display text-lg font-semibold">{title}</p>
         {description && <p className="text-sm text-neutral-500">{description}</p>}
         <div className="flex gap-2">
-          <Button onClick={onCancel} className="flex-1 bg-neutral-200 text-neutral-700">
+          <Button variant="secondary" onClick={onCancel} className="flex-1">
             Cancelar
           </Button>
           <Button onClick={onConfirm} className="flex-1 bg-red-500">

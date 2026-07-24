@@ -70,7 +70,7 @@ export function WorkoutSession({ programDayId }: WorkoutSessionProps) {
         <button
           disabled={stepIndex === 0}
           onClick={() => setStepIndex((i) => i - 1)}
-          className="self-start text-sm text-neutral-400 disabled:opacity-30"
+          className="self-start cursor-pointer text-sm text-neutral-400 transition-colors hover:text-neutral-600 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:text-neutral-400"
         >
           ← Anterior
         </button>

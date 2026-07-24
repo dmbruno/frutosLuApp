@@ -17,10 +17,10 @@ export function StepAthleteProfile({ data, onChange }: StepAthleteProfileProps) 
               key={opt.value}
               type="button"
               onClick={() => onChange({ athlete_profile: opt.value })}
-              className={`rounded-xl border px-3 py-3 text-sm font-medium ${
+              className={`cursor-pointer rounded-xl border px-3 py-3 text-sm font-medium transition-colors ${
                 data.athlete_profile === opt.value
                   ? 'border-brand-pink bg-brand-pink/10 text-brand-pink'
-                  : 'border-neutral-300 text-neutral-500'
+                  : 'border-neutral-300 text-neutral-500 hover:border-brand-pink/40 hover:bg-neutral-50'
               }`}
             >
               {opt.label}
@@ -37,10 +37,10 @@ export function StepAthleteProfile({ data, onChange }: StepAthleteProfileProps) 
               key={opt.value}
               type="button"
               onClick={() => onChange({ experience_level: opt.value })}
-              className={`flex-1 rounded-xl border px-3 py-3 text-sm font-medium ${
+              className={`flex-1 cursor-pointer rounded-xl border px-3 py-3 text-sm font-medium transition-colors ${
                 data.experience_level === opt.value
                   ? 'border-brand-pink bg-brand-pink/10 text-brand-pink'
-                  : 'border-neutral-300 text-neutral-500'
+                  : 'border-neutral-300 text-neutral-500 hover:border-brand-pink/40 hover:bg-neutral-50'
               }`}
             >
               {opt.label}

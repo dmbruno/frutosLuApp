@@ -1,6 +1,7 @@
 import { useAdherence } from '../../features/students/hooks/useAdherence';
 import { Spinner } from '../../components/ui';
 import { daysRemaining } from '../../lib/utils/dates';
+import { signOut } from '../../features/auth/api';
 
 export function DashboardPage() {
   const { data: students, summary, isLoading } = useAdherence();
@@ -14,7 +15,15 @@ export function DashboardPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="font-display text-xl font-semibold">Dashboard</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="font-display text-xl font-semibold">Dashboard</h1>
+        <button
+          onClick={() => signOut()}
+          className="cursor-pointer text-sm font-medium text-brand-pink transition-opacity hover:opacity-70 md:hidden"
+        >
+          Cerrar sesión
+        </button>
+      </div>
       <div className="grid grid-cols-3 gap-3">
         <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
           <p className="font-display text-2xl font-semibold text-green-500">{summary.verde}</p>

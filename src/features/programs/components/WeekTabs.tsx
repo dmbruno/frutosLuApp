@@ -13,8 +13,8 @@ export function WeekTabs({ weekNumbers, activeWeek, onSelect, onAddWeek, onDupli
         <button
           key={week}
           onClick={() => onSelect(week)}
-          className={`shrink-0 rounded-full px-4 py-1.5 text-sm font-medium ${
-            week === activeWeek ? 'bg-brand-pink text-white' : 'bg-neutral-100 text-neutral-600'
+          className={`shrink-0 cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
+            week === activeWeek ? 'bg-brand-pink text-white' : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
           }`}
         >
           Semana {week}
@@ -22,14 +22,14 @@ export function WeekTabs({ weekNumbers, activeWeek, onSelect, onAddWeek, onDupli
       ))}
       <button
         onClick={onAddWeek}
-        className="shrink-0 rounded-full bg-neutral-100 px-4 py-1.5 text-sm font-medium text-neutral-600"
+        className="shrink-0 cursor-pointer rounded-full bg-neutral-100 px-4 py-1.5 text-sm font-medium text-neutral-600 transition-colors hover:bg-neutral-200"
       >
         + Semana
       </button>
       {activeWeek > 1 && (
         <button
           onClick={onDuplicatePrevious}
-          className="shrink-0 rounded-full bg-neutral-100 px-4 py-1.5 text-sm font-medium text-neutral-600"
+          className="shrink-0 cursor-pointer rounded-full bg-neutral-100 px-4 py-1.5 text-sm font-medium text-neutral-600 transition-colors hover:bg-neutral-200"
         >
           Duplicar anterior
         </button>

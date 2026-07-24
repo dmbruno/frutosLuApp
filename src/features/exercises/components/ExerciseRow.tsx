@@ -20,22 +20,25 @@ export function ExerciseRow({ exercise, onEdit, onArchive, onReactivate, onDelet
           {exercise.needs_filming && <Pill className="bg-red-100 text-red-600">*FILMAR</Pill>}
         </div>
       </div>
-      <div className="flex shrink-0 flex-col items-end gap-1 text-sm">
+      <div className="flex shrink-0 flex-col items-end gap-1 text-sm md:flex-row md:items-center md:gap-3">
         {exercise.is_archived ? (
-          <button onClick={onReactivate} className="text-brand-pink">
+          <button onClick={onReactivate} className="cursor-pointer text-brand-pink transition-opacity hover:opacity-70">
             Reactivar
           </button>
         ) : (
           <div className="flex gap-3">
-            <button onClick={onEdit} className="text-brand-pink">
+            <button onClick={onEdit} className="cursor-pointer text-brand-pink transition-opacity hover:opacity-70">
               Editar
             </button>
-            <button onClick={onArchive} className="text-neutral-400">
+            <button onClick={onArchive} className="cursor-pointer text-neutral-400 transition-opacity hover:opacity-70">
               Archivar
             </button>
           </div>
         )}
-        <button onClick={onDelete} className="text-xs text-red-400">
+        <button
+          onClick={onDelete}
+          className="cursor-pointer text-xs text-red-400 transition-opacity hover:opacity-70 md:text-sm"
+        >
           Eliminar
         </button>
       </div>

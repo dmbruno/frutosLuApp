@@ -61,7 +61,7 @@ export function CreateUserModal({ open, onClose }: CreateUserModalProps) {
             <button
               type="button"
               onClick={() => setPassword(generatePassword())}
-              className="shrink-0 rounded-xl border border-neutral-300 px-3 text-sm text-neutral-600"
+              className="shrink-0 cursor-pointer rounded-xl border border-neutral-300 px-3 text-sm text-neutral-600 transition-colors hover:bg-neutral-100"
             >
               Generar
             </button>
@@ -71,7 +71,7 @@ export function CreateUserModal({ open, onClose }: CreateUserModalProps) {
         <label className="flex flex-col gap-1 text-xs text-neutral-500">
           Rol
           <select
-            className="rounded-xl border border-neutral-300 px-3 py-2 text-base"
+            className="cursor-pointer rounded-xl border border-neutral-300 px-3 py-2 text-base"
             value={role}
             onChange={(e) => setRole(e.target.value as 'alumno' | 'admin')}
           >

@@ -37,7 +37,7 @@ export function AssignModal({ open, onClose, templateId }: AssignModalProps) {
       <div className="flex flex-col gap-3">
         <p className="font-semibold">Asignar plantilla</p>
         <select
-          className="rounded-xl border border-neutral-300 px-3 py-2"
+          className="cursor-pointer rounded-xl border border-neutral-300 px-3 py-2"
           value={studentId}
           onChange={(e) => setStudentId(e.target.value)}
         >

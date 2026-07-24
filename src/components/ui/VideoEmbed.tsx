@@ -17,7 +17,7 @@ export function VideoEmbed({ url, title }: VideoEmbedProps) {
         href={url}
         target="_blank"
         rel="noreferrer"
-        className="mt-2 flex items-center justify-center rounded-xl bg-brand-pink py-3 text-sm font-semibold text-white"
+        className="mt-2 flex cursor-pointer items-center justify-center rounded-xl bg-brand-pink py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
       >
         Ver video
       </a>
@@ -42,12 +42,12 @@ export function VideoEmbed({ url, title }: VideoEmbedProps) {
     <button
       type="button"
       onClick={() => setExpanded(true)}
-      className="relative mt-2 flex aspect-video w-full items-center justify-center overflow-hidden rounded-xl bg-brand-pink bg-cover bg-center text-white"
+      className="group relative mt-2 flex aspect-video w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl bg-brand-pink bg-cover bg-center text-white"
       style={thumbnailUrl ? { backgroundImage: `url(${thumbnailUrl})` } : undefined}
     >
       <span className="absolute inset-0 bg-black/30" />
       <span className="relative flex flex-col items-center gap-2">
-        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-2xl text-brand-pink">
+        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/90 text-2xl text-brand-pink transition-transform group-hover:scale-110">
           ▶
         </span>
         <span className="text-sm font-semibold">Ver video explicativo</span>

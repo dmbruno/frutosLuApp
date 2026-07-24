@@ -65,7 +65,10 @@ export function ProgramExerciseRow({ programExercise, fallbackOrderCode, onEdit,
             </div>
           )}
         </div>
-        <button onClick={onRemove} className="shrink-0 text-xs text-neutral-400">
+        <button
+          onClick={onRemove}
+          className="shrink-0 cursor-pointer text-xs text-neutral-400 transition-colors hover:text-red-400"
+        >
           ✕
         </button>
       </div>

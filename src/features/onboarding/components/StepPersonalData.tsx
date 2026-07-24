@@ -36,10 +36,10 @@ export function StepPersonalData({ data, onChange }: StepPersonalDataProps) {
               key={opt.value}
               type="button"
               onClick={() => onChange({ sex: opt.value })}
-              className={`flex-1 rounded-xl border px-3 py-3 text-sm font-medium ${
+              className={`flex-1 cursor-pointer rounded-xl border px-3 py-3 text-sm font-medium transition-colors ${
                 data.sex === opt.value
                   ? 'border-brand-pink bg-brand-pink/10 text-brand-pink'
-                  : 'border-neutral-300 text-neutral-500'
+                  : 'border-neutral-300 text-neutral-500 hover:border-brand-pink/40 hover:bg-neutral-50'
               }`}
             >
               {opt.label}
