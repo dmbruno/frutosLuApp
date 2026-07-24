@@ -3,6 +3,8 @@ import { ProtectedRoute } from './components/layout/ProtectedRoute';
 import { AppShell } from './components/layout/AppShell';
 import { AdminShell } from './components/layout/AdminShell';
 import { LoginPage } from './pages/LoginPage';
+import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
+import { ResetPasswordPage } from './pages/ResetPasswordPage';
 import { OnboardingPage } from './pages/OnboardingPage';
 import { BlockedPage } from './pages/BlockedPage';
 import { TodayPage } from './pages/TodayPage';
@@ -19,6 +21,8 @@ import { ProgramEditorPage } from './pages/admin/ProgramEditorPage';
 
 export const router = createBrowserRouter([
   { path: '/login', element: <LoginPage /> },
+  { path: '/recuperar', element: <ForgotPasswordPage /> },
+  { path: '/restablecer-contrasena', element: <ResetPasswordPage /> },
   {
     path: '/onboarding',
     element: (

@@ -1,7 +1,7 @@
-// Edge Function: invita a una alumna nueva por email y crea su perfil con un
-// período de acceso inicial en días. Corre en el servidor porque crear un
-// usuario de Auth para otra persona requiere la service_role key, que nunca
-// puede vivir en el navegador. SUPABASE_URL, SUPABASE_ANON_KEY y
+// Edge Function: crea un usuario nuevo (alumno o admin) con email + contraseña
+// puestos por la profe, sin pasar por magic link. Corre en el servidor porque
+// crear un usuario de Auth para otra persona requiere la service_role key, que
+// nunca puede vivir en el navegador. SUPABASE_URL, SUPABASE_ANON_KEY y
 // SUPABASE_SERVICE_ROLE_KEY los inyecta Supabase automáticamente en runtime.
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
@@ -53,34 +53,50 @@ Deno.serve(async (req) => {
       .single();
 
     if (callerProfile?.role !== 'admin') {
-      return jsonResponse({ error: 'Solo un admin puede invitar alumnas' }, 403);
+      return jsonResponse({ error: 'Solo un admin puede crear usuarios' }, 403);
     }
 
-    const { email, full_name, days } = await req.json();
-    if (!email || !full_name || !days || Number(days) <= 0) {
-      return jsonResponse({ error: 'Faltan datos: email, nombre y días (mayor a 0)' }, 400);
+    const { email, full_name, password, role, days } = await req.json();
+    if (!email || !full_name || !password || String(password).length < 6) {
+      return jsonResponse({ error: 'Faltan datos: email, nombre y contraseña (mínimo 6 caracteres)' }, 400);
+    }
+    if (role !== 'admin' && role !== 'alumno') {
+      return jsonResponse({ error: 'Rol inválido' }, 400);
+    }
+    if (role === 'alumno' && (!days || Number(days) <= 0)) {
+      return jsonResponse({ error: 'Faltan los días de acceso (mayor a 0)' }, 400);
     }
 
-    const { data: invited, error: inviteError } = await adminClient.auth.admin.inviteUserByEmail(email);
-    if (inviteError || !invited.user) {
-      return jsonResponse({ error: inviteError?.message ?? 'No se pudo invitar a la alumna' }, 400);
-    }
-
-    const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + Number(days));
-
-    const { error: profileError } = await adminClient.from('profiles').insert({
-      id: invited.user.id,
-      full_name,
-      role: 'alumno',
-      subscription_status: 'active',
-      subscription_expires_at: expiresAt.toISOString().slice(0, 10),
+    const { data: created, error: createError } = await adminClient.auth.admin.createUser({
+      email,
+      password,
+      email_confirm: true,
     });
+    if (createError || !created.user) {
+      return jsonResponse({ error: createError?.message ?? 'No se pudo crear el usuario' }, 400);
+    }
+
+    const profileInsert: Record<string, unknown> = {
+      id: created.user.id,
+      full_name,
+      role,
+      subscription_status: 'active',
+    };
+    if (role === 'alumno') {
+      const expiresAt = new Date();
+      expiresAt.setDate(expiresAt.getDate() + Number(days));
+      profileInsert.subscription_expires_at = expiresAt.toISOString().slice(0, 10);
+    }
+
+    const { error: profileError } = await adminClient.from('profiles').insert(profileInsert);
     if (profileError) {
+      // sin perfil el usuario queda inservible (y useRole lo recrearía como
+      // alumno por default) — mejor no dejar un auth.users huérfano.
+      await adminClient.auth.admin.deleteUser(created.user.id);
       return jsonResponse({ error: profileError.message }, 400);
     }
 
-    return jsonResponse({ ok: true, userId: invited.user.id }, 200);
+    return jsonResponse({ ok: true, userId: created.user.id }, 200);
   } catch (err) {
     return jsonResponse({ error: err instanceof Error ? err.message : String(err) }, 500);
   }

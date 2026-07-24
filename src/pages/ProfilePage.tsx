@@ -30,6 +30,12 @@ export function ProfilePage() {
               <dt className="text-neutral-400">Nombre</dt>
               <dd className="text-right text-neutral-700">{profile.full_name}</dd>
             </div>
+            {user?.email && (
+              <div className="flex justify-between gap-4">
+                <dt className="text-neutral-400">Email</dt>
+                <dd className="text-right text-neutral-700">{user.email}</dd>
+              </div>
+            )}
             {profile.birth_date && (
               <div className="flex justify-between gap-4">
                 <dt className="text-neutral-400">Fecha de nacimiento</dt>
@@ -95,9 +101,7 @@ export function ProfilePage() {
         />
       </section>
 
-      <Button onClick={() => signOut()} className="bg-neutral-200 text-neutral-700">
-        Cerrar sesión
-      </Button>
+      <Button onClick={() => signOut()}>Cerrar sesión</Button>
     </div>
   );
 }

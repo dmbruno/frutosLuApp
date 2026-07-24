@@ -51,9 +51,31 @@ async function throwFunctionError(error: unknown): Promise<never> {
   throw error;
 }
 
-export async function inviteStudent(email: string, fullName: string, days: number): Promise<void> {
-  const { data, error } = await supabase.functions.invoke('invite-student', {
-    body: { email, full_name: fullName, days },
+export interface CreateUserInput {
+  email: string;
+  fullName: string;
+  password: string;
+  role: 'admin' | 'alumno';
+  days?: number;
+}
+
+export async function createUser(input: CreateUserInput): Promise<void> {
+  const { data, error } = await supabase.functions.invoke('create-user', {
+    body: {
+      email: input.email,
+      full_name: input.fullName,
+      password: input.password,
+      role: input.role,
+      days: input.days,
+    },
+  });
+  if (error) await throwFunctionError(error);
+  if (data?.error) throw new Error(data.error);
+}
+
+export async function setPassword(userId: string, password: string): Promise<void> {
+  const { data, error } = await supabase.functions.invoke('set-password', {
+    body: { userId, password },
   });
   if (error) await throwFunctionError(error);
   if (data?.error) throw new Error(data.error);

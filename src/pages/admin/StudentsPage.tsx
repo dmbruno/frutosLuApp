@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Button } from '../../components/ui';
 import { StudentList } from '../../features/students/components/StudentList';
-import { InviteStudentModal } from '../../features/students/components/InviteStudentModal';
+import { CreateUserModal } from '../../features/students/components/CreateUserModal';
 import { useStudents } from '../../features/students/hooks/useStudents';
 
 export function StudentsPage() {
   const { data: students, isLoading } = useStudents();
-  const [showInvite, setShowInvite] = useState(false);
+  const [showCreate, setShowCreate] = useState(false);
   const [showInactive, setShowInactive] = useState(false);
 
   const filtered = students?.filter((s) =>
@@ -17,7 +17,7 @@ export function StudentsPage() {
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between gap-3">
         <h1 className="font-display text-xl font-semibold">Alumnos</h1>
-        <Button onClick={() => setShowInvite(true)}>+ Agregar alumno</Button>
+        <Button onClick={() => setShowCreate(true)}>+ Agregar usuario</Button>
       </div>
 
       <button
@@ -29,7 +29,7 @@ export function StudentsPage() {
 
       <StudentList students={filtered} loading={isLoading} mode={showInactive ? 'inactive' : 'active'} />
 
-      <InviteStudentModal open={showInvite} onClose={() => setShowInvite(false)} />
+      <CreateUserModal open={showCreate} onClose={() => setShowCreate(false)} />
     </div>
   );
 }

@@ -1,11 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { inviteStudent } from '../api';
+import { createUser, type CreateUserInput } from '../api';
 
-export function useInviteStudent() {
+export function useCreateUser() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ email, fullName, days }: { email: string; fullName: string; days: number }) =>
-      inviteStudent(email, fullName, days),
+    mutationFn: (input: CreateUserInput) => createUser(input),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['students'] }),
   });
 }

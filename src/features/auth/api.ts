@@ -2,13 +2,25 @@ import type { AuthChangeEvent, Session } from '@supabase/supabase-js';
 import { supabase } from '../../lib/supabase';
 import type { Profile } from '../../types/domain';
 
-export async function signInWithOtp(email: string): Promise<void> {
-  const { error } = await supabase.auth.signInWithOtp({ email });
+export async function signInWithPassword(email: string, password: string): Promise<void> {
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
   if (error) throw error;
 }
 
 export async function signOut(): Promise<void> {
   const { error } = await supabase.auth.signOut();
+  if (error) throw error;
+}
+
+export async function resetPasswordForEmail(email: string): Promise<void> {
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${window.location.origin}/restablecer-contrasena`,
+  });
+  if (error) throw error;
+}
+
+export async function updatePassword(password: string): Promise<void> {
+  const { error } = await supabase.auth.updateUser({ password });
   if (error) throw error;
 }
 

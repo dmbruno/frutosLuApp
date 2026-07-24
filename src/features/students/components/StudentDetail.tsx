@@ -4,6 +4,7 @@ import { AdherenceLight } from './AdherenceLight';
 import { SubscriptionToggle } from './SubscriptionToggle';
 import { DaysRemainingBadge } from './DaysRemainingBadge';
 import { RenewSubscriptionModal } from './RenewSubscriptionModal';
+import { SetPasswordModal } from './SetPasswordModal';
 import { PrivateNote } from './PrivateNote';
 import { ProgramEditor } from '../../programs/components/ProgramEditor';
 import { MeasurementHistory } from '../../body-tracking/components/MeasurementHistory';
@@ -26,6 +27,7 @@ export function StudentDetail({ userId }: StudentDetailProps) {
   const { measurements } = useBodyMetrics(userId);
   const { photos } = useProgressPhotos(userId);
   const [showRenew, setShowRenew] = useState(false);
+  const [showSetPassword, setShowSetPassword] = useState(false);
 
   if (loadingDetail || loadingPrograms) return <Spinner />;
   if (!detail) return <EmptyState title="Alumno no encontrado" />;
@@ -46,6 +48,9 @@ export function StudentDetail({ userId }: StudentDetailProps) {
           <div className="flex items-center gap-2">
             <button onClick={() => setShowRenew(true)} className="text-xs text-brand-pink">
               Renovar
+            </button>
+            <button onClick={() => setShowSetPassword(true)} className="text-xs text-brand-pink">
+              Contraseña
             </button>
             <SubscriptionToggle userId={profile.id} status={profile.subscription_status} />
           </div>
@@ -113,6 +118,12 @@ export function StudentDetail({ userId }: StudentDetailProps) {
         userId={profile.id}
         studentName={profile.full_name}
         onClose={() => setShowRenew(false)}
+      />
+      <SetPasswordModal
+        open={showSetPassword}
+        userId={profile.id}
+        studentName={profile.full_name}
+        onClose={() => setShowSetPassword(false)}
       />
     </div>
   );
