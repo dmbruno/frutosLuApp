@@ -10,3 +10,4 @@ export * from './Spinner';
 export * from './EmptyState';
 export * from './Toast';
 export * from './VideoEmbed';
+export * from './PendingChangesBar';

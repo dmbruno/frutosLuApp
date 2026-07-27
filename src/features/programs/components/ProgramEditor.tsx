@@ -5,6 +5,7 @@ import { DayBlock } from './DayBlock';
 import { ExercisePicker } from './ExercisePicker';
 import { useProgramEditor } from '../hooks/useProgramEditor';
 import { useToast } from '../../../lib/ToastProvider';
+import { usePendingChanges } from '../../../lib/PendingChangesContext';
 import type { Exercise } from '../../../types/domain';
 import type { ExerciseBlock } from '../../../types/database';
 
@@ -18,6 +19,7 @@ export function ProgramEditor({ programId }: ProgramEditorProps) {
   const { program, loading, error, addDay, removeDay, addExercise, editExercise, removeExercise, editProgram } =
     useProgramEditor(programId);
   const { showToast } = useToast();
+  const pending = usePendingChanges();
 
   const [activeWeek, setActiveWeek] = useState(1);
   const [pickerTarget, setPickerTarget] = useState<{ dayId: string; block: ExerciseBlock } | null>(null);
@@ -114,12 +116,21 @@ export function ProgramEditor({ programId }: ProgramEditorProps) {
             min={1}
             className="w-24"
             defaultValue={program.total_weeks ?? 1}
-            onBlur={(e) =>
-              editProgram.mutate(
-                { total_weeks: Number(e.target.value) },
-                { onSuccess: () => showToast('Configuración guardada') },
-              )
-            }
+            onBlur={(e) => {
+              const value = Number(e.target.value);
+              if (value === (program.total_weeks ?? 1)) {
+                pending?.clearPending('total-weeks');
+                return;
+              }
+              if (pending) {
+                pending.registerPending('total-weeks', () => editProgram.mutateAsync({ total_weeks: value }));
+              } else {
+                editProgram.mutate(
+                  { total_weeks: value },
+                  { onSuccess: () => showToast('Configuración guardada') },
+                );
+              }
+            }}
           />
         </label>
         <label className="flex flex-col gap-1 text-xs text-neutral-500">
@@ -127,17 +138,26 @@ export function ProgramEditor({ programId }: ProgramEditorProps) {
           <Input
             className="w-40"
             defaultValue={program.cycle_pattern?.join(',') ?? ''}
-            onBlur={(e) =>
-              editProgram.mutate(
-                {
-                  cycle_pattern: e.target.value
-                    .split(',')
-                    .map((n) => parseInt(n.trim(), 10))
-                    .filter((n) => !isNaN(n)),
-                },
-                { onSuccess: () => showToast('Configuración guardada') },
-              )
-            }
+            onBlur={(e) => {
+              const cyclePattern = e.target.value
+                .split(',')
+                .map((n) => parseInt(n.trim(), 10))
+                .filter((n) => !isNaN(n));
+              if (cyclePattern.join(',') === (program.cycle_pattern ?? []).join(',')) {
+                pending?.clearPending('cycle-pattern');
+                return;
+              }
+              if (pending) {
+                pending.registerPending('cycle-pattern', () =>
+                  editProgram.mutateAsync({ cycle_pattern: cyclePattern }),
+                );
+              } else {
+                editProgram.mutate(
+                  { cycle_pattern: cyclePattern },
+                  { onSuccess: () => showToast('Configuración guardada') },
+                );
+              }
+            }}
           />
         </label>
       </div>
@@ -156,7 +176,7 @@ export function ProgramEditor({ programId }: ProgramEditorProps) {
             key={day.id}
             day={day}
             onAddExercise={(block) => setPickerTarget({ dayId: day.id, block })}
-            onEditExercise={(id, input) => editExercise.mutate({ id, input })}
+            onEditExercise={(id, input) => editExercise.mutateAsync({ id, input }).then(() => {})}
             onRemoveExercise={(id, name) => setPendingRemoval({ type: 'exercise', id, label: name })}
             onRemoveDay={() => setPendingRemoval({ type: 'day', id: day.id, label: day.title })}
           />

@@ -6,7 +6,7 @@ import type { ExerciseBlock } from '../../../types/database';
 interface DayBlockProps {
   day: DayWithExercises;
   onAddExercise: (block: ExerciseBlock) => void;
-  onEditExercise: (programExerciseId: string, input: ProgramExerciseEdit) => void;
+  onEditExercise: (programExerciseId: string, input: ProgramExerciseEdit) => Promise<void>;
   onRemoveExercise: (programExerciseId: string, exerciseName: string) => void;
   onRemoveDay: () => void;
 }

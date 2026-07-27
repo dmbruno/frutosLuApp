@@ -31,6 +31,7 @@ export async function getStudentDetail(userId: string): Promise<StudentDetail> {
     .from('workout_sessions')
     .select('*')
     .eq('user_id', userId)
+    .not('finished_at', 'is', null)
     .order('started_at', { ascending: false })
     .limit(10);
   if (sessionsError) throw sessionsError;

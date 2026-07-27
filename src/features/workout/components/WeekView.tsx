@@ -16,7 +16,7 @@ export function WeekView({ days, loading }: WeekViewProps) {
   return (
     <div className="flex flex-col gap-2">
       {days.map((day) => (
-        <Link key={day.id} to={`/entrenar/${day.id}`} className="block transition-opacity hover:opacity-70">
+        <Link key={day.id} to={`/semana/${day.id}`} className="block transition-opacity hover:opacity-70">
           <Card className="flex items-center justify-between">
             <div>
               <p className="font-medium">{day.title}</p>

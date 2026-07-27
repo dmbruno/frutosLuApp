@@ -6,9 +6,10 @@ import type { WeekDay } from '../../../types/domain';
 interface TodayViewProps {
   day: WeekDay | null | undefined;
   loading: boolean;
+  pendingLabel?: string;
 }
 
-export function TodayView({ day, loading }: TodayViewProps) {
+export function TodayView({ day, loading, pendingLabel = 'Hoy toca' }: TodayViewProps) {
   if (loading) return <Spinner />;
   if (!day) {
     return <EmptyState title="Sin rutina activa" description="Pedile a tu profe que te asigne un programa." />;
@@ -16,7 +17,7 @@ export function TodayView({ day, loading }: TodayViewProps) {
 
   return (
     <Card className="flex flex-col gap-3">
-      <p className="text-sm text-neutral-500">{day.completed ? 'Ya entrenaste hoy' : 'Hoy toca'}</p>
+      <p className="text-sm text-neutral-500">{day.completed ? 'Ya entrenado' : pendingLabel}</p>
       <h2 className="font-display text-xl font-semibold">{day.title}</h2>
 
       <div className="flex flex-col gap-4">

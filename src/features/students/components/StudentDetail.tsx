@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { EmptyState, Spinner } from '../../../components/ui';
+import { EmptyState, PendingChangesBar, Spinner } from '../../../components/ui';
+import { PendingChangesProvider } from '../../../lib/PendingChangesContext';
 import { AdherenceLight } from './AdherenceLight';
 import { SubscriptionToggle } from './SubscriptionToggle';
 import { DaysRemainingBadge } from './DaysRemainingBadge';
@@ -15,6 +16,8 @@ import { useAdherence } from '../hooks/useAdherence';
 import { useBodyMetrics } from '../../body-tracking/hooks/useBodyMetrics';
 import { useProgressPhotos } from '../../body-tracking/hooks/useProgressPhotos';
 import { daysRemaining } from '../../../lib/utils/dates';
+
+const FEELING_EMOJI: Record<number, string> = { 1: '😫', 2: '😕', 3: '😐', 4: '🙂', 5: '💪' };
 
 interface StudentDetailProps {
   userId: string;
@@ -37,29 +40,30 @@ export function StudentDetail({ userId }: StudentDetailProps) {
   const activeProgram = programs?.find((p) => p.is_active);
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex min-w-0 items-center gap-2">
+    <PendingChangesProvider>
+      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-2 rounded-2xl bg-white p-4 shadow-sm">
+        <div className="flex items-center gap-2">
           {adherence && <AdherenceLight trafficLight={adherence.traffic_light} />}
-          <h1 className="truncate font-display text-xl font-semibold">{profile.full_name}</h1>
-        </div>
-        <div className="flex shrink-0 flex-col items-end gap-1">
+          <h1 className="min-w-0 flex-1 break-words font-display text-xl font-semibold">{profile.full_name}</h1>
           <DaysRemainingBadge days={daysRemaining(profile.subscription_expires_at)} />
-          <div className="flex items-center gap-2">
+        </div>
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex items-center gap-3">
             <button
               onClick={() => setShowRenew(true)}
-              className="cursor-pointer text-xs text-brand-pink transition-opacity hover:opacity-70"
+              className="cursor-pointer text-sm text-brand-pink transition-opacity hover:opacity-70"
             >
               Renovar
             </button>
             <button
               onClick={() => setShowSetPassword(true)}
-              className="cursor-pointer text-xs text-brand-pink transition-opacity hover:opacity-70"
+              className="cursor-pointer text-sm text-brand-pink transition-opacity hover:opacity-70"
             >
               Contraseña
             </button>
-            <SubscriptionToggle userId={profile.id} status={profile.subscription_status} />
           </div>
+          <SubscriptionToggle userId={profile.id} status={profile.subscription_status} />
         </div>
       </div>
 
@@ -88,15 +92,26 @@ export function StudentDetail({ userId }: StudentDetailProps) {
       </div>
 
       <div className="rounded-2xl bg-white p-4 shadow-sm">
-        <p className="mb-2 text-xs font-semibold uppercase text-neutral-400">Últimas sesiones</p>
+        <div className="mb-2 flex items-center justify-between">
+          <p className="text-xs font-semibold uppercase text-neutral-400">Últimas sesiones</p>
+          <p className="text-xs text-neutral-400">Cómo se sintió</p>
+        </div>
         {recentSessions.length === 0 ? (
           <p className="text-sm text-neutral-400">Sin sesiones registradas todavía.</p>
         ) : (
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col">
             {recentSessions.map((s) => (
-              <div key={s.id} className="flex justify-between text-sm">
-                <span>{new Date(s.started_at).toLocaleDateString('es-AR')}</span>
-                <span className="text-neutral-400">{s.feeling ? `${s.feeling}/5` : '—'}</span>
+              <div
+                key={s.id}
+                className="flex items-center justify-between gap-2 border-b border-neutral-100 py-2 text-sm last:border-0 last:pb-0"
+              >
+                <span className="text-neutral-600">
+                  {new Date(s.started_at).toLocaleDateString('es-AR')}{' '}
+                  <span className="text-neutral-400">
+                    {new Date(s.started_at).toLocaleTimeString('es-AR', { hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                </span>
+                <span className="text-lg">{s.feeling ? FEELING_EMOJI[s.feeling] : '—'}</span>
               </div>
             ))}
           </div>
@@ -131,6 +146,9 @@ export function StudentDetail({ userId }: StudentDetailProps) {
         studentName={profile.full_name}
         onClose={() => setShowSetPassword(false)}
       />
-    </div>
+
+      <PendingChangesBar />
+      </div>
+    </PendingChangesProvider>
   );
 }

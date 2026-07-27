@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Input } from '../../../components/ui';
 import { parseSetsReps } from '../../../lib/utils/parseSetsReps';
+import { usePendingChanges } from '../../../lib/PendingChangesContext';
 import type { ProgramExerciseWithExercise } from '../../../types/domain';
 
 export interface ProgramExerciseEdit {
@@ -12,7 +13,7 @@ export interface ProgramExerciseEdit {
 interface ProgramExerciseRowProps {
   programExercise: ProgramExerciseWithExercise;
   fallbackOrderCode: string;
-  onEdit: (input: ProgramExerciseEdit) => void;
+  onEdit: (input: ProgramExerciseEdit) => Promise<void>;
   onRemove: () => void;
 }
 
@@ -22,6 +23,7 @@ export function ProgramExerciseRow({ programExercise, fallbackOrderCode, onEdit,
   const [orderCode, setOrderCode] = useState(programExercise.order_code || fallbackOrderCode);
   const [coachNote, setCoachNote] = useState(programExercise.coach_note ?? '');
   const preview = parseSetsReps(text);
+  const pending = usePendingChanges();
 
   // Ejercicios agregados antes de que existiera la numeración automática se
   // guardaron con order_code vacío: se auto-completan la primera vez que se ven.
@@ -39,7 +41,15 @@ export function ProgramExerciseRow({ programExercise, fallbackOrderCode, onEdit,
           value={orderCode}
           onChange={(e) => setOrderCode(e.target.value)}
           onBlur={() => {
-            if (orderCode !== (programExercise.order_code ?? '')) onEdit({ order_code: orderCode });
+            if (orderCode === (programExercise.order_code ?? '')) {
+              pending?.clearPending(`${programExercise.id}-order`);
+              return;
+            }
+            if (pending) {
+              pending.registerPending(`${programExercise.id}-order`, () => onEdit({ order_code: orderCode }));
+            } else {
+              onEdit({ order_code: orderCode });
+            }
           }}
           className="mt-0.5 w-10 shrink-0 rounded bg-neutral-100 px-1 py-1 text-center font-mono text-xs text-neutral-500"
         />
@@ -86,7 +96,15 @@ export function ProgramExerciseRow({ programExercise, fallbackOrderCode, onEdit,
           value={text}
           onChange={(e) => setText(e.target.value)}
           onBlur={() => {
-            if (text !== programExercise.sets_reps_text) onEdit({ sets_reps_text: text });
+            if (text === programExercise.sets_reps_text) {
+              pending?.clearPending(`${programExercise.id}-reps`);
+              return;
+            }
+            if (pending) {
+              pending.registerPending(`${programExercise.id}-reps`, () => onEdit({ sets_reps_text: text }));
+            } else {
+              onEdit({ sets_reps_text: text });
+            }
           }}
         />
         <span className="shrink-0 whitespace-nowrap text-xs text-neutral-400">
@@ -99,7 +117,15 @@ export function ProgramExerciseRow({ programExercise, fallbackOrderCode, onEdit,
         value={coachNote}
         onChange={(e) => setCoachNote(e.target.value)}
         onBlur={() => {
-          if (coachNote !== (programExercise.coach_note ?? '')) onEdit({ coach_note: coachNote });
+          if (coachNote === (programExercise.coach_note ?? '')) {
+            pending?.clearPending(`${programExercise.id}-note`);
+            return;
+          }
+          if (pending) {
+            pending.registerPending(`${programExercise.id}-note`, () => onEdit({ coach_note: coachNote }));
+          } else {
+            onEdit({ coach_note: coachNote });
+          }
         }}
         placeholder="Nota de coach (opcional, ej: rodillas flexionadas)"
         className="mt-2 w-full rounded-lg border border-neutral-200 px-2 py-1 text-xs text-neutral-600 placeholder:text-neutral-300"

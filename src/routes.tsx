@@ -9,6 +9,7 @@ import { OnboardingPage } from './pages/OnboardingPage';
 import { BlockedPage } from './pages/BlockedPage';
 import { TodayPage } from './pages/TodayPage';
 import { WeekPage } from './pages/WeekPage';
+import { DayPreviewPage } from './pages/DayPreviewPage';
 import { WorkoutPage } from './pages/WorkoutPage';
 import { ProgressPage } from './pages/ProgressPage';
 import { ProfilePage } from './pages/ProfilePage';
@@ -55,6 +56,16 @@ export const router = createBrowserRouter([
       <ProtectedRoute>
         <AppShell>
           <WeekPage />
+        </AppShell>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/semana/:dayId',
+    element: (
+      <ProtectedRoute>
+        <AppShell>
+          <DayPreviewPage />
         </AppShell>
       </ProtectedRoute>
     ),

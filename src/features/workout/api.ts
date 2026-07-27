@@ -77,12 +77,16 @@ export async function getProgramDay(programDayId: string): Promise<DayWithExerci
 }
 
 export async function startSession(userId: string, programDayId: string) {
+  const startOfToday = new Date();
+  startOfToday.setHours(0, 0, 0, 0);
+
   const { data: existing, error: existingError } = await supabase
     .from('workout_sessions')
     .select('*')
     .eq('user_id', userId)
     .eq('program_day_id', programDayId)
     .is('finished_at', null)
+    .gte('started_at', startOfToday.toISOString())
     .order('started_at', { ascending: false })
     .limit(1)
     .maybeSingle();
