@@ -58,7 +58,7 @@ no pedir datos nuevos.
    query, solo agregado a nivel de todos los alumnos en vez de uno.
 7. **Cumpleaños de la semana.** `profiles.birth_date` ya se carga en el
    onboarding (opcional). Filtro simple, sin nueva tabla.
-8. **Alumnas nuevas de la semana.** Requiere sumar `created_at` a
+8. **Alumnos nuevos de la semana.** Requiere sumar `created_at` a
    `v_adherence` (hoy la vista no lo trae, aunque `profiles.created_at`
    existe) — un `create or replace view` de una línea.
 

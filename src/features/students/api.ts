@@ -1,6 +1,9 @@
 import { FunctionsHttpError } from '@supabase/supabase-js';
 import { supabase } from '../../lib/supabase';
 import type { Adherence, Profile, WorkoutSession } from '../../types/domain';
+import type { Database } from '../../types/database';
+
+type ProfileUpdate = Database['public']['Tables']['profiles']['Update'];
 
 export async function listStudents(): Promise<Adherence[]> {
   const { data, error } = await supabase.from('v_adherence').select('*').order('full_name');
@@ -37,6 +40,22 @@ export async function getStudentDetail(userId: string): Promise<StudentDetail> {
   if (sessionsError) throw sessionsError;
 
   return { profile, recentSessions: sessions ?? [] };
+}
+
+export interface EditableStudentFields {
+  full_name: string;
+  sex: string | null;
+  birth_date: string | null;
+  athlete_profile: string | null;
+  experience_level: string | null;
+  goal: string | null;
+  injuries_notes: string | null;
+}
+
+export async function updateStudentProfile(userId: string, input: EditableStudentFields): Promise<void> {
+  const update: ProfileUpdate = input;
+  const { error } = await supabase.from('profiles').update(update).eq('id', userId);
+  if (error) throw error;
 }
 
 export async function setSubscription(userId: string, status: 'active' | 'inactive'): Promise<void> {

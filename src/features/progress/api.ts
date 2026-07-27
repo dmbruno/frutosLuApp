@@ -1,4 +1,5 @@
 import { supabase } from '../../lib/supabase';
+import { mondayOf } from '../../lib/utils/dates';
 
 export type RangeKind = 'week' | 'month' | 'year';
 
@@ -51,12 +52,6 @@ export async function getPersonalRecords(): Promise<PersonalRecord[]> {
     }
   }
   return [...byExercise.values()].sort((a, b) => b.bestSetVolumeKg - a.bestSetVolumeKg);
-}
-
-function mondayOf(date: Date): string {
-  const d = new Date(date);
-  d.setDate(d.getDate() - ((d.getDay() + 6) % 7));
-  return d.toISOString().slice(0, 10);
 }
 
 export async function getStreak(): Promise<number> {

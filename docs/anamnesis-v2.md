@@ -31,7 +31,7 @@ En vez de `experience_level` como select libre, agregar al wizard (Step
 
 Con esas dos respuestas se puede derivar `experience_level` automáticamente
 (regla simple, no hace falta scoring ponderado tipo el de la charla) en vez de
-pedírselo directo a la alumna. El campo `experience_level` en `profiles` se
+pedírselo directo al alumno. El campo `experience_level` en `profiles` se
 mantiene igual — solo cambia cómo se completa.
 
 ### 2. Preguntas de dolor/lesión, condicionales (reemplaza el campo libre)
@@ -49,7 +49,7 @@ consultorio, no onboarding de gimnasio.
 
 ### 3. Salud femenina, condicional (solo si aplica)
 
-Si `athlete_profile = 'postparto'` o si la alumna indica que está embarazada:
+Si `athlete_profile = 'postparto'` o si el alumno indica que está embarazada:
 sección adicional con:
 
 - Semana de embarazo / fecha de parto (si ya nació)
@@ -61,7 +61,7 @@ No completo (no incluye ciclo menstrual, diástasis, suelo pélvico como
 formulario estructurado en v2 — Luciana ya lo cubre a mano hoy vía
 `injuries_notes`/notas; se puede sumar en una v3 si realmente lo pide).
 
-### 4. Semáforo de salud a nivel alumna (opcional, depende de 1-3)
+### 4. Semáforo de salud a nivel alumno (opcional, depende de 1-3)
 
 Extender el semáforo de adherencia (`v_adherence`, ya existe) con un segundo
 indicador de salud (🟢/🟡/🔴) derivado de las respuestas de dolor/embarazo del
@@ -72,7 +72,7 @@ esas preguntas — no es un cambio aislado.
 
 Explícitamente descartado para v1/v2 — o porque ya estaba fuera de alcance en
 `claude.md` sección 10, o porque es demasiado grande para el tamaño actual del
-proyecto (~50 alumnas, un solo dev):
+proyecto (~50 alumnos, un solo dev):
 
 - Calculadora de nutrición/macros (calorías, proteínas, agua, etc.)
 - Motor de reglas automáticas (sugerir deload, bajar volumen por poco sueño,
@@ -101,6 +101,6 @@ motor inteligente de reglas / administración) con metodología propia
 registrada. Propuso reescribir todo desde cero con un PRD ("Product
 Requirements Document") antes de seguir programando.
 
-Se descartó reescribir desde cero (ya hay esquema en producción y una alumna
+Se descartó reescribir desde cero (ya hay esquema en producción y un alumno
 de prueba corriendo el flujo real) y se acotó la charla a los puntos 1-4 de
 arriba, que son los que aportan valor real sin disparar el alcance.

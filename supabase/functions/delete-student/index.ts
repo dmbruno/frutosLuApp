@@ -1,4 +1,4 @@
-// Edge Function: borra a una alumna para siempre (solo si está inactiva).
+// Edge Function: borra a un alumno para siempre (solo si está inactivo).
 // Borra el usuario de Auth con la Admin API (requiere service_role, por eso
 // corre en el servidor). profiles.id referencia a auth.users(id) on delete
 // cascade, y todo lo demás (workout_sessions, programs, body_metrics,
@@ -52,7 +52,7 @@ Deno.serve(async (req) => {
       .single();
 
     if (callerProfile?.role !== 'admin') {
-      return jsonResponse({ error: 'Solo un admin puede eliminar alumnas' }, 403);
+      return jsonResponse({ error: 'Solo un admin puede eliminar alumnos' }, 403);
     }
 
     const { userId } = await req.json();
@@ -66,11 +66,11 @@ Deno.serve(async (req) => {
       .eq('id', userId)
       .single();
     if (targetError || !target) {
-      return jsonResponse({ error: 'Alumna no encontrada' }, 404);
+      return jsonResponse({ error: 'Alumno no encontrado' }, 404);
     }
     if (target.subscription_status === 'active') {
       return jsonResponse(
-        { error: 'No se puede eliminar una alumna con suscripción activa. Desactivala primero.' },
+        { error: 'No se puede eliminar un alumno con suscripción activa. Desactivalo primero.' },
         400,
       );
     }

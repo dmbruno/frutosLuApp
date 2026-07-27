@@ -1,17 +1,17 @@
 import { useAdherence } from '../../features/students/hooks/useAdherence';
-import { Spinner } from '../../components/ui';
-import { daysRemaining } from '../../lib/utils/dates';
 import { signOut } from '../../features/auth/api';
+import { AdherenceKpi } from '../../features/dashboard/components/AdherenceKpi';
+import { TrafficLightBreakdown } from '../../features/dashboard/components/TrafficLightBreakdown';
+import { UpcomingRenewals } from '../../features/dashboard/components/UpcomingRenewals';
+import { AttentionAlerts } from '../../features/dashboard/components/AttentionAlerts';
+import { ActivityFeed } from '../../features/dashboard/components/ActivityFeed';
+import { RecentPrsList } from '../../features/dashboard/components/RecentPrsList';
+import { WeeklyHighlights } from '../../features/dashboard/components/WeeklyHighlights';
+import { AdherenceTrendChart } from '../../features/dashboard/components/AdherenceTrendChart';
+import { ProfileDistributionChart } from '../../features/dashboard/components/ProfileDistributionChart';
 
 export function DashboardPage() {
-  const { data: students, summary, isLoading } = useAdherence();
-
-  if (isLoading) return <Spinner />;
-
-  const expiringSoon = (students ?? []).filter((s) => {
-    const days = daysRemaining(s.subscription_expires_at);
-    return s.subscription_status === 'active' && days !== null && days <= 3;
-  }).length;
+  const { data: students, isLoading } = useAdherence();
 
   return (
     <div className="flex flex-col gap-4">
@@ -24,25 +24,27 @@ export function DashboardPage() {
           Cerrar sesión
         </button>
       </div>
-      <div className="grid grid-cols-3 gap-3">
-        <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
-          <p className="font-display text-2xl font-semibold text-green-500">{summary.verde}</p>
-          <p className="text-xs text-neutral-500">al día</p>
+
+      <AdherenceKpi students={students} loading={isLoading} />
+
+      <AttentionAlerts />
+
+      <TrafficLightBreakdown students={students} loading={isLoading} />
+
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <div className="flex flex-col gap-4">
+          <UpcomingRenewals students={students} loading={isLoading} />
+          <RecentPrsList />
+          <WeeklyHighlights />
         </div>
-        <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
-          <p className="font-display text-2xl font-semibold text-amber-500">{summary.amarillo}</p>
-          <p className="text-xs text-neutral-500">atrasados</p>
-        </div>
-        <div className="rounded-2xl bg-white p-4 text-center shadow-sm">
-          <p className="font-display text-2xl font-semibold text-red-500">{summary.rojo}</p>
-          <p className="text-xs text-neutral-500">inactivos</p>
-        </div>
+        <ActivityFeed />
       </div>
-      {expiringSoon > 0 && (
-        <div className="rounded-2xl bg-amber-50 p-4 text-sm text-amber-700">
-          ⏰ {expiringSoon} {expiringSoon === 1 ? 'alumno vence' : 'alumnos vencen'} en 3 días o menos
-        </div>
-      )}
+
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <AdherenceTrendChart />
+        <ProfileDistributionChart />
+      </div>
+
       <p className="text-sm text-neutral-500">{students?.length ?? 0} alumnos en total</p>
     </div>
   );

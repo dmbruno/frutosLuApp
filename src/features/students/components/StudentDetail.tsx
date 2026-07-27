@@ -6,6 +6,7 @@ import { SubscriptionToggle } from './SubscriptionToggle';
 import { DaysRemainingBadge } from './DaysRemainingBadge';
 import { RenewSubscriptionModal } from './RenewSubscriptionModal';
 import { SetPasswordModal } from './SetPasswordModal';
+import { EditStudentModal } from './EditStudentModal';
 import { PrivateNote } from './PrivateNote';
 import { ProgramEditor } from '../../programs/components/ProgramEditor';
 import { MeasurementHistory } from '../../body-tracking/components/MeasurementHistory';
@@ -16,6 +17,8 @@ import { useAdherence } from '../hooks/useAdherence';
 import { useBodyMetrics } from '../../body-tracking/hooks/useBodyMetrics';
 import { useProgressPhotos } from '../../body-tracking/hooks/useProgressPhotos';
 import { daysRemaining } from '../../../lib/utils/dates';
+import { formatDate } from '../../../lib/utils/format';
+import { SEX_OPTIONS, ATHLETE_PROFILE_OPTIONS, EXPERIENCE_OPTIONS, findLabel } from '../../../lib/utils/profileLabels';
 
 const FEELING_EMOJI: Record<number, string> = { 1: '😫', 2: '😕', 3: '😐', 4: '🙂', 5: '💪' };
 
@@ -31,6 +34,7 @@ export function StudentDetail({ userId }: StudentDetailProps) {
   const { photos } = useProgressPhotos(userId);
   const [showRenew, setShowRenew] = useState(false);
   const [showSetPassword, setShowSetPassword] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
 
   if (loadingDetail || loadingPrograms) return <Spinner />;
   if (!detail) return <EmptyState title="Alumno no encontrado" />;
@@ -48,8 +52,14 @@ export function StudentDetail({ userId }: StudentDetailProps) {
           <h1 className="min-w-0 flex-1 break-words font-display text-xl font-semibold">{profile.full_name}</h1>
           <DaysRemainingBadge days={daysRemaining(profile.subscription_expires_at)} />
         </div>
-        <div className="flex items-center justify-between gap-2">
-          <div className="flex items-center gap-3">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <button
+              onClick={() => setShowEdit(true)}
+              className="cursor-pointer text-sm text-brand-pink transition-opacity hover:opacity-70"
+            >
+              Editar
+            </button>
             <button
               onClick={() => setShowRenew(true)}
               className="cursor-pointer text-sm text-brand-pink transition-opacity hover:opacity-70"
@@ -78,11 +88,19 @@ export function StudentDetail({ userId }: StudentDetailProps) {
           </div>
           <div>
             <dt className="text-neutral-400">Nivel</dt>
-            <dd>{profile.experience_level ?? '—'}</dd>
+            <dd>{findLabel(EXPERIENCE_OPTIONS, profile.experience_level) ?? '—'}</dd>
           </div>
           <div>
             <dt className="text-neutral-400">Perfil</dt>
-            <dd>{profile.athlete_profile ?? '—'}</dd>
+            <dd>{findLabel(ATHLETE_PROFILE_OPTIONS, profile.athlete_profile) ?? '—'}</dd>
+          </div>
+          <div>
+            <dt className="text-neutral-400">Sexo</dt>
+            <dd>{findLabel(SEX_OPTIONS, profile.sex) ?? '—'}</dd>
+          </div>
+          <div>
+            <dt className="text-neutral-400">Fecha de nacimiento</dt>
+            <dd>{formatDate(profile.birth_date) ?? '—'}</dd>
           </div>
           <div>
             <dt className="text-neutral-400">Lesiones</dt>
@@ -146,6 +164,7 @@ export function StudentDetail({ userId }: StudentDetailProps) {
         studentName={profile.full_name}
         onClose={() => setShowSetPassword(false)}
       />
+      <EditStudentModal open={showEdit} profile={profile} onClose={() => setShowEdit(false)} />
 
       <PendingChangesBar />
       </div>
