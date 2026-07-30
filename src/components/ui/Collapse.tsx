@@ -4,9 +4,10 @@ import type { ReactNode } from 'react';
 interface CollapseProps {
   open: boolean;
   children: ReactNode;
+  duration?: number;
 }
 
-export function Collapse({ open, children }: CollapseProps) {
+export function Collapse({ open, children, duration = 0.32 }: CollapseProps) {
   return (
     <AnimatePresence initial={false}>
       {open && (
@@ -14,7 +15,7 @@ export function Collapse({ open, children }: CollapseProps) {
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: 'auto', opacity: 1 }}
           exit={{ height: 0, opacity: 0 }}
-          transition={{ duration: 0.32, ease: 'easeOut' }}
+          transition={{ duration, ease: 'easeOut' }}
           className="overflow-hidden"
         >
           {children}

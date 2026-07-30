@@ -24,7 +24,7 @@ export function BlockVideoList({ exercises }: BlockVideoListProps) {
       </button>
 
       <div className="-mx-4">
-        <Collapse open={open}>
+        <Collapse open={open} duration={0.45}>
           <div className="flex flex-col gap-6 pt-3">
             {exercises.map((ex) => (
               <div key={ex.id}>
