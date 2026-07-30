@@ -13,6 +13,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.109.0",
     "@tanstack/react-query": "^5.101.4",
+    "framer-motion": "^12.43.0",
     "idb": "^8.0.3",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",

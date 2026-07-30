@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, EmptyState, Spinner } from '../../../components/ui';
 import { ExerciseStep } from './ExerciseStep';
+import { SupersetStep } from './SupersetStep';
 import { RestTimer } from './RestTimer';
 import { SessionSummary } from './SessionSummary';
 import { useWorkoutSession } from '../hooks/useWorkoutSession';
@@ -82,14 +83,11 @@ export function WorkoutSession({ programDayId }: WorkoutSessionProps) {
         </p>
       )}
 
-      {step.map((exercise) => (
-        <ExerciseStep
-          key={exercise.id}
-          exercise={exercise}
-          sessionId={session.id}
-          onSetLogged={(restSec) => start(restSec ?? 60)}
-        />
-      ))}
+      {isSuperset ? (
+        <SupersetStep exercises={step} sessionId={session.id} onSetLogged={(restSec) => start(restSec ?? 60)} />
+      ) : (
+        <ExerciseStep exercise={step[0]} sessionId={session.id} onSetLogged={(restSec) => start(restSec ?? 60)} />
+      )}
 
       <Button onClick={handleNext} className="w-full">
         {isLast ? 'Terminar' : 'Siguiente ejercicio →'}

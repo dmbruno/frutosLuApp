@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom';
 import { Button, Card, EmptyState, Spinner } from '../../../components/ui';
 import { EXERCISE_BLOCKS } from '../../exercises/constants';
+import { getUniformSets, stripSetsPrefix } from '../../../lib/utils/blockSummary';
+import { ExerciseRow } from './ExerciseRow';
+import { BlockVideoList } from './BlockVideoList';
 import type { WeekDay } from '../../../types/domain';
 
 interface TodayViewProps {
@@ -8,6 +11,14 @@ interface TodayViewProps {
   loading: boolean;
   pendingLabel?: string;
 }
+
+const BLOCK_LABELS: Record<string, string> = {
+  movilidad: 'Movilidad',
+  core: 'Core',
+  estructura: 'Estructura',
+  cardio: 'Cardio',
+  otro: 'Otro',
+};
 
 export function TodayView({ day, loading, pendingLabel = 'Hoy toca' }: TodayViewProps) {
   if (loading) return <Spinner />;
@@ -20,33 +31,33 @@ export function TodayView({ day, loading, pendingLabel = 'Hoy toca' }: TodayView
       <p className="text-sm text-neutral-500">{day.completed ? 'Ya entrenado' : pendingLabel}</p>
       <h2 className="font-display text-xl font-semibold">{day.title}</h2>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3">
         {EXERCISE_BLOCKS.map((block) => {
           const exercisesInBlock = day.exercises.filter((e) => e.block === block);
           if (exercisesInBlock.length === 0) return null;
+          const uniformSets = getUniformSets(exercisesInBlock);
+
           return (
-            <div key={block}>
-              <p className="mb-1 border-b-2 border-brand-pink/20 pb-1 text-xs font-bold uppercase tracking-wide text-brand-pink">
-                {block}
-              </p>
+            <div key={block} className="rounded-2xl bg-neutral-50 p-4">
+              <div className="mb-4 flex items-center justify-between">
+                <p className="text-sm font-bold uppercase tracking-wide text-brand-pink">{BLOCK_LABELS[block]}</p>
+                {uniformSets && (
+                  <span className="flex items-center gap-1 rounded-full bg-brand-pink/10 px-3 py-1.5 text-xs font-semibold text-brand-pink">
+                    🔁 {uniformSets} series
+                  </span>
+                )}
+              </div>
               <div className="flex flex-col">
                 {exercisesInBlock.map((ex) => (
-                  <div key={ex.id} className="border-b border-neutral-100 py-2 last:border-0">
-                    <div className="flex items-start justify-between gap-3">
-                      <span className="min-w-0 flex-1 text-sm text-neutral-700">
-                        {ex.order_code && <span className="mr-1 font-mono text-xs text-neutral-400">{ex.order_code}</span>}
-                        {ex.exercise.name}
-                      </span>
-                      <span className="shrink-0 text-sm font-medium text-neutral-500">{ex.sets_reps_text}</span>
-                    </div>
-                    {ex.coach_note && (
-                      <p className="mt-1 rounded-lg bg-brand-amber/10 px-2 py-1 text-xs text-brand-amber">
-                        {ex.coach_note}
-                      </p>
-                    )}
-                  </div>
+                  <ExerciseRow
+                    key={ex.id}
+                    exercise={ex}
+                    repsLabel={uniformSets ? stripSetsPrefix(ex.sets_reps_text, uniformSets) : ex.sets_reps_text}
+                  />
                 ))}
               </div>
+
+              <BlockVideoList exercises={exercisesInBlock} />
             </div>
           );
         })}

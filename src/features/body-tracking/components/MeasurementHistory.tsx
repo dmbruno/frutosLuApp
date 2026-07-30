@@ -28,7 +28,7 @@ export function MeasurementHistory({ measurements }: MeasurementHistoryProps) {
       {measurements.map((m) => {
         const values = FIELDS.filter((f) => m[f.key] != null);
         return (
-          <div key={m.id} className="border-b border-neutral-100 pb-3 last:border-0 last:pb-0">
+          <div key={m.id} className="rounded-xl bg-neutral-50 p-3">
             <div className="mb-2 flex items-center justify-between">
               <span className="font-semibold text-neutral-800">{m.label || 'Medición'}</span>
               <span className="text-xs text-neutral-400">{new Date(m.measured_on).toLocaleDateString('es-AR')}</span>

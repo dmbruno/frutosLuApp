@@ -15,7 +15,7 @@ export function ProfilePage() {
   const { user } = useAuth();
   const { profile } = useRole();
   const { measurements, add } = useBodyMetrics(user?.id ?? '');
-  const { photos, upload } = useProgressPhotos(user?.id ?? '');
+  const { photos, upload, remove } = useProgressPhotos(user?.id ?? '');
   const { showToast } = useToast();
 
   return (
@@ -80,15 +80,19 @@ export function ProfilePage() {
         </section>
       )}
 
-      <section className="flex flex-col gap-2">
+      <section className="flex flex-col gap-3">
         <h2 className="font-display text-lg font-semibold">Medidas</h2>
-        <MeasurementsForm
-          onSubmit={(input) =>
-            user && add.mutate({ ...input, user_id: user.id }, { onSuccess: () => showToast('Medidas guardadas') })
-          }
-          submitting={add.isPending}
-        />
-        <MeasurementHistory measurements={measurements} />
+        <div className="rounded-2xl bg-white p-4 shadow-sm">
+          <MeasurementsForm
+            onSubmit={(input) =>
+              user && add.mutate({ ...input, user_id: user.id }, { onSuccess: () => showToast('Medidas guardadas') })
+            }
+            submitting={add.isPending}
+          />
+        </div>
+        <div className="rounded-2xl bg-white p-4 shadow-sm">
+          <MeasurementHistory measurements={measurements} />
+        </div>
       </section>
 
       <section className="flex flex-col gap-2">
@@ -97,6 +101,12 @@ export function ProfilePage() {
           photos={photos}
           onUpload={(file, pose, stage) =>
             upload.mutate({ file, pose, stage }, { onSuccess: () => showToast('Foto subida') })
+          }
+          onDelete={(photo) =>
+            remove.mutate(
+              { photoId: photo.id, storagePath: photo.storage_path },
+              { onSuccess: () => showToast('Foto eliminada') },
+            )
           }
         />
       </section>

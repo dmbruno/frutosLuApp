@@ -47,6 +47,14 @@ export async function uploadProgressPhoto(
   return data;
 }
 
+export async function deletePhoto(photoId: string, storagePath: string): Promise<void> {
+  const { error: storageError } = await supabase.storage.from(PHOTOS_BUCKET).remove([storagePath]);
+  if (storageError) throw storageError;
+
+  const { error } = await supabase.from('progress_photos').delete().eq('id', photoId);
+  if (error) throw error;
+}
+
 export async function listPhotos(userId: string): Promise<ProgressPhotoWithUrl[]> {
   const { data, error } = await supabase
     .from('progress_photos')

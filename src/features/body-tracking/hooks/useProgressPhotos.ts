@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { listPhotos, uploadProgressPhoto } from '../api';
+import { deletePhoto, listPhotos, uploadProgressPhoto } from '../api';
 
 export function useProgressPhotos(userId: string) {
   const queryClient = useQueryClient();
@@ -16,5 +16,11 @@ export function useProgressPhotos(userId: string) {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['progress-photos', userId] }),
   });
 
-  return { photos: query.data, loading: query.isLoading, upload };
+  const remove = useMutation({
+    mutationFn: ({ photoId, storagePath }: { photoId: string; storagePath: string }) =>
+      deletePhoto(photoId, storagePath),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['progress-photos', userId] }),
+  });
+
+  return { photos: query.data, loading: query.isLoading, upload, remove };
 }

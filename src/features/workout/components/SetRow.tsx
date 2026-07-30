@@ -8,6 +8,8 @@ interface SetRowProps {
   setNumber: number;
   label: string;
   unit: string | null;
+  trackWeight: boolean;
+  parsedReps: number | null;
   lastWeightKg: number | null;
   lastReps: number | null;
   onLogged: () => void;
@@ -20,12 +22,16 @@ export function SetRow({
   setNumber,
   label,
   unit,
+  trackWeight,
+  parsedReps,
   lastWeightKg,
   lastReps,
   onLogged,
 }: SetRowProps) {
   const [weight, setWeight] = useState(lastWeightKg?.toString() ?? '');
-  const [reps, setReps] = useState(lastReps?.toString() ?? '');
+  // Precarga con lo registrado la vez anterior; si es la primera vez, con las
+  // reps pautadas en el texto de la profe (ej. "3X12/12" → 12).
+  const [reps, setReps] = useState(lastReps?.toString() ?? parsedReps?.toString() ?? '');
   const [status, setStatus] = useState<'idle' | 'saving' | 'saved' | 'queued'>('idle');
   const { submit } = useSetLogger();
 
@@ -43,7 +49,7 @@ export function SetRow({
       exercise_id: exerciseId,
       set_number: setNumber,
       set_type: 'normal',
-      weight_kg: isTimed ? null : weight ? Number(weight) : null,
+      weight_kg: isTimed || !trackWeight ? null : weight ? Number(weight) : null,
       reps: isTimed ? null : reps ? Number(reps) : null,
     });
     setStatus(result);
@@ -64,6 +70,10 @@ export function SetRow({
     </button>
   );
 
+  const queuedNote = status === 'queued' && (
+    <span className="text-center text-xs text-amber-500">guardado offline</span>
+  );
+
   if (isTimed) {
     return (
       <div className="flex flex-col gap-1 border-b border-neutral-100 py-3 last:border-0">
@@ -71,7 +81,38 @@ export function SetRow({
           <span className="text-sm font-semibold">{label}</span>
           {checkButton}
         </div>
-        {status === 'queued' && <span className="text-xs text-amber-500">guardado offline</span>}
+        {queuedNote}
+      </div>
+    );
+  }
+
+  if (!trackWeight) {
+    return (
+      <div className="flex flex-col gap-2 border-b border-neutral-100 py-3 last:border-0">
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-sm font-semibold">{label}</span>
+          <span className="text-xs text-neutral-400">
+            {lastReps != null ? `Última vez: ${lastReps} reps` : 'Sin registro anterior'}
+          </span>
+        </div>
+
+        <div className="flex items-end justify-center gap-2">
+          <label className="flex flex-col items-center gap-0.5">
+            <span className="text-[10px] font-medium uppercase tracking-wide text-neutral-400">Reps</span>
+            <input
+              type="number"
+              inputMode="numeric"
+              placeholder="0"
+              value={reps}
+              onChange={(e) => setReps(e.target.value)}
+              className="h-12 w-16 rounded-xl border border-neutral-300 text-center text-base"
+            />
+          </label>
+
+          <div className="ml-2">{checkButton}</div>
+        </div>
+
+        {queuedNote}
       </div>
     );
   }
@@ -129,7 +170,7 @@ export function SetRow({
         <div className="ml-2">{checkButton}</div>
       </div>
 
-      {status === 'queued' && <span className="text-center text-xs text-amber-500">guardado offline</span>}
+      {queuedNote}
     </div>
   );
 }

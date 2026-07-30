@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { Button, Input, Toggle } from '../../../components/ui';
 import { MUSCLE_GROUPS, EXERCISE_KINDS, EXERCISE_BLOCKS } from '../constants';
 import type { Exercise } from '../../../types/domain';
@@ -11,9 +11,10 @@ interface ExerciseFormProps {
   onSubmit: (input: ExerciseInsert) => void;
   onCancel: () => void;
   submitting?: boolean;
+  onUploadThumbnail: (file: File) => Promise<string>;
 }
 
-export function ExerciseForm({ initial, onSubmit, onCancel, submitting }: ExerciseFormProps) {
+export function ExerciseForm({ initial, onSubmit, onCancel, submitting, onUploadThumbnail }: ExerciseFormProps) {
   const [name, setName] = useState(initial?.name ?? '');
   const [kind, setKind] = useState(initial?.kind ?? 'fuerza');
   const [defaultBlock, setDefaultBlock] = useState(initial?.default_block ?? 'estructura');
@@ -21,6 +22,20 @@ export function ExerciseForm({ initial, onSubmit, onCancel, submitting }: Exerci
   const [secondaryMuscles, setSecondaryMuscles] = useState<string[]>(initial?.secondary_muscles ?? []);
   const [instructions, setInstructions] = useState(initial?.instructions ?? '');
   const [videoUrl, setVideoUrl] = useState(initial?.video_url ?? '');
+  const [thumbnailUrl, setThumbnailUrl] = useState(initial?.thumbnail_url ?? '');
+  const [uploadingThumbnail, setUploadingThumbnail] = useState(false);
+
+  async function handleThumbnailFile(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    setUploadingThumbnail(true);
+    try {
+      setThumbnailUrl(await onUploadThumbnail(file));
+    } finally {
+      setUploadingThumbnail(false);
+    }
+  }
   const [needsFilming, setNeedsFilming] = useState(initial?.needs_filming ?? false);
   const [equipment, setEquipment] = useState(initial?.equipment ?? '');
 
@@ -34,6 +49,7 @@ export function ExerciseForm({ initial, onSubmit, onCancel, submitting }: Exerci
       secondary_muscles: secondaryMuscles as Exercise['secondary_muscles'],
       instructions: instructions || null,
       video_url: videoUrl || null,
+      thumbnail_url: thumbnailUrl || null,
       needs_filming: needsFilming,
       equipment: equipment || null,
     });
@@ -104,6 +120,28 @@ export function ExerciseForm({ initial, onSubmit, onCancel, submitting }: Exerci
       />
 
       <Input placeholder="URL de video" value={videoUrl} onChange={(e) => setVideoUrl(e.target.value)} />
+
+      <div className="flex items-center gap-2">
+        <Input
+          placeholder="URL de imagen (miniatura)"
+          value={thumbnailUrl}
+          onChange={(e) => setThumbnailUrl(e.target.value)}
+          className="flex-1"
+        />
+        {thumbnailUrl && (
+          <img src={thumbnailUrl} alt="Miniatura" className="h-11 w-11 shrink-0 rounded-xl object-cover" />
+        )}
+        <label className="shrink-0 cursor-pointer rounded-xl border border-dashed border-neutral-300 px-3 py-3 text-sm text-neutral-500 transition-colors hover:border-brand-pink/50 hover:bg-neutral-50">
+          {uploadingThumbnail ? 'Subiendo…' : 'Subir'}
+          <input
+            type="file"
+            accept="image/*"
+            className="hidden"
+            disabled={uploadingThumbnail}
+            onChange={handleThumbnailFile}
+          />
+        </label>
+      </div>
       <Input
         placeholder="Equipamiento (BW, DDB, DKB, barra...)"
         value={equipment}

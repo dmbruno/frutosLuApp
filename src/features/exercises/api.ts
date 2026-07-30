@@ -1,9 +1,20 @@
 import { supabase } from '../../lib/supabase';
+import { compressImage } from '../../lib/utils/compressImage';
 import type { Exercise } from '../../types/domain';
 import type { Database, ExerciseBlock } from '../../types/database';
 
 type ExerciseInsert = Database['public']['Tables']['exercises']['Insert'];
 type ExerciseUpdate = Database['public']['Tables']['exercises']['Update'];
+
+const THUMBNAILS_BUCKET = 'exercise-thumbnails';
+
+export async function uploadExerciseThumbnail(file: File): Promise<string> {
+  const compressed = await compressImage(file, { maxWidth: 480, maxHeight: 480 });
+  const path = `${crypto.randomUUID()}.jpg`;
+  const { error } = await supabase.storage.from(THUMBNAILS_BUCKET).upload(path, compressed);
+  if (error) throw error;
+  return supabase.storage.from(THUMBNAILS_BUCKET).getPublicUrl(path).data.publicUrl;
+}
 
 export async function listExercises(search?: string, block?: ExerciseBlock, archived = false): Promise<Exercise[]> {
   let query = supabase.from('exercises').select('*').eq('is_archived', archived).order('name');

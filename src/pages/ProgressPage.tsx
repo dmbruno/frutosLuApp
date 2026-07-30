@@ -3,10 +3,13 @@ import { useAuth } from '../features/auth/hooks/useAuth';
 import { useMuscleVolume } from '../features/progress/hooks/useMuscleVolume';
 import { useRecords } from '../features/progress/hooks/useRecords';
 import { useStreak } from '../features/progress/hooks/useStreak';
+import { useBodyMetrics } from '../features/body-tracking/hooks/useBodyMetrics';
 import { VolumeByMuscle } from '../features/progress/components/VolumeByMuscle';
 import { PersonalRecords } from '../features/progress/components/PersonalRecords';
 import { StreakCard } from '../features/progress/components/StreakCard';
 import { KPIs } from '../features/progress/components/KPIs';
+import { BeforeAfterRadar } from '../features/progress/components/BeforeAfterRadar';
+import { findLatestByLabel } from '../lib/utils/bodyMetrics';
 import type { RangeKind } from '../features/progress/api';
 
 const RANGES: { value: RangeKind; label: string }[] = [
@@ -21,6 +24,7 @@ export function ProgressPage() {
   const { data: volume, isLoading: volumeLoading } = useMuscleVolume(user?.id, range);
   const { data: records, isLoading: recordsLoading } = useRecords();
   const { data: streak, isLoading: streakLoading } = useStreak();
+  const { measurements } = useBodyMetrics(user?.id ?? '');
 
   return (
     <div className="flex flex-col gap-4 p-4 pb-24">
@@ -46,6 +50,12 @@ export function ProgressPage() {
       </div>
 
       <VolumeByMuscle data={volume} loading={volumeLoading} />
+
+      <h2 className="font-display text-lg font-semibold">Antes y después</h2>
+      <BeforeAfterRadar
+        inicio={findLatestByLabel(measurements, 'INICIO')}
+        final={findLatestByLabel(measurements, 'FINAL')}
+      />
 
       <h2 className="font-display text-lg font-semibold">Récords personales</h2>
       <PersonalRecords records={records} loading={recordsLoading} />

@@ -26,7 +26,7 @@ export function ExercisesPage() {
   const [editing, setEditing] = useState<Exercise | null>(null);
   const [showForm, setShowForm] = useState(false);
   const { data: exercises, isLoading, isError } = useExercises(search, blockFilter ?? undefined, showArchived);
-  const { create, update, archive, reactivate, remove } = useExerciseMutations();
+  const { create, update, archive, reactivate, remove, uploadThumbnail } = useExerciseMutations();
   const { showToast } = useToast();
 
   function openCreate() {
@@ -117,6 +117,7 @@ export function ExercisesPage() {
           onSubmit={handleSubmit}
           onCancel={() => setShowForm(false)}
           submitting={create.isPending || update.isPending}
+          onUploadThumbnail={(file) => uploadThumbnail.mutateAsync(file)}
         />
       </Modal>
     </div>

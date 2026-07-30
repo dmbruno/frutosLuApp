@@ -62,6 +62,7 @@ export interface Database {
           secondary_muscles: MuscleGroup[];
           instructions: string | null;
           video_url: string | null;
+          thumbnail_url: string | null;
           needs_filming: boolean;
           equipment: string | null;
           is_archived: boolean;
@@ -76,6 +77,7 @@ export interface Database {
           secondary_muscles?: MuscleGroup[];
           instructions?: string | null;
           video_url?: string | null;
+          thumbnail_url?: string | null;
           needs_filming?: boolean;
           equipment?: string | null;
           is_archived?: boolean;

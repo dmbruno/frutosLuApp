@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from 'react';
-import { Button, Input } from '../../../components/ui';
+import { Button, Input, Select } from '../../../components/ui';
+import { METRIC_LABEL_OPTIONS } from '../../../lib/utils/bodyMetrics';
 import type { Database } from '../../../types/database';
 
 type BodyMetricInsert = Database['public']['Tables']['body_metrics']['Insert'];
@@ -40,7 +41,12 @@ export function MeasurementsForm({ onSubmit, submitting }: MeasurementsFormProps
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-      <Input placeholder="Etiqueta (ej. INICIO, FINAL)" value={label} onChange={(e) => setLabel(e.target.value)} />
+      <Select
+        options={METRIC_LABEL_OPTIONS}
+        placeholder="Sin etiqueta (medición libre)"
+        value={label}
+        onChange={(e) => setLabel(e.target.value)}
+      />
       <div className="grid grid-cols-2 gap-2">
         {FIELDS.map((field) => (
           <Input

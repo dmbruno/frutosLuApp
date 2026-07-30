@@ -4,12 +4,14 @@ import { getYoutubeEmbedUrl, getYoutubeThumbnailUrl } from '../../lib/utils/yout
 interface VideoEmbedProps {
   url: string;
   title?: string;
+  rounded?: boolean;
 }
 
-export function VideoEmbed({ url, title }: VideoEmbedProps) {
+export function VideoEmbed({ url, title, rounded = true }: VideoEmbedProps) {
   const [expanded, setExpanded] = useState(false);
   const embedUrl = getYoutubeEmbedUrl(url);
   const thumbnailUrl = getYoutubeThumbnailUrl(url);
+  const roundedClass = rounded ? 'rounded-xl' : '';
 
   if (!embedUrl) {
     return (
@@ -17,7 +19,7 @@ export function VideoEmbed({ url, title }: VideoEmbedProps) {
         href={url}
         target="_blank"
         rel="noreferrer"
-        className="mt-2 flex cursor-pointer items-center justify-center rounded-xl bg-brand-pink py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+        className={`mt-2 flex cursor-pointer items-center justify-center ${roundedClass} bg-brand-pink py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90`}
       >
         Ver video
       </a>
@@ -26,7 +28,7 @@ export function VideoEmbed({ url, title }: VideoEmbedProps) {
 
   if (expanded) {
     return (
-      <div className="mt-2 aspect-video overflow-hidden rounded-xl">
+      <div className={`mt-2 aspect-video overflow-hidden ${roundedClass}`}>
         <iframe
           src={`${embedUrl}?autoplay=1`}
           className="h-full w-full"
@@ -42,7 +44,7 @@ export function VideoEmbed({ url, title }: VideoEmbedProps) {
     <button
       type="button"
       onClick={() => setExpanded(true)}
-      className="group relative mt-2 flex aspect-video w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl bg-brand-pink bg-cover bg-center text-white"
+      className={`group relative mt-2 flex aspect-video w-full cursor-pointer items-center justify-center overflow-hidden ${roundedClass} bg-brand-pink bg-cover bg-center text-white`}
       style={thumbnailUrl ? { backgroundImage: `url(${thumbnailUrl})` } : undefined}
     >
       <span className="absolute inset-0 bg-black/30" />
