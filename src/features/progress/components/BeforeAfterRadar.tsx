@@ -47,7 +47,7 @@ export function BeforeAfterRadar({ inicio, final }: BeforeAfterRadarProps) {
             <PolarRadiusAxis tick={{ fontSize: 10 }} />
             <Radar name="Inicio" dataKey="Inicio" stroke="#F2679C" fill="#F2679C" fillOpacity={0.25} />
             <Radar name="Final" dataKey="Final" stroke="#F2A93B" fill="#F2A93B" fillOpacity={0.25} />
-            <Tooltip formatter={(value: number) => `${value} cm`} />
+            <Tooltip formatter={(value) => `${Number(value)} cm`} />
             <Legend wrapperStyle={{ paddingTop: 24 }} itemSorter={null} />
           </RadarChart>
         </ResponsiveContainer>
