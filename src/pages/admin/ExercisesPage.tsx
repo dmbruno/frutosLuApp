@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Button, Input, Modal } from '../../components/ui';
+import { Plus } from 'lucide-react';
+import { Input, Modal } from '../../components/ui';
 import { ExerciseList } from '../../features/exercises/components/ExerciseList';
 import { ExerciseForm } from '../../features/exercises/components/ExerciseForm';
 import { useExercises } from '../../features/exercises/hooks/useExercises';
@@ -64,8 +65,14 @@ export function ExercisesPage() {
     <div className="flex flex-col gap-4">
       <div className="sticky -top-6 -mx-6 -mt-6 z-10 flex transform-gpu flex-col gap-4 bg-white px-6 pt-6 pb-4 [will-change:transform]">
         <div className="flex items-center justify-between gap-3">
-          <h1 className="font-display text-2xl font-extrabold text-neutral-900">Catálogo de ejercicios</h1>
-          <Button onClick={openCreate}>+ Nuevo</Button>
+          <h1 className="font-display text-2xl font-extrabold text-neutral-900">Ejercicios</h1>
+          <button
+            onClick={openCreate}
+            aria-label="Nuevo ejercicio"
+            className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full bg-neutral-900 text-white transition hover:bg-neutral-800 active:scale-95"
+          >
+            <Plus size={20} strokeWidth={2.5} />
+          </button>
         </div>
 
         <Input placeholder="Buscar por nombre…" value={search} onChange={(e) => setSearch(e.target.value)} />
@@ -81,7 +88,7 @@ export function ExercisesPage() {
           <button
             onClick={() => setBlockFilter(null)}
             className={`cursor-pointer rounded-full px-2 py-1.5 text-sm font-medium transition-colors ${
-              blockFilter === null ? 'bg-brand-pink text-white' : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
+              blockFilter === null ? 'bg-neutral-900 text-white' : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
             }`}
           >
             Todos
@@ -91,7 +98,7 @@ export function ExercisesPage() {
               key={block}
               onClick={() => setBlockFilter(block)}
               className={`cursor-pointer rounded-full px-2 py-1.5 text-sm font-medium transition-colors ${
-                blockFilter === block ? 'bg-brand-pink text-white' : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
+                blockFilter === block ? 'bg-neutral-900 text-white' : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
               }`}
             >
               {BLOCK_LABELS[block]}
