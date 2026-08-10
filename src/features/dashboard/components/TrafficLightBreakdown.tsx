@@ -19,47 +19,36 @@ export function TrafficLightBreakdown({ students, loading }: TrafficLightBreakdo
   if (loading) return <Spinner />;
 
   return (
-    <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+    <Card className="flex flex-col divide-y divide-neutral-100">
       {GROUPS.map((group) => {
         const inGroup = (students ?? []).filter((s) => s.traffic_light === group.key);
         const shown = inGroup.slice(0, MAX_NAMES);
         const rest = inGroup.length - shown.length;
 
         return (
-          <Card key={group.key} className="flex flex-col gap-2">
+          <div key={group.key} className="flex flex-col gap-1 py-3 first:pt-0 last:pb-0">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${group.dot}`} />
-                <span className="text-xs font-semibold uppercase tracking-wide text-neutral-500">{group.label}</span>
+                <span className="text-xs font-bold uppercase tracking-wide text-neutral-500">{group.label}</span>
               </div>
-              <span className={`font-display text-2xl font-semibold ${group.text}`}>{inGroup.length}</span>
+              <span className={`font-display text-lg font-extrabold ${group.text}`}>{inGroup.length}</span>
             </div>
             {shown.length === 0 ? (
               <p className="text-xs text-neutral-400">Nadie en esta categoría.</p>
             ) : (
-              <ul className="flex flex-col gap-1">
-                {shown.map((s) => (
-                  <li key={s.user_id} className="truncate">
-                    <Link
-                      to={`/admin/alumnos/${s.user_id}`}
-                      className="text-sm text-neutral-600 transition-opacity hover:opacity-70"
-                    >
-                      {s.full_name}
-                    </Link>
-                  </li>
-                ))}
+              <p className="truncate text-xs text-neutral-500">
+                {shown.map((s) => s.full_name).join(', ')}
                 {rest > 0 && (
-                  <li>
-                    <Link to="/admin/alumnos" className="text-xs text-neutral-400 hover:text-neutral-600">
-                      +{rest} más
-                    </Link>
-                  </li>
+                  <Link to="/admin/alumnos" className="ml-1 font-medium text-neutral-400 hover:text-neutral-600">
+                    +{rest} más
+                  </Link>
                 )}
-              </ul>
+              </p>
             )}
-          </Card>
+          </div>
         );
       })}
-    </div>
+    </Card>
   );
 }

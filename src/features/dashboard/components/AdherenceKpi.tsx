@@ -14,12 +14,19 @@ export function AdherenceKpi({ students, loading }: AdherenceKpiProps) {
   const pct = active.length === 0 ? 0 : Math.round((trained.length / active.length) * 100);
 
   return (
-    <Card className="flex flex-col items-center gap-1 py-6 text-center sm:flex-row sm:items-center sm:justify-center sm:gap-3 sm:py-5">
-      <span className="font-display text-4xl font-bold text-brand-pink sm:text-3xl">{pct}%</span>
-      <span className="text-sm text-neutral-500">
-        de tus alumnos activos entrenó esta semana
-        <br className="hidden sm:block" /> ({trained.length} de {active.length})
-      </span>
-    </Card>
+    <div className="grid grid-cols-2 gap-3">
+      <Card className="flex flex-col gap-0.5 py-4 text-center">
+        <span className="font-display text-3xl font-extrabold text-neutral-900">{pct}%</span>
+        <span className="text-xs text-neutral-500">
+          entrenó esta semana
+          <br />
+          ({trained.length} de {active.length})
+        </span>
+      </Card>
+      <Card className="flex flex-col gap-0.5 py-4 text-center">
+        <span className="font-display text-3xl font-extrabold text-neutral-900">{active.length}</span>
+        <span className="text-xs text-neutral-500">alumnos activos</span>
+      </Card>
+    </div>
   );
 }

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { RotateCw } from 'lucide-react';
 import { Card, ConfirmDialog, EmptyState, Spinner } from '../../../components/ui';
 import { AdherenceLight } from './AdherenceLight';
 import { SubscriptionToggle } from './SubscriptionToggle';
@@ -14,6 +15,16 @@ interface StudentListProps {
   students: Adherence[] | undefined;
   loading: boolean;
   mode: 'active' | 'inactive';
+}
+
+function getInitials(fullName: string): string {
+  return fullName
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((part) => part[0])
+    .join('')
+    .toUpperCase();
 }
 
 export function StudentList({ students, loading, mode }: StudentListProps) {
@@ -47,49 +58,61 @@ export function StudentList({ students, loading, mode }: StudentListProps) {
   return (
     <div className="flex flex-col gap-2">
       {students.map((student) => (
-        <Card key={student.user_id} className="flex items-center gap-3">
+        <Card key={student.user_id} className="flex flex-col gap-3">
           <Link
             to={`/admin/alumnos/${student.user_id}`}
-            className="flex min-w-0 flex-1 items-center gap-2 transition-opacity hover:opacity-70"
+            className="flex min-w-0 items-center gap-3 transition-opacity hover:opacity-70"
           >
-            {mode === 'active' && <AdherenceLight trafficLight={student.traffic_light} />}
+            <div className="relative shrink-0">
+              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-neutral-100 text-sm font-bold text-neutral-600">
+                {getInitials(student.full_name)}
+              </div>
+              {mode === 'active' && (
+                <span className="absolute -bottom-0.5 -right-0.5 rounded-full ring-2 ring-white">
+                  <AdherenceLight trafficLight={student.traffic_light} />
+                </span>
+              )}
+            </div>
             <div className="min-w-0 flex-1">
-              <p className="truncate font-medium">{student.full_name}</p>
+              <p className="truncate font-semibold text-neutral-900">{student.full_name}</p>
               {mode === 'active' && (
                 <p className="text-xs text-neutral-500">{student.sessions_7d} sesiones esta semana</p>
               )}
             </div>
           </Link>
 
-          {mode === 'active' ? (
-            <div className="flex shrink-0 flex-col items-end gap-1">
-              <DaysRemainingBadge days={daysRemaining(student.subscription_expires_at)} />
-              <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between border-t border-neutral-100 pt-3">
+            {mode === 'active' ? (
+              <>
+                <DaysRemainingBadge days={daysRemaining(student.subscription_expires_at)} />
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setRenewing(student)}
+                    aria-label="Renovar suscripción"
+                    className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-brand-pink transition-colors hover:bg-brand-pink/10"
+                  >
+                    <RotateCw size={16} />
+                  </button>
+                  <SubscriptionToggle userId={student.user_id} status={student.subscription_status} />
+                </div>
+              </>
+            ) : (
+              <>
                 <button
                   onClick={() => setRenewing(student)}
-                  className="cursor-pointer text-xs text-brand-pink transition-opacity hover:opacity-70"
+                  className="cursor-pointer text-sm font-medium text-brand-pink transition-opacity hover:opacity-70"
                 >
-                  Renovar
+                  Activar
                 </button>
-                <SubscriptionToggle userId={student.user_id} status={student.subscription_status} />
-              </div>
-            </div>
-          ) : (
-            <div className="flex shrink-0 items-center gap-3 text-xs">
-              <button
-                onClick={() => setRenewing(student)}
-                className="cursor-pointer font-medium text-brand-pink transition-opacity hover:opacity-70"
-              >
-                Activar
-              </button>
-              <button
-                onClick={() => setDeleting(student)}
-                className="cursor-pointer text-red-400 transition-opacity hover:opacity-70"
-              >
-                Eliminar
-              </button>
-            </div>
-          )}
+                <button
+                  onClick={() => setDeleting(student)}
+                  className="cursor-pointer text-sm text-red-400 transition-opacity hover:opacity-70"
+                >
+                  Eliminar
+                </button>
+              </>
+            )}
+          </div>
         </Card>
       ))}
 

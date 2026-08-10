@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { AlertTriangle } from 'lucide-react';
 import { Card, Spinner } from '../../../components/ui';
 import { useRecentActivity } from '../hooks/useRecentActivity';
 import { formatRelativeTime } from '../../../lib/utils/format';
@@ -12,19 +13,29 @@ export function AttentionAlerts() {
   if (flagged.length === 0) return null;
 
   return (
-    <Card className="flex flex-col gap-2 border border-amber-200 bg-amber-50">
-      <p className="text-xs font-semibold uppercase tracking-wide text-amber-700">Necesitan tu atención</p>
-      <ul className="flex flex-col gap-2">
+    <Card className="flex flex-col gap-1">
+      <div className="mb-1 flex items-center gap-1.5">
+        <AlertTriangle size={14} className="text-amber-500" />
+        <p className="text-xs font-bold uppercase tracking-wide text-neutral-500">Necesitan tu atención</p>
+      </div>
+      <ul className="flex flex-col">
         {flagged.map((s) => (
-          <li key={s.id} className="text-sm">
-            <Link to={`/admin/alumnos/${s.userId}`} className="font-medium text-amber-900 hover:opacity-70">
-              {s.fullName}
-            </Link>
-            <span className="text-amber-700"> · {formatRelativeTime(s.finishedAt)}</span>
-            {s.feeling !== null && s.feeling <= 2 && (
-              <span className="ml-1 text-amber-700">se sintió mal ({s.feeling}/5)</span>
-            )}
-            {s.athleteNote && <p className="mt-0.5 text-amber-800">"{s.athleteNote}"</p>}
+          <li
+            key={s.id}
+            className="flex items-start justify-between gap-3 border-b border-neutral-100 py-2 text-sm last:border-0 last:pb-0"
+          >
+            <div className="min-w-0 flex-1">
+              <Link to={`/admin/alumnos/${s.userId}`} className="font-semibold text-neutral-900 hover:opacity-70">
+                {s.fullName}
+              </Link>
+              {s.athleteNote && <p className="truncate text-neutral-500">"{s.athleteNote}"</p>}
+            </div>
+            <div className="shrink-0 text-right text-xs text-neutral-400">
+              {s.feeling !== null && s.feeling <= 2 && (
+                <p className="font-medium text-amber-600">se sintió mal ({s.feeling}/5)</p>
+              )}
+              <p>{formatRelativeTime(s.finishedAt)}</p>
+            </div>
           </li>
         ))}
       </ul>

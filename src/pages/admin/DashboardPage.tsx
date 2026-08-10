@@ -1,3 +1,4 @@
+import { LogOut } from 'lucide-react';
 import { useAdherence } from '../../features/students/hooks/useAdherence';
 import { signOut } from '../../features/auth/api';
 import { AdherenceKpi } from '../../features/dashboard/components/AdherenceKpi';
@@ -19,9 +20,10 @@ export function DashboardPage() {
         <h1 className="font-display text-2xl font-extrabold text-neutral-900">Dashboard</h1>
         <button
           onClick={() => signOut()}
-          className="cursor-pointer text-sm font-medium text-brand-pink transition-opacity hover:opacity-70 md:hidden"
+          aria-label="Cerrar sesión"
+          className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-neutral-400 transition-colors hover:bg-neutral-100 hover:text-neutral-700 md:hidden"
         >
-          Cerrar sesión
+          <LogOut size={18} />
         </button>
       </div>
 
