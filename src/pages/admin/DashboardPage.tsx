@@ -16,7 +16,7 @@ export function DashboardPage() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-xl font-semibold">Dashboard</h1>
+        <h1 className="font-display text-2xl font-extrabold text-neutral-900">Dashboard</h1>
         <button
           onClick={() => signOut()}
           className="cursor-pointer text-sm font-medium text-brand-pink transition-opacity hover:opacity-70 md:hidden"

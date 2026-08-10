@@ -15,7 +15,7 @@ export function BlockVideoList({ exercises }: BlockVideoListProps) {
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-white py-3 text-sm font-semibold text-neutral-600 shadow-sm transition-colors hover:text-brand-pink"
+        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-white py-3 text-sm font-semibold text-neutral-600 transition-colors hover:text-brand-pink"
       >
         <span className="flex h-5 w-5 items-center justify-center rounded-full bg-brand-pink/10 text-[10px] text-brand-pink">
           ▶

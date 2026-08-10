@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Check } from 'lucide-react';
 import { useSetLogger } from '../hooks/useSetLogger';
 
 interface SetRowProps {
@@ -62,11 +63,11 @@ export function SetRow({
     <button
       onClick={handleCheck}
       disabled={status === 'saving'}
-      className={`flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-xl text-xl transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-60 ${
-        done ? 'bg-green-100 text-green-600' : 'bg-brand-pink text-white'
+      className={`flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-full transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-60 ${
+        done ? 'bg-brand-pink text-white' : 'bg-neutral-900 text-white'
       }`}
     >
-      {status === 'saving' ? '…' : '✓'}
+      {status === 'saving' ? '…' : <Check size={20} strokeWidth={3} />}
     </button>
   );
 
@@ -78,7 +79,7 @@ export function SetRow({
     return (
       <div className="flex flex-col gap-1 border-b border-neutral-100 py-3 last:border-0">
         <div className="flex items-center justify-between gap-3">
-          <span className="text-sm font-semibold">{label}</span>
+          <span className="text-sm font-bold">{label}</span>
           {checkButton}
         </div>
         {queuedNote}
@@ -90,7 +91,7 @@ export function SetRow({
     return (
       <div className="flex flex-col gap-2 border-b border-neutral-100 py-3 last:border-0">
         <div className="flex items-center justify-between gap-2">
-          <span className="text-sm font-semibold">{label}</span>
+          <span className="text-sm font-bold">{label}</span>
           <span className="text-xs text-neutral-400">
             {lastReps != null ? `Última vez: ${lastReps} reps` : 'Sin registro anterior'}
           </span>
@@ -105,7 +106,7 @@ export function SetRow({
               placeholder="0"
               value={reps}
               onChange={(e) => setReps(e.target.value)}
-              className="h-12 w-16 rounded-xl border border-neutral-300 text-center text-base"
+              className="h-12 w-16 rounded-2xl border border-neutral-300 text-center text-base focus:border-neutral-900 focus:outline-none"
             />
           </label>
 
@@ -132,7 +133,7 @@ export function SetRow({
         <button
           type="button"
           onClick={() => step(-2.5)}
-          className="h-12 w-9 shrink-0 cursor-pointer rounded-lg bg-neutral-100 text-base text-neutral-500 transition-colors hover:bg-neutral-200"
+          className="h-12 w-9 shrink-0 cursor-pointer rounded-full bg-neutral-100 text-base text-neutral-500 transition-colors hover:bg-neutral-200"
         >
           −
         </button>
@@ -150,7 +151,7 @@ export function SetRow({
         <button
           type="button"
           onClick={() => step(2.5)}
-          className="h-12 w-9 shrink-0 cursor-pointer rounded-lg bg-neutral-100 text-base text-neutral-500 transition-colors hover:bg-neutral-200"
+          className="h-12 w-9 shrink-0 cursor-pointer rounded-full bg-neutral-100 text-base text-neutral-500 transition-colors hover:bg-neutral-200"
         >
           +
         </button>

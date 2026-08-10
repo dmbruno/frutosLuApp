@@ -1,4 +1,4 @@
-import { Bar, BarChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { EmptyState, Spinner } from '../../../components/ui';
 
 interface VolumeByMuscleProps {
@@ -14,13 +14,17 @@ export function VolumeByMuscle({ data, loading }: VolumeByMuscleProps) {
   }
 
   return (
-    <div className="h-64 w-full rounded-2xl bg-white p-4 shadow-sm">
+    <div className="h-64 w-full rounded-2xl border border-neutral-200 bg-white p-4">
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={chartData} layout="vertical" margin={{ left: 24 }}>
           <XAxis type="number" hide />
           <YAxis type="category" dataKey="muscle" width={100} tick={{ fontSize: 12 }} />
           <Tooltip formatter={(value) => `${Number(value).toFixed(0)} kg`} />
-          <Bar dataKey="volume_kg" fill="#F2679C" radius={[0, 8, 8, 0]} />
+          <Bar dataKey="volume_kg" radius={[0, 8, 8, 0]}>
+            {chartData.map((d, i) => (
+              <Cell key={d.muscle} fill={i === 0 ? '#F2679C' : '#171717'} />
+            ))}
+          </Bar>
         </BarChart>
       </ResponsiveContainer>
     </div>

@@ -35,7 +35,7 @@ export function BeforeAfterRadar({ inicio, final }: BeforeAfterRadarProps) {
   }
 
   return (
-    <div className="flex flex-col gap-1 rounded-2xl bg-white p-4 shadow-sm">
+    <div className="flex flex-col gap-1 rounded-2xl border border-neutral-200 bg-white p-4">
       <p className="text-center text-xs text-neutral-400">
         Comparando Inicio ({formatDate(inicio.measured_on)}) → Final ({formatDate(final.measured_on)})
       </p>
@@ -46,7 +46,7 @@ export function BeforeAfterRadar({ inicio, final }: BeforeAfterRadarProps) {
             <PolarAngleAxis dataKey="subject" tick={{ fontSize: 11 }} />
             <PolarRadiusAxis tick={{ fontSize: 10 }} />
             <Radar name="Inicio" dataKey="Inicio" stroke="#F2679C" fill="#F2679C" fillOpacity={0.25} />
-            <Radar name="Final" dataKey="Final" stroke="#F2A93B" fill="#F2A93B" fillOpacity={0.25} />
+            <Radar name="Final" dataKey="Final" stroke="#171717" fill="#171717" fillOpacity={0.15} />
             <Tooltip formatter={(value) => `${Number(value)} cm`} />
             <Legend wrapperStyle={{ paddingTop: 24 }} itemSorter={null} />
           </RadarChart>

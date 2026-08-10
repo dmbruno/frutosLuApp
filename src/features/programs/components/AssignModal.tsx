@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Input, Modal } from '../../../components/ui';
+import { Button, Input, Modal, Select } from '../../../components/ui';
 import { useStudents } from '../../students/hooks/useStudents';
 import { useAssignTemplate } from '../hooks/useAssignTemplate';
 import { useToast } from '../../../lib/ToastProvider';
@@ -35,19 +35,13 @@ export function AssignModal({ open, onClose, templateId }: AssignModalProps) {
   return (
     <Modal open={open} onClose={onClose}>
       <div className="flex flex-col gap-3">
-        <p className="font-semibold">Asignar plantilla</p>
-        <select
-          className="cursor-pointer rounded-xl border border-neutral-300 px-3 py-2"
+        <p className="font-extrabold text-neutral-900">Asignar plantilla</p>
+        <Select
+          options={(students ?? []).map((student) => ({ value: student.user_id, label: student.full_name }))}
+          placeholder="Elegí un alumno"
           value={studentId}
           onChange={(e) => setStudentId(e.target.value)}
-        >
-          <option value="">Elegí un alumno</option>
-          {(students ?? []).map((student) => (
-            <option key={student.user_id} value={student.user_id}>
-              {student.full_name}
-            </option>
-          ))}
-        </select>
+        />
         <Input type="date" value={startsOn} onChange={(e) => setStartsOn(e.target.value)} />
         <Button onClick={handleAssign} disabled={!studentId || !startsOn || assignTemplate.isPending}>
           {assignTemplate.isPending ? 'Asignando…' : 'Asignar'}

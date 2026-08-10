@@ -13,9 +13,9 @@ interface DayBlockProps {
 
 export function DayBlock({ day, onAddExercise, onEditExercise, onRemoveExercise, onRemoveDay }: DayBlockProps) {
   return (
-    <div className="rounded-2xl bg-white p-4 shadow-sm">
+    <div className="rounded-2xl border border-neutral-200 bg-white p-4">
       <div className="mb-4 flex items-center justify-between">
-        <p className="font-display text-xl font-bold">{day.title}</p>
+        <p className="font-display text-xl font-extrabold text-neutral-900">{day.title}</p>
         <button
           onClick={onRemoveDay}
           className="cursor-pointer text-xs text-neutral-400 transition-colors hover:text-red-400"
@@ -28,8 +28,8 @@ export function DayBlock({ day, onAddExercise, onEditExercise, onRemoveExercise,
         if (exercisesInBlock.length === 0 && block === 'otro') return null;
         return (
           <div key={block} className="mb-6 last:mb-0">
-            <div className="mb-2 flex items-center justify-between border-b-2 border-brand-pink/20 pb-1.5">
-              <p className="font-display text-base font-bold uppercase tracking-wide text-brand-pink">{block}</p>
+            <div className="mb-2 flex items-center justify-between border-b-2 border-neutral-200 pb-1.5">
+              <p className="font-display text-base font-bold uppercase tracking-wide text-neutral-900">{block}</p>
               <button
                 onClick={() => onAddExercise(block)}
                 className="cursor-pointer text-xs font-medium text-brand-pink transition-opacity hover:opacity-70"

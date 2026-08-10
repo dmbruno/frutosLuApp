@@ -1,3 +1,5 @@
+import { SkipForward } from 'lucide-react';
+
 interface RestTimerProps {
   secondsLeft: number;
   onSkip: () => void;
@@ -5,14 +7,15 @@ interface RestTimerProps {
 
 export function RestTimer({ secondsLeft, onSkip }: RestTimerProps) {
   return (
-    <div className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-4 bg-black/80 text-white">
-      <p className="text-sm uppercase tracking-wide text-neutral-300">Descanso</p>
-      <p className="font-display text-6xl font-bold">{secondsLeft}s</p>
+    <div className="fixed inset-0 z-40 flex flex-col items-center justify-center gap-3 bg-neutral-950 text-white">
+      <p className="text-xs font-semibold uppercase tracking-widest text-neutral-400">Descanso</p>
+      <p className="font-display text-8xl font-extrabold tabular-nums">{secondsLeft}</p>
       <button
         onClick={onSkip}
-        className="cursor-pointer rounded-full border border-white/40 px-6 py-2 text-sm transition-colors hover:bg-white/10"
+        aria-label="Saltar descanso"
+        className="mt-4 flex h-14 w-14 cursor-pointer items-center justify-center rounded-full border border-white/30 transition-colors hover:bg-white/10"
       >
-        Saltar
+        <SkipForward size={22} fill="white" />
       </button>
     </div>
   );

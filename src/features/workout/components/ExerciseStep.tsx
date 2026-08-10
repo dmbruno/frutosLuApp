@@ -2,6 +2,7 @@ import { useLastPerformance } from '../hooks/useLastPerformance';
 import { buildSetSlots } from '../buildSetSlots';
 import { ExerciseHeader } from './ExerciseHeader';
 import { SetRow } from './SetRow';
+import { Card } from '../../../components/ui';
 import type { ProgramExerciseWithExercise } from '../../../types/domain';
 
 interface ExerciseStepProps {
@@ -15,7 +16,7 @@ export function ExerciseStep({ exercise, sessionId, onSetLogged }: ExerciseStepP
   const slots = buildSetSlots(exercise);
 
   return (
-    <div className="rounded-2xl bg-white p-4 shadow-sm">
+    <Card>
       <ExerciseHeader exercise={exercise} />
       <div className="mt-3">
         <div className="flex flex-col">
@@ -37,6 +38,6 @@ export function ExerciseStep({ exercise, sessionId, onSetLogged }: ExerciseStepP
           ))}
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

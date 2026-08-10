@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
-import { Button, Card, EmptyState, Spinner } from '../../../components/ui';
+import { Repeat } from 'lucide-react';
+import { Button, EmptyState, Spinner } from '../../../components/ui';
 import { EXERCISE_BLOCKS } from '../../exercises/constants';
 import { getUniformSets, stripSetsPrefix } from '../../../lib/utils/blockSummary';
 import { ExerciseRow } from './ExerciseRow';
@@ -26,29 +27,35 @@ export function TodayView({ day, loading, pendingLabel = 'Hoy toca' }: TodayView
     return <EmptyState title="Sin rutina activa" description="Pedile a tu profe que te asigne un programa." />;
   }
 
+  const blocks = EXERCISE_BLOCKS.map((block) => ({
+    block,
+    exercises: day.exercises.filter((e) => e.block === block),
+  })).filter((b) => b.exercises.length > 0);
+
   return (
-    <Card className="flex flex-col gap-3">
-      <p className="text-sm text-neutral-500">{day.completed ? 'Ya entrenado' : pendingLabel}</p>
-      <h2 className="font-display text-xl font-semibold">{day.title}</h2>
+    <div className="flex flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white">
+      <div className="p-4 pb-2">
+        <p className="text-sm text-neutral-500">{day.completed ? 'Ya entrenado' : pendingLabel}</p>
+        <h2 className="font-display text-2xl font-extrabold text-neutral-900">{day.title}</h2>
+      </div>
 
-      <div className="flex flex-col gap-3">
-        {EXERCISE_BLOCKS.map((block) => {
-          const exercisesInBlock = day.exercises.filter((e) => e.block === block);
-          if (exercisesInBlock.length === 0) return null;
-          const uniformSets = getUniformSets(exercisesInBlock);
-
-          return (
-            <div key={block} className="rounded-2xl bg-neutral-50 p-4">
-              <div className="mb-4 flex items-center justify-between">
-                <p className="text-sm font-bold uppercase tracking-wide text-brand-pink">{BLOCK_LABELS[block]}</p>
+      {blocks.map(({ block, exercises }) => {
+        const uniformSets = getUniformSets(exercises);
+        return (
+          <div key={block}>
+            <div className="h-2 bg-neutral-100" />
+            <div className="px-4 pt-4 pb-4">
+              <div className="mb-2 flex items-center justify-between">
+                <p className="text-sm font-bold uppercase tracking-wide text-neutral-900">{BLOCK_LABELS[block]}</p>
                 {uniformSets && (
-                  <span className="flex items-center gap-1 rounded-full bg-brand-pink/10 px-3 py-1.5 text-xs font-semibold text-brand-pink">
-                    🔁 {uniformSets} series
+                  <span className="flex items-center gap-1 text-sm font-semibold text-neutral-900">
+                    <Repeat size={16} strokeWidth={2.25} />
+                    {uniformSets} series
                   </span>
                 )}
               </div>
               <div className="flex flex-col">
-                {exercisesInBlock.map((ex) => (
+                {exercises.map((ex) => (
                   <ExerciseRow
                     key={ex.id}
                     exercise={ex}
@@ -56,16 +63,17 @@ export function TodayView({ day, loading, pendingLabel = 'Hoy toca' }: TodayView
                   />
                 ))}
               </div>
-
-              <BlockVideoList exercises={exercisesInBlock} />
+              <BlockVideoList exercises={exercises} />
             </div>
-          );
-        })}
-      </div>
+          </div>
+        );
+      })}
 
-      <Link to={`/entrenar/${day.id}`}>
-        <Button className="w-full">{day.completed ? 'Repetir' : 'Empezar'}</Button>
-      </Link>
-    </Card>
+      <div className="p-4 pt-4">
+        <Link to={`/entrenar/${day.id}`}>
+          <Button className="w-full">{day.completed ? 'Repetir' : 'Empezar'}</Button>
+        </Link>
+      </div>
+    </div>
   );
 }

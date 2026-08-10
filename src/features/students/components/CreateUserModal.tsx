@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Input, Modal, PasswordInput } from '../../../components/ui';
+import { Button, Input, Modal, PasswordInput, Select } from '../../../components/ui';
 import { useCreateUser } from '../hooks/useCreateUser';
 import { useToast } from '../../../lib/ToastProvider';
 import { generatePassword } from '../../../lib/utils/password';
@@ -45,7 +45,7 @@ export function CreateUserModal({ open, onClose }: CreateUserModalProps) {
   return (
     <Modal open={open} onClose={onClose}>
       <div className="flex flex-col gap-3">
-        <p className="font-display text-lg font-semibold">Nuevo usuario</p>
+        <p className="font-display text-lg font-extrabold text-neutral-900">Nuevo usuario</p>
         <Input placeholder="Nombre completo" value={fullName} onChange={(e) => setFullName(e.target.value)} />
         <Input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
 
@@ -58,26 +58,22 @@ export function CreateUserModal({ open, onClose }: CreateUserModalProps) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <button
-              type="button"
-              onClick={() => setPassword(generatePassword())}
-              className="shrink-0 cursor-pointer rounded-xl border border-neutral-300 px-3 text-sm text-neutral-600 transition-colors hover:bg-neutral-100"
-            >
+            <Button type="button" variant="secondary" onClick={() => setPassword(generatePassword())}>
               Generar
-            </button>
+            </Button>
           </div>
         </label>
 
         <label className="flex flex-col gap-1 text-xs text-neutral-500">
           Rol
-          <select
-            className="cursor-pointer rounded-xl border border-neutral-300 px-3 py-2 text-base"
+          <Select
+            options={[
+              { value: 'alumno', label: 'Alumno' },
+              { value: 'admin', label: 'Admin' },
+            ]}
             value={role}
             onChange={(e) => setRole(e.target.value as 'alumno' | 'admin')}
-          >
-            <option value="alumno">Alumno</option>
-            <option value="admin">Admin</option>
-          </select>
+          />
         </label>
 
         {role === 'alumno' && (

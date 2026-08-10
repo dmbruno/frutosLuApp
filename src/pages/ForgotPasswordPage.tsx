@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Input } from '../components/ui';
+import { AuthLayout } from '../components/layout/AuthLayout';
 import { resetPasswordForEmail } from '../features/auth/api';
 
 export function ForgotPasswordPage() {
@@ -24,8 +25,7 @@ export function ForgotPasswordPage() {
   }
 
   return (
-    <div className="flex min-h-dvh flex-col items-center gap-6 bg-[#FEE9E6] p-6 pt-20">
-      <img src="/logos/AvatarFrutosLu-08.jpg" alt="Frutos Lu" className="h-48 w-48 rounded-full object-cover" />
+    <AuthLayout title="Recuperar contraseña">
       {sent ? (
         <div className="text-center">
           <p className="font-semibold">Revisá tu email</p>
@@ -52,6 +52,6 @@ export function ForgotPasswordPage() {
           </Link>
         </form>
       )}
-    </div>
+    </AuthLayout>
   );
 }

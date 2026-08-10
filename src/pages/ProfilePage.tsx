@@ -20,10 +20,10 @@ export function ProfilePage() {
 
   return (
     <div className="flex flex-col gap-4 p-4 pb-24">
-      <h1 className="font-display text-2xl font-semibold text-brand-pink">Mi perfil</h1>
+      <h1 className="font-display text-2xl font-extrabold text-neutral-900">Mi perfil</h1>
 
       {profile && (
-        <section className="flex flex-col gap-2 rounded-2xl bg-white p-4 shadow-sm">
+        <section className="flex flex-col gap-2 rounded-2xl border border-neutral-200 bg-white p-4">
           <h2 className="font-display text-lg font-semibold">Datos personales</h2>
           <dl className="flex flex-col gap-1.5 text-sm">
             <div className="flex justify-between gap-4">
@@ -82,7 +82,7 @@ export function ProfilePage() {
 
       <section className="flex flex-col gap-3">
         <h2 className="font-display text-lg font-semibold">Medidas</h2>
-        <div className="rounded-2xl bg-white p-4 shadow-sm">
+        <div className="rounded-2xl border border-neutral-200 bg-white p-4">
           <MeasurementsForm
             onSubmit={(input) =>
               user && add.mutate({ ...input, user_id: user.id }, { onSuccess: () => showToast('Medidas guardadas') })
@@ -90,7 +90,7 @@ export function ProfilePage() {
             submitting={add.isPending}
           />
         </div>
-        <div className="rounded-2xl bg-white p-4 shadow-sm">
+        <div className="rounded-2xl border border-neutral-200 bg-white p-4">
           <MeasurementHistory measurements={measurements} />
         </div>
       </section>

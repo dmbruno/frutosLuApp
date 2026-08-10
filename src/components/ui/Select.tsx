@@ -13,7 +13,7 @@ interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'chi
 export function Select({ options, placeholder, className = '', ...props }: SelectProps) {
   return (
     <select
-      className={`w-full cursor-pointer rounded-xl border border-neutral-300 bg-white px-4 py-3 text-base focus:border-brand-pink focus:outline-none ${className}`}
+      className={`w-full cursor-pointer rounded-2xl border border-neutral-300 bg-white px-4 py-3 text-base focus:border-neutral-900 focus:outline-none ${className}`}
       {...props}
     >
       {placeholder && <option value="">{placeholder}</option>}

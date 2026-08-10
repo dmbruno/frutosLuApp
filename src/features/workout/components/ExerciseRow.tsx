@@ -18,16 +18,14 @@ export function ExerciseRow({ exercise, repsLabel }: ExerciseRowProps) {
         <div className="min-w-0 flex-1">
           <div className="flex items-start gap-2">
             {exercise.order_code && (
-              <span className="mt-0.5 inline-flex h-5 min-w-[22px] shrink-0 items-center justify-center rounded-md bg-brand-pink/10 px-1 text-[11px] font-bold text-brand-pink">
+              <span className="mt-0.5 w-6 shrink-0 text-sm font-extrabold tabular-nums text-neutral-900">
                 {exercise.order_code}
               </span>
             )}
-            <span className="text-sm text-neutral-700">{exercise.exercise.name}</span>
+            <span className="text-sm font-semibold text-neutral-900">{exercise.exercise.name}</span>
           </div>
           {exercise.coach_note && (
-            <p className="mt-1 rounded-lg bg-brand-amber/10 px-2 py-1 text-xs text-brand-amber">
-              {exercise.coach_note}
-            </p>
+            <p className="mt-1 text-xs font-semibold text-brand-pink">{exercise.coach_note}</p>
           )}
         </div>
         <div className="flex shrink-0 flex-col items-center gap-1">

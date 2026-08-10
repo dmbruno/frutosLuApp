@@ -62,9 +62,9 @@ export function ExercisesPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="sticky -top-6 -mx-6 -mt-6 z-10 flex transform-gpu flex-col gap-4 bg-neutral-50 px-6 pt-6 pb-4 [will-change:transform]">
+      <div className="sticky -top-6 -mx-6 -mt-6 z-10 flex transform-gpu flex-col gap-4 bg-white px-6 pt-6 pb-4 [will-change:transform]">
         <div className="flex items-center justify-between gap-3">
-          <h1 className="font-display text-xl font-semibold">Catálogo de ejercicios</h1>
+          <h1 className="font-display text-2xl font-extrabold text-neutral-900">Catálogo de ejercicios</h1>
           <Button onClick={openCreate}>+ Nuevo</Button>
         </div>
 

@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, PasswordInput } from '../components/ui';
+import { AuthLayout } from '../components/layout/AuthLayout';
 import { updatePassword } from '../features/auth/api';
 import { useToast } from '../lib/ToastProvider';
 
@@ -31,8 +32,7 @@ export function ResetPasswordPage() {
   }
 
   return (
-    <div className="flex min-h-dvh flex-col items-center gap-6 bg-[#FEE9E6] p-6 pt-20">
-      <img src="/logos/AvatarFrutosLu-08.jpg" alt="Frutos Lu" className="h-48 w-48 rounded-full object-cover" />
+    <AuthLayout title="Nueva contraseña">
       <form onSubmit={handleSubmit} className="flex w-full max-w-sm flex-col gap-3">
         <p className="text-center text-sm text-neutral-600">Elegí tu nueva contraseña.</p>
         <PasswordInput
@@ -46,6 +46,6 @@ export function ResetPasswordPage() {
           {loading ? 'Guardando…' : 'Guardar contraseña'}
         </Button>
       </form>
-    </div>
+    </AuthLayout>
   );
 }

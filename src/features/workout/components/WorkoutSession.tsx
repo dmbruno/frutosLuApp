@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, EmptyState, Spinner } from '../../../components/ui';
+import { ChevronLeft } from 'lucide-react';
+import { Button, EmptyState, Pill, Spinner } from '../../../components/ui';
 import { ExerciseStep } from './ExerciseStep';
 import { SupersetStep } from './SupersetStep';
 import { RestTimer } from './RestTimer';
@@ -65,23 +66,20 @@ export function WorkoutSession({ programDayId }: WorkoutSessionProps) {
   return (
     <div className="flex flex-col gap-4 p-4 pb-24">
       <div className="flex flex-col gap-1">
-        <span className="text-sm font-medium text-neutral-500">
-          {day.title} · ejercicio {stepIndex + 1} de {steps.length}
-        </span>
         <button
           disabled={stepIndex === 0}
           onClick={() => setStepIndex((i) => i - 1)}
-          className="self-start cursor-pointer text-sm text-neutral-400 transition-colors hover:text-neutral-600 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:text-neutral-400"
+          className="flex cursor-pointer items-center gap-0.5 self-start text-sm font-semibold text-neutral-400 transition-colors hover:text-neutral-600 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:text-neutral-400"
         >
-          ← Anterior
+          <ChevronLeft size={16} /> Anterior
         </button>
+        <span className="text-lg font-extrabold text-neutral-900">{day.title}</span>
+        <span className="text-sm font-medium text-neutral-500">
+          Ejercicio {stepIndex + 1} de {steps.length}
+        </span>
       </div>
 
-      {isSuperset && (
-        <p className="self-start rounded-full bg-brand-pink/10 px-3 py-1 text-xs font-semibold text-brand-pink">
-          Superserie
-        </p>
-      )}
+      {isSuperset && <Pill variant="accent" className="self-start">Superserie</Pill>}
 
       {isSuperset ? (
         <SupersetStep exercises={step} sessionId={session.id} onSetLogged={(restSec) => start(restSec ?? 60)} />

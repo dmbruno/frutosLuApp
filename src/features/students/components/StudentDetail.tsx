@@ -46,10 +46,10 @@ export function StudentDetail({ userId }: StudentDetailProps) {
   return (
     <PendingChangesProvider>
       <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-2 rounded-2xl bg-white p-4 shadow-sm">
+      <div className="flex flex-col gap-2 rounded-2xl border border-neutral-200 bg-white p-4">
         <div className="flex items-center gap-2">
           {adherence && <AdherenceLight trafficLight={adherence.traffic_light} />}
-          <h1 className="min-w-0 flex-1 break-words font-display text-xl font-semibold">{profile.full_name}</h1>
+          <h1 className="min-w-0 flex-1 break-words font-display text-2xl font-extrabold text-neutral-900">{profile.full_name}</h1>
           <DaysRemainingBadge days={daysRemaining(profile.subscription_expires_at)} />
         </div>
         <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -79,7 +79,7 @@ export function StudentDetail({ userId }: StudentDetailProps) {
 
       <PrivateNote userId={userId} />
 
-      <div className="rounded-2xl bg-white p-4 shadow-sm">
+      <div className="rounded-2xl border border-neutral-200 bg-white p-4">
         <p className="mb-2 text-xs font-semibold uppercase text-neutral-400">Anamnesis</p>
         <dl className="grid grid-cols-2 gap-2 text-sm">
           <div>
@@ -109,7 +109,7 @@ export function StudentDetail({ userId }: StudentDetailProps) {
         </dl>
       </div>
 
-      <div className="rounded-2xl bg-white p-4 shadow-sm">
+      <div className="rounded-2xl border border-neutral-200 bg-white p-4">
         <div className="mb-2 flex items-center justify-between">
           <p className="text-xs font-semibold uppercase text-neutral-400">Últimas sesiones</p>
           <p className="text-xs text-neutral-400">Cómo se sintió</p>
@@ -136,12 +136,12 @@ export function StudentDetail({ userId }: StudentDetailProps) {
         )}
       </div>
 
-      <div className="rounded-2xl bg-white p-4 shadow-sm">
+      <div className="rounded-2xl border border-neutral-200 bg-white p-4">
         <p className="mb-2 text-xs font-semibold uppercase text-neutral-400">Medidas</p>
         <MeasurementHistory measurements={measurements} />
       </div>
 
-      <div className="rounded-2xl bg-white p-4 shadow-sm">
+      <div className="rounded-2xl border border-neutral-200 bg-white p-4">
         <p className="mb-2 text-xs font-semibold uppercase text-neutral-400">Fotos de progreso</p>
         <PhotoGrid photos={photos} readOnly />
       </div>

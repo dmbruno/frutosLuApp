@@ -38,7 +38,7 @@ export function InstallPrompt() {
         </button>
         <button
           onClick={handleInstall}
-          className="cursor-pointer rounded-full bg-brand-pink px-3 py-1 text-sm font-medium text-white transition-opacity hover:opacity-90"
+          className="cursor-pointer rounded-full bg-neutral-900 px-3 py-1 text-sm font-semibold text-white transition-opacity hover:opacity-90"
         >
           Instalar
         </button>

@@ -106,9 +106,9 @@ export function ProgramEditor({ programId }: ProgramEditorProps) {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="font-display text-xl font-semibold">{program.name}</h1>
+      <h1 className="font-display text-2xl font-extrabold text-neutral-900">{program.name}</h1>
 
-      <div className="flex flex-wrap items-end gap-3 rounded-2xl bg-white p-4 shadow-sm">
+      <div className="flex flex-wrap items-end gap-3 rounded-2xl border border-neutral-200 bg-white p-4">
         <label className="flex flex-col gap-1 text-xs text-neutral-500">
           Semanas reales al asignar
           <Input

@@ -14,7 +14,7 @@ export function StepGoal({ data, onChange }: StepGoalProps) {
           value={data.goal ?? ''}
           onChange={(e) => onChange({ goal: e.target.value || null })}
           placeholder="Ej: bajar de peso, ganar fuerza, volver a entrenar post embarazo…"
-          className="w-full rounded-xl border border-neutral-300 p-3"
+          className="w-full rounded-2xl border border-neutral-300 p-3 focus:border-neutral-900 focus:outline-none"
           rows={3}
         />
       </div>
@@ -27,7 +27,7 @@ export function StepGoal({ data, onChange }: StepGoalProps) {
           value={data.injuries_notes ?? ''}
           onChange={(e) => onChange({ injuries_notes: e.target.value || null })}
           placeholder="Contale a tu profe si tenés alguna lesión o cuidado especial"
-          className="w-full rounded-xl border border-neutral-300 p-3"
+          className="w-full rounded-2xl border border-neutral-300 p-3 focus:border-neutral-900 focus:outline-none"
           rows={3}
         />
       </div>

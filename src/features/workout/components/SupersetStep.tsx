@@ -4,6 +4,7 @@ import { getLastPerformances } from '../api';
 import { buildSetSlots, type SetSlot } from '../buildSetSlots';
 import { ExerciseHeader } from './ExerciseHeader';
 import { SetRow } from './SetRow';
+import { Card } from '../../../components/ui';
 import type { ProgramExerciseWithExercise } from '../../../types/domain';
 
 interface SupersetStepProps {
@@ -54,15 +55,15 @@ export function SupersetStep({ exercises, sessionId, onSetLogged }: SupersetStep
   return (
     <div className="flex flex-col gap-4">
       {exercises.map((exercise) => (
-        <div key={exercise.id} className="rounded-2xl bg-white p-4 shadow-sm">
+        <Card key={exercise.id}>
           <ExerciseHeader exercise={exercise} />
-        </div>
+        </Card>
       ))}
 
-      <div className="rounded-2xl bg-white p-4 shadow-sm">
+      <Card>
         {rounds.map((roundEntries, roundIndex) => (
           <div key={roundIndex} className="mb-4 last:mb-0">
-            <p className="mb-1 text-xs font-semibold uppercase text-neutral-400">Ronda {roundIndex + 1}</p>
+            <p className="mb-1 text-xs font-bold uppercase tracking-wide text-neutral-400">Ronda {roundIndex + 1}</p>
             <div className="flex flex-col">
               {roundEntries.map(({ exercise, slot }) => {
                 const exerciseIndex = exercises.indexOf(exercise);
@@ -87,7 +88,7 @@ export function SupersetStep({ exercises, sessionId, onSetLogged }: SupersetStep
             </div>
           </div>
         ))}
-      </div>
+      </Card>
     </div>
   );
 }

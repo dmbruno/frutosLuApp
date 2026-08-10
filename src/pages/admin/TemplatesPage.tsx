@@ -23,7 +23,7 @@ export function TemplatesPage() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
-        <h1 className="font-display text-xl font-semibold">Plantillas</h1>
+        <h1 className="font-display text-2xl font-extrabold text-neutral-900">Plantillas</h1>
         <Button onClick={() => setShowForm(true)}>+ Nueva</Button>
       </div>
 

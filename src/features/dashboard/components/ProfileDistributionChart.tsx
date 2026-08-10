@@ -32,7 +32,7 @@ export function ProfileDistributionChart() {
     }));
 
   return (
-    <div className="h-64 w-full rounded-2xl bg-white p-4 shadow-sm">
+    <div className="h-64 w-full rounded-2xl border border-neutral-200 bg-white p-4">
       <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-neutral-500">
         Distribución por perfil deportivo
       </p>

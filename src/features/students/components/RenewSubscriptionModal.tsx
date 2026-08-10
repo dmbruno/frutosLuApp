@@ -30,7 +30,7 @@ export function RenewSubscriptionModal({ open, userId, studentName, onClose }: R
   return (
     <Modal open={open} onClose={onClose}>
       <div className="flex flex-col gap-3">
-        <p className="font-display text-lg font-semibold">Renovar a {studentName}</p>
+        <p className="font-display text-lg font-extrabold text-neutral-900">Renovar a {studentName}</p>
         <label className="flex flex-col gap-1 text-xs text-neutral-500">
           Días de acceso
           <Input type="number" min={1} value={days} onChange={(e) => setDays(e.target.value)} />

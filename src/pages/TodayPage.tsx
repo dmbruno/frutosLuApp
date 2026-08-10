@@ -11,7 +11,7 @@ export function TodayPage() {
 
   return (
     <div className="flex flex-col gap-4 p-4">
-      <h1 className="font-display text-2xl font-semibold text-brand-pink">Hoy</h1>
+      <h1 className="font-display text-2xl font-extrabold text-neutral-900">Hoy</h1>
       <WeekdayPills days={weekDays ?? []} todayDayId={day?.id ?? null} />
       <TodayView day={day} loading={isLoading} />
     </div>

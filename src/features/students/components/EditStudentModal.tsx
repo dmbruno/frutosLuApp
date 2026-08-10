@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Input, Modal } from '../../../components/ui';
+import { Button, Input, Modal, Select } from '../../../components/ui';
 import { useUpdateStudentProfile } from '../hooks/useUpdateStudentProfile';
 import { useToast } from '../../../lib/ToastProvider';
 import { SEX_OPTIONS, ATHLETE_PROFILE_OPTIONS, EXPERIENCE_OPTIONS } from '../../../lib/utils/profileLabels';
@@ -49,23 +49,18 @@ export function EditStudentModal({ open, profile, onClose }: EditStudentModalPro
   return (
     <Modal open={open} onClose={onClose}>
       <div className="flex flex-col gap-3">
-        <p className="font-display text-lg font-semibold">Editar datos</p>
+        <p className="font-display text-lg font-extrabold text-neutral-900">Editar datos</p>
 
         <Input placeholder="Nombre completo" value={fullName} onChange={(e) => setFullName(e.target.value)} />
 
         <div className="flex gap-2">
-          <select
-            className="flex-1 cursor-pointer rounded-xl border border-neutral-300 px-3 py-2"
+          <Select
+            className="flex-1"
+            options={SEX_OPTIONS}
+            placeholder="Sexo"
             value={sex}
             onChange={(e) => setSex(e.target.value)}
-          >
-            <option value="">Sexo</option>
-            {SEX_OPTIONS.map((o) => (
-              <option key={o.value} value={o.value}>
-                {o.label}
-              </option>
-            ))}
-          </select>
+          />
           <Input
             type="date"
             className="flex-1"
@@ -74,31 +69,19 @@ export function EditStudentModal({ open, profile, onClose }: EditStudentModalPro
           />
         </div>
 
-        <select
-          className="cursor-pointer rounded-xl border border-neutral-300 px-3 py-2"
+        <Select
+          options={ATHLETE_PROFILE_OPTIONS}
+          placeholder="Perfil deportivo"
           value={athleteProfile}
           onChange={(e) => setAthleteProfile(e.target.value)}
-        >
-          <option value="">Perfil deportivo</option>
-          {ATHLETE_PROFILE_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </select>
+        />
 
-        <select
-          className="cursor-pointer rounded-xl border border-neutral-300 px-3 py-2"
+        <Select
+          options={EXPERIENCE_OPTIONS}
+          placeholder="Nivel"
           value={experienceLevel}
           onChange={(e) => setExperienceLevel(e.target.value)}
-        >
-          <option value="">Nivel</option>
-          {EXPERIENCE_OPTIONS.map((o) => (
-            <option key={o.value} value={o.value}>
-              {o.label}
-            </option>
-          ))}
-        </select>
+        />
 
         <Input placeholder="Objetivo" value={goal} onChange={(e) => setGoal(e.target.value)} />
 
@@ -106,7 +89,7 @@ export function EditStudentModal({ open, profile, onClose }: EditStudentModalPro
           placeholder="Lesiones / consideraciones"
           value={injuriesNotes}
           onChange={(e) => setInjuriesNotes(e.target.value)}
-          className="rounded-xl border border-neutral-300 px-3 py-2 text-sm"
+          className="rounded-2xl border border-neutral-300 px-3 py-2 text-sm focus:border-neutral-900 focus:outline-none"
           rows={3}
         />
 

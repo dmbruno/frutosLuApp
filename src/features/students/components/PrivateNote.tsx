@@ -10,7 +10,7 @@ export function PrivateNote({ userId }: PrivateNoteProps) {
   const pending = usePendingChanges();
 
   return (
-    <div className="rounded-2xl bg-white p-4 shadow-sm">
+    <div className="rounded-2xl border border-neutral-200 bg-white p-4">
       <p className="mb-2 text-xs font-semibold uppercase text-neutral-400">Nota privada (solo vos la ves)</p>
       {loading ? (
         <p className="text-sm text-neutral-400">Cargando…</p>
@@ -31,7 +31,7 @@ export function PrivateNote({ userId }: PrivateNoteProps) {
             }
           }}
           placeholder="Anotaciones que no ve el alumno…"
-          className="w-full rounded-xl border border-neutral-300 p-3 text-sm"
+          className="w-full rounded-2xl border border-neutral-300 p-3 text-sm focus:border-neutral-900 focus:outline-none"
           rows={3}
         />
       )}

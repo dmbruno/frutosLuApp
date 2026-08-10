@@ -33,7 +33,7 @@ export function SetPasswordModal({ open, userId, studentName, onClose }: SetPass
   return (
     <Modal open={open} onClose={onClose}>
       <div className="flex flex-col gap-3">
-        <p className="font-display text-lg font-semibold">Restablecer contraseña de {studentName}</p>
+        <p className="font-display text-lg font-extrabold text-neutral-900">Restablecer contraseña de {studentName}</p>
         <div className="flex gap-2">
           <PasswordInput
             className="flex-1"
@@ -41,13 +41,9 @@ export function SetPasswordModal({ open, userId, studentName, onClose }: SetPass
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button
-            type="button"
-            onClick={() => setPassword(generatePassword())}
-            className="shrink-0 cursor-pointer rounded-xl border border-neutral-300 px-3 text-sm text-neutral-600 transition-colors hover:bg-neutral-100"
-          >
+          <Button type="button" variant="secondary" onClick={() => setPassword(generatePassword())}>
             Generar
-          </button>
+          </Button>
         </div>
         <Button onClick={handleSubmit} disabled={password.length < 6 || setPasswordMutation.isPending}>
           {setPasswordMutation.isPending ? 'Guardando…' : 'Guardar nueva contraseña'}

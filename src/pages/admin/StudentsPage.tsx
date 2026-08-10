@@ -16,7 +16,7 @@ export function StudentsPage() {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between gap-3">
-        <h1 className="font-display text-xl font-semibold">Alumnos</h1>
+        <h1 className="font-display text-2xl font-extrabold text-neutral-900">Alumnos</h1>
         <Button onClick={() => setShowCreate(true)}>+ Agregar usuario</Button>
       </div>
 

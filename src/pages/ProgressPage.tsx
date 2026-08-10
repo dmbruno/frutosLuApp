@@ -28,7 +28,7 @@ export function ProgressPage() {
 
   return (
     <div className="flex flex-col gap-4 p-4 pb-24">
-      <h1 className="font-display text-2xl font-semibold text-brand-pink">Progreso</h1>
+      <h1 className="font-display text-2xl font-extrabold text-neutral-900">Progreso</h1>
 
       <div className="flex gap-2">
         {RANGES.map((r) => (
@@ -36,7 +36,7 @@ export function ProgressPage() {
             key={r.value}
             onClick={() => setRange(r.value)}
             className={`cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-              range === r.value ? 'bg-brand-pink text-white' : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
+              range === r.value ? 'bg-neutral-900 text-white' : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
             }`}
           >
             {r.label}
@@ -51,13 +51,13 @@ export function ProgressPage() {
 
       <VolumeByMuscle data={volume} loading={volumeLoading} />
 
-      <h2 className="font-display text-lg font-semibold">Antes y después</h2>
+      <h2 className="font-display text-lg font-extrabold text-neutral-900">Antes y después</h2>
       <BeforeAfterRadar
         inicio={findLatestByLabel(measurements, 'INICIO')}
         final={findLatestByLabel(measurements, 'FINAL')}
       />
 
-      <h2 className="font-display text-lg font-semibold">Récords personales</h2>
+      <h2 className="font-display text-lg font-extrabold text-neutral-900">Récords personales</h2>
       <PersonalRecords records={records} loading={recordsLoading} />
     </div>
   );

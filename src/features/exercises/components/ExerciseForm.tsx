@@ -142,7 +142,7 @@ export function ExerciseForm({ initial, onSubmit, onCancel, submitting, onUpload
 
       <Field label="Instrucciones">
         <textarea
-          className="w-full rounded-xl border border-neutral-300 px-4 py-3 text-base focus:border-brand-pink focus:outline-none"
+          className="w-full rounded-2xl border border-neutral-300 px-4 py-3 text-base focus:border-neutral-900 focus:outline-none"
           placeholder="Indicaciones para la alumna (opcional)"
           value={instructions}
           onChange={(e) => setInstructions(e.target.value)}

@@ -51,7 +51,7 @@ export function ProgramExerciseRow({ programExercise, fallbackOrderCode, onEdit,
               onEdit({ order_code: orderCode });
             }
           }}
-          className="mt-0.5 w-10 shrink-0 rounded bg-neutral-100 px-1 py-1 text-center font-mono text-xs text-neutral-500"
+          className="mt-0.5 w-10 shrink-0 rounded bg-neutral-100 px-1 py-1 text-center font-mono text-xs text-neutral-500 focus:outline-none focus:ring-2 focus:ring-neutral-900"
         />
         <div className="min-w-0 flex-1">
           <p className="text-sm font-semibold">{exercise.name}</p>
@@ -128,7 +128,7 @@ export function ProgramExerciseRow({ programExercise, fallbackOrderCode, onEdit,
           }
         }}
         placeholder="Nota de coach (opcional, ej: rodillas flexionadas)"
-        className="mt-2 w-full rounded-lg border border-neutral-200 px-2 py-1 text-xs text-neutral-600 placeholder:text-neutral-300"
+        className="mt-2 w-full rounded-lg border border-neutral-200 px-2 py-1 text-xs text-neutral-600 placeholder:text-neutral-300 focus:border-neutral-900 focus:outline-none"
       />
     </div>
   );

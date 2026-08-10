@@ -23,7 +23,7 @@ export function ExerciseThumbnail({ exercise, size = 'md' }: ExerciseThumbnailPr
     );
   }
   return (
-    <div className={`flex ${sizeClass} shrink-0 items-center justify-center rounded-xl bg-brand-pink/10 text-brand-pink`}>
+    <div className={`flex ${sizeClass} shrink-0 items-center justify-center rounded-xl bg-neutral-100 text-neutral-400`}>
       🏋️
     </div>
   );

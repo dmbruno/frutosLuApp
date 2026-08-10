@@ -27,7 +27,7 @@ export function ConfirmDialog({
           <Button variant="secondary" onClick={onCancel} className="flex-1">
             Cancelar
           </Button>
-          <Button onClick={onConfirm} className="flex-1 bg-red-500">
+          <Button variant="danger" onClick={onConfirm} className="flex-1">
             {confirmLabel}
           </Button>
         </div>

@@ -22,7 +22,7 @@ export function WeekView({ days, loading }: WeekViewProps) {
               <p className="font-medium">{day.title}</p>
               <p className="text-sm text-neutral-500">{day.exercises.length} ejercicios</p>
             </div>
-            <span className={day.completed ? 'text-lg text-green-500' : 'text-lg text-neutral-300'}>✓</span>
+            <span className={day.completed ? 'text-lg text-brand-pink' : 'text-lg text-neutral-300'}>✓</span>
           </Card>
         </Link>
       ))}
