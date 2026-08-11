@@ -67,7 +67,7 @@ export function ProgramExerciseRow({ programExercise, fallbackOrderCode, onEdit,
                   href={exercise.video_url}
                   target="_blank"
                   rel="noreferrer"
-                  className="rounded-full bg-brand-pink/10 px-2 py-0.5 text-[11px] font-medium text-brand-pink"
+                  className="rounded-full bg-neutral-100 px-2 py-0.5 text-[11px] font-medium text-neutral-600"
                 >
                   🎥 Video
                 </a>

@@ -32,7 +32,7 @@ export function DayBlock({ day, onAddExercise, onEditExercise, onRemoveExercise,
               <p className="font-display text-base font-bold uppercase tracking-wide text-neutral-900">{block}</p>
               <button
                 onClick={() => onAddExercise(block)}
-                className="cursor-pointer text-xs font-medium text-brand-pink transition-opacity hover:opacity-70"
+                className="cursor-pointer text-xs font-bold text-neutral-900 transition-opacity hover:opacity-70"
               >
                 + agregar
               </button>

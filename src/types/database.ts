@@ -33,6 +33,7 @@ export interface Database {
           goal: string | null;
           onboarding_done: boolean;
           created_at: string;
+          avatar_url: string | null;
         };
         Insert: {
           id: string;
@@ -48,6 +49,7 @@ export interface Database {
           goal?: string | null;
           onboarding_done?: boolean;
           created_at?: string;
+          avatar_url?: string | null;
         };
         Update: Partial<Database['public']['Tables']['profiles']['Insert']>;
         Relationships: [];
@@ -410,6 +412,7 @@ export interface Database {
           traffic_light: 'verde' | 'amarillo' | 'rojo';
           sessions_7d: number;
           subscription_expires_at: string | null;
+          avatar_url: string | null;
         };
         Relationships: [];
       };

@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { Plus } from 'lucide-react';
 import { Button, Input, Modal } from '../../components/ui';
 import { TemplateLibrary } from '../../features/programs/components/TemplateLibrary';
 import { useTemplates } from '../../features/programs/hooks/useTemplates';
 import { useToast } from '../../lib/ToastProvider';
+import { useAdminHeaderAction } from '../../lib/AdminHeaderContext';
 
 export function TemplatesPage() {
   const { data: templates, isLoading, create, remove } = useTemplates();
@@ -20,9 +22,24 @@ export function TemplatesPage() {
     });
   }
 
+  useAdminHeaderAction(
+    useMemo(
+      () => (
+        <button
+          onClick={() => setShowForm(true)}
+          aria-label="Nueva plantilla"
+          className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full bg-white text-neutral-900 transition hover:bg-neutral-100 active:scale-95"
+        >
+          <Plus size={20} strokeWidth={2.5} />
+        </button>
+      ),
+      [],
+    ),
+  );
+
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between">
+      <div className="hidden items-center justify-between md:flex">
         <h1 className="font-display text-2xl font-extrabold text-neutral-900">Plantillas</h1>
         <Button onClick={() => setShowForm(true)}>+ Nueva</Button>
       </div>

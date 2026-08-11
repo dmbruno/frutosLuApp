@@ -8,7 +8,6 @@ export function WeekPage() {
 
   return (
     <div className="flex flex-col gap-4 p-4">
-      <h1 className="font-display text-2xl font-extrabold text-neutral-900">Mi semana</h1>
       <WeekView days={days} loading={isLoading} />
     </div>
   );

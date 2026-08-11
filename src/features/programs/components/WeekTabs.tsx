@@ -14,7 +14,7 @@ export function WeekTabs({ weekNumbers, activeWeek, onSelect, onAddWeek, onDupli
           key={week}
           onClick={() => onSelect(week)}
           className={`shrink-0 cursor-pointer rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-            week === activeWeek ? 'bg-brand-pink text-white' : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
+            week === activeWeek ? 'bg-neutral-900 text-white' : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
           }`}
         >
           Semana {week}

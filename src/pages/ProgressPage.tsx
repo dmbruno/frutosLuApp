@@ -28,8 +28,6 @@ export function ProgressPage() {
 
   return (
     <div className="flex flex-col gap-4 p-4 pb-24">
-      <h1 className="font-display text-2xl font-extrabold text-neutral-900">Progreso</h1>
-
       <div className="flex gap-2">
         {RANGES.map((r) => (
           <button

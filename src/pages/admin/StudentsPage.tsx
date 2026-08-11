@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
+import { Plus } from 'lucide-react';
 import { Button, Input } from '../../components/ui';
 import { StudentList } from '../../features/students/components/StudentList';
 import { CreateUserModal } from '../../features/students/components/CreateUserModal';
 import { useStudents } from '../../features/students/hooks/useStudents';
+import { useAdminHeaderAction } from '../../lib/AdminHeaderContext';
 
 export function StudentsPage() {
   const { data: students, isLoading } = useStudents();
@@ -14,9 +16,24 @@ export function StudentsPage() {
     ?.filter((s) => (showInactive ? s.subscription_status === 'inactive' : s.subscription_status === 'active'))
     .filter((s) => s.full_name.toLowerCase().includes(search.trim().toLowerCase()));
 
+  useAdminHeaderAction(
+    useMemo(
+      () => (
+        <button
+          onClick={() => setShowCreate(true)}
+          aria-label="Agregar alumno"
+          className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full bg-white text-neutral-900 transition hover:bg-neutral-100 active:scale-95"
+        >
+          <Plus size={20} strokeWidth={2.5} />
+        </button>
+      ),
+      [],
+    ),
+  );
+
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between gap-3">
+      <div className="hidden items-center justify-between md:flex">
         <h1 className="font-display text-2xl font-extrabold text-neutral-900">Alumnos</h1>
         <Button onClick={() => setShowCreate(true)}>+ Agregar usuario</Button>
       </div>

@@ -1,6 +1,4 @@
-import { LogOut } from 'lucide-react';
 import { useAdherence } from '../../features/students/hooks/useAdherence';
-import { signOut } from '../../features/auth/api';
 import { AdherenceKpi } from '../../features/dashboard/components/AdherenceKpi';
 import { TrafficLightBreakdown } from '../../features/dashboard/components/TrafficLightBreakdown';
 import { UpcomingRenewals } from '../../features/dashboard/components/UpcomingRenewals';
@@ -16,16 +14,7 @@ export function DashboardPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex items-center justify-between">
-        <h1 className="font-display text-2xl font-extrabold text-neutral-900">Dashboard</h1>
-        <button
-          onClick={() => signOut()}
-          aria-label="Cerrar sesión"
-          className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-neutral-400 transition-colors hover:bg-neutral-100 hover:text-neutral-700 md:hidden"
-        >
-          <LogOut size={18} />
-        </button>
-      </div>
+      <h1 className="hidden font-display text-2xl font-extrabold text-neutral-900 md:block">Dashboard</h1>
 
       <AdherenceKpi students={students} loading={isLoading} />
 

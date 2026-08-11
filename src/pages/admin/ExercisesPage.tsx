@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Plus } from 'lucide-react';
 import { Input, Modal } from '../../components/ui';
 import { ExerciseList } from '../../features/exercises/components/ExerciseList';
@@ -6,6 +6,7 @@ import { ExerciseForm } from '../../features/exercises/components/ExerciseForm';
 import { useExercises } from '../../features/exercises/hooks/useExercises';
 import { useExerciseMutations } from '../../features/exercises/hooks/useExerciseMutations';
 import { useToast } from '../../lib/ToastProvider';
+import { useAdminHeaderAction } from '../../lib/AdminHeaderContext';
 import { EXERCISE_BLOCKS } from '../../features/exercises/constants';
 import type { Exercise } from '../../types/domain';
 import type { Database, ExerciseBlock } from '../../types/database';
@@ -61,10 +62,25 @@ export function ExercisesPage() {
     }
   }
 
+  useAdminHeaderAction(
+    useMemo(
+      () => (
+        <button
+          onClick={openCreate}
+          aria-label="Nuevo ejercicio"
+          className="flex h-11 w-11 shrink-0 cursor-pointer items-center justify-center rounded-full bg-white text-neutral-900 transition hover:bg-neutral-100 active:scale-95"
+        >
+          <Plus size={20} strokeWidth={2.5} />
+        </button>
+      ),
+      [],
+    ),
+  );
+
   return (
     <div className="flex flex-col gap-4">
       <div className="sticky -top-6 -mx-6 -mt-6 z-10 flex transform-gpu flex-col gap-4 bg-white px-6 pt-6 pb-4 [will-change:transform]">
-        <div className="flex items-center justify-between gap-3">
+        <div className="hidden items-center justify-between md:flex">
           <h1 className="font-display text-2xl font-extrabold text-neutral-900">Ejercicios</h1>
           <button
             onClick={openCreate}

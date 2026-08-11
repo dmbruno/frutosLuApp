@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { RotateCw } from 'lucide-react';
-import { Card, ConfirmDialog, EmptyState, Spinner } from '../../../components/ui';
+import { Avatar, Card, ConfirmDialog, EmptyState, Spinner } from '../../../components/ui';
 import { AdherenceLight } from './AdherenceLight';
 import { SubscriptionToggle } from './SubscriptionToggle';
 import { DaysRemainingBadge } from './DaysRemainingBadge';
@@ -15,16 +15,6 @@ interface StudentListProps {
   students: Adherence[] | undefined;
   loading: boolean;
   mode: 'active' | 'inactive';
-}
-
-function getInitials(fullName: string): string {
-  return fullName
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join('')
-    .toUpperCase();
 }
 
 export function StudentList({ students, loading, mode }: StudentListProps) {
@@ -64,9 +54,7 @@ export function StudentList({ students, loading, mode }: StudentListProps) {
             className="flex min-w-0 items-center gap-3 transition-opacity hover:opacity-70"
           >
             <div className="relative shrink-0">
-              <div className="flex h-11 w-11 items-center justify-center rounded-full bg-neutral-100 text-sm font-bold text-neutral-600">
-                {getInitials(student.full_name)}
-              </div>
+              <Avatar src={student.avatar_url} fullName={student.full_name} size="sm" />
               {mode === 'active' && (
                 <span className="absolute -bottom-0.5 -right-0.5 rounded-full ring-2 ring-white">
                   <AdherenceLight trafficLight={student.traffic_light} />

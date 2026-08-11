@@ -18,7 +18,7 @@ export function BottomNav() {
           end={to === '/'}
           className={({ isActive }) =>
             `flex flex-col items-center gap-0.5 px-3 py-1 text-xs transition-colors ${
-              isActive ? 'font-bold text-brand-pink' : 'font-medium text-neutral-400 hover:text-neutral-600'
+              isActive ? 'font-bold text-neutral-900' : 'font-medium text-neutral-400 hover:text-neutral-600'
             }`
           }
         >

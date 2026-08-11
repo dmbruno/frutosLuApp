@@ -24,6 +24,7 @@ export function SubscriptionToggle({ userId, status }: SubscriptionToggleProps) 
       checked={status === 'active'}
       onChange={handleChange}
       label={isPending ? 'Actualizando…' : status === 'active' ? 'Activo' : 'Inactivo'}
+      variant="green"
     />
   );
 }

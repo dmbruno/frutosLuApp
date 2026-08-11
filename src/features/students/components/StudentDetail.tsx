@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { EmptyState, PendingChangesBar, Spinner } from '../../../components/ui';
+import { Pencil, RotateCw, KeyRound } from 'lucide-react';
+import { Avatar, EmptyState, PendingChangesBar, Spinner } from '../../../components/ui';
 import { PendingChangesProvider } from '../../../lib/PendingChangesContext';
 import { AdherenceLight } from './AdherenceLight';
 import { SubscriptionToggle } from './SubscriptionToggle';
@@ -19,6 +20,9 @@ import { useProgressPhotos } from '../../body-tracking/hooks/useProgressPhotos';
 import { daysRemaining } from '../../../lib/utils/dates';
 import { formatDate } from '../../../lib/utils/format';
 import { SEX_OPTIONS, ATHLETE_PROFILE_OPTIONS, EXPERIENCE_OPTIONS, findLabel } from '../../../lib/utils/profileLabels';
+
+const ICON_BUTTON =
+  'flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-900';
 
 const FEELING_EMOJI: Record<number, string> = { 1: '😫', 2: '😕', 3: '😐', 4: '🙂', 5: '💪' };
 
@@ -46,31 +50,33 @@ export function StudentDetail({ userId }: StudentDetailProps) {
   return (
     <PendingChangesProvider>
       <div className="flex flex-col gap-4">
-      <div className="flex flex-col gap-2 rounded-2xl border border-neutral-200 bg-white p-4">
-        <div className="flex items-center gap-2">
-          {adherence && <AdherenceLight trafficLight={adherence.traffic_light} />}
-          <h1 className="min-w-0 flex-1 break-words font-display text-2xl font-extrabold text-neutral-900">{profile.full_name}</h1>
-          <DaysRemainingBadge days={daysRemaining(profile.subscription_expires_at)} />
+      <div className="flex flex-col gap-3 rounded-2xl border border-neutral-200 bg-white p-4">
+        <div className="flex items-center gap-3">
+          <div className="relative shrink-0">
+            <Avatar src={profile.avatar_url} fullName={profile.full_name} size="md" />
+            {adherence && (
+              <span className="absolute -bottom-0.5 -right-0.5 rounded-full ring-2 ring-white">
+                <AdherenceLight trafficLight={adherence.traffic_light} />
+              </span>
+            )}
+          </div>
+          <div className="min-w-0 flex-1">
+            <h1 className="truncate font-display text-2xl font-extrabold text-neutral-900">{profile.full_name}</h1>
+            <div className="mt-1">
+              <DaysRemainingBadge days={daysRemaining(profile.subscription_expires_at)} />
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-            <button
-              onClick={() => setShowEdit(true)}
-              className="cursor-pointer text-sm text-brand-pink transition-opacity hover:opacity-70"
-            >
-              Editar
+        <div className="flex items-center justify-between border-t border-neutral-100 pt-3">
+          <div className="flex items-center gap-1">
+            <button onClick={() => setShowEdit(true)} aria-label="Editar" className={ICON_BUTTON}>
+              <Pencil size={16} />
             </button>
-            <button
-              onClick={() => setShowRenew(true)}
-              className="cursor-pointer text-sm text-brand-pink transition-opacity hover:opacity-70"
-            >
-              Renovar
+            <button onClick={() => setShowRenew(true)} aria-label="Renovar" className={ICON_BUTTON}>
+              <RotateCw size={16} />
             </button>
-            <button
-              onClick={() => setShowSetPassword(true)}
-              className="cursor-pointer text-sm text-brand-pink transition-opacity hover:opacity-70"
-            >
-              Contraseña
+            <button onClick={() => setShowSetPassword(true)} aria-label="Cambiar contraseña" className={ICON_BUTTON}>
+              <KeyRound size={16} />
             </button>
           </div>
           <SubscriptionToggle userId={profile.id} status={profile.subscription_status} />
@@ -84,27 +90,27 @@ export function StudentDetail({ userId }: StudentDetailProps) {
         <dl className="grid grid-cols-2 gap-2 text-sm">
           <div>
             <dt className="text-neutral-400">Objetivo</dt>
-            <dd>{profile.goal ?? '—'}</dd>
+            <dd className="font-medium text-neutral-900">{profile.goal ?? '—'}</dd>
           </div>
           <div>
             <dt className="text-neutral-400">Nivel</dt>
-            <dd>{findLabel(EXPERIENCE_OPTIONS, profile.experience_level) ?? '—'}</dd>
+            <dd className="font-medium text-neutral-900">{findLabel(EXPERIENCE_OPTIONS, profile.experience_level) ?? '—'}</dd>
           </div>
           <div>
             <dt className="text-neutral-400">Perfil</dt>
-            <dd>{findLabel(ATHLETE_PROFILE_OPTIONS, profile.athlete_profile) ?? '—'}</dd>
+            <dd className="font-medium text-neutral-900">{findLabel(ATHLETE_PROFILE_OPTIONS, profile.athlete_profile) ?? '—'}</dd>
           </div>
           <div>
             <dt className="text-neutral-400">Sexo</dt>
-            <dd>{findLabel(SEX_OPTIONS, profile.sex) ?? '—'}</dd>
+            <dd className="font-medium text-neutral-900">{findLabel(SEX_OPTIONS, profile.sex) ?? '—'}</dd>
           </div>
           <div>
             <dt className="text-neutral-400">Fecha de nacimiento</dt>
-            <dd>{formatDate(profile.birth_date) ?? '—'}</dd>
+            <dd className="font-medium text-neutral-900">{formatDate(profile.birth_date) ?? '—'}</dd>
           </div>
           <div>
             <dt className="text-neutral-400">Lesiones</dt>
-            <dd>{profile.injuries_notes ?? '—'}</dd>
+            <dd className="font-medium text-neutral-900">{profile.injuries_notes ?? '—'}</dd>
           </div>
         </dl>
       </div>
