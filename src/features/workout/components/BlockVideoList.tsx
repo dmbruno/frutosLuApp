@@ -25,27 +25,23 @@ export function BlockVideoList({ exercises }: BlockVideoListProps) {
         {open ? 'Ocultar ejercicios' : 'Ver ejercicios'}
       </button>
 
-      <div className="-mx-4">
-        <Collapse open={open} duration={0.45}>
-          <div className="flex flex-col gap-6 pb-1 pt-1">
-            {exercises.map((ex) => (
-              <div key={ex.id}>
-                <div className="mb-2 flex items-center gap-3 px-4">
-                  <ExerciseThumbnail exercise={ex.exercise} size="sm" />
-                  <span className="text-sm text-neutral-900">{toSentenceCase(ex.exercise.name)}</span>
-                </div>
-                {ex.exercise.video_url ? (
-                  <div className="pt-5">
-                    <VideoEmbed url={ex.exercise.video_url} title={ex.exercise.name} rounded={false} />
-                  </div>
-                ) : (
-                  <p className="px-4 text-xs text-neutral-400">Todavía sin video.</p>
-                )}
+      <Collapse open={open} duration={0.45}>
+        <div className="flex flex-col gap-6 pb-4 pt-1">
+          {exercises.map((ex) => (
+            <div key={ex.id}>
+              <div className="mb-2 flex items-center gap-3">
+                <ExerciseThumbnail exercise={ex.exercise} size="sm" />
+                <span className="text-sm text-neutral-900">{toSentenceCase(ex.exercise.name)}</span>
               </div>
-            ))}
-          </div>
-        </Collapse>
-      </div>
+              {ex.exercise.video_url ? (
+                <VideoEmbed url={ex.exercise.video_url} title={ex.exercise.name} />
+              ) : (
+                <p className="text-xs text-neutral-400">Todavía sin video.</p>
+              )}
+            </div>
+          ))}
+        </div>
+      </Collapse>
     </div>
   );
 }

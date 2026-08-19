@@ -45,7 +45,7 @@ export function BeforeAfterRadar({ inicio, final }: BeforeAfterRadarProps) {
             <PolarGrid />
             <PolarAngleAxis dataKey="subject" tick={{ fontSize: 11 }} />
             <PolarRadiusAxis tick={{ fontSize: 10 }} />
-            <Radar name="Inicio" dataKey="Inicio" stroke="#F2679C" fill="#F2679C" fillOpacity={0.25} />
+            <Radar name="Inicio" dataKey="Inicio" stroke="#FF6F59" fill="#FF6F59" fillOpacity={0.25} />
             <Radar name="Final" dataKey="Final" stroke="#171717" fill="#171717" fillOpacity={0.15} />
             <Tooltip formatter={(value) => `${Number(value)} cm`} />
             <Legend wrapperStyle={{ paddingTop: 24 }} itemSorter={null} />

@@ -22,7 +22,7 @@ export function VolumeByMuscle({ data, loading }: VolumeByMuscleProps) {
           <Tooltip formatter={(value) => `${Number(value).toFixed(0)} kg`} />
           <Bar dataKey="volume_kg" radius={[0, 8, 8, 0]}>
             {chartData.map((d, i) => (
-              <Cell key={d.muscle} fill={i === 0 ? '#F2679C' : '#171717'} />
+              <Cell key={d.muscle} fill={i === 0 ? '#FF6F59' : '#171717'} />
             ))}
           </Bar>
         </BarChart>
