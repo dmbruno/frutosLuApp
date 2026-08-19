@@ -1,3 +1,10 @@
+// La profe carga los nombres de ejercicio en mayúsculas ("SENTADILLA SUMO CON DB").
+// Se guarda así tal cual, pero para lectura se muestra en oración: "Sentadilla sumo con db".
+export function toSentenceCase(text: string): string {
+  const lower = text.toLowerCase();
+  return lower.charAt(0).toUpperCase() + lower.slice(1);
+}
+
 export function formatKg(value: number): string {
   return `${value.toFixed(1)} kg`;
 }

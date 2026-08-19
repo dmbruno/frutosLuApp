@@ -8,25 +8,10 @@ import { RestTimer } from './RestTimer';
 import { SessionSummary } from './SessionSummary';
 import { useWorkoutSession } from '../hooks/useWorkoutSession';
 import { useRestTimer } from '../hooks/useRestTimer';
-import type { ProgramExerciseWithExercise } from '../../../types/domain';
+import { groupBySuperset } from '../../../lib/utils/supersets';
 
 interface WorkoutSessionProps {
   programDayId: string;
-}
-
-function groupSteps(exercises: ProgramExerciseWithExercise[]): ProgramExerciseWithExercise[][] {
-  const steps: ProgramExerciseWithExercise[][] = [];
-  const seenGroups = new Set<string>();
-  for (const exercise of exercises) {
-    if (exercise.superset_group) {
-      if (seenGroups.has(exercise.superset_group)) continue;
-      seenGroups.add(exercise.superset_group);
-      steps.push(exercises.filter((e) => e.superset_group === exercise.superset_group));
-    } else {
-      steps.push([exercise]);
-    }
-  }
-  return steps;
 }
 
 export function WorkoutSession({ programDayId }: WorkoutSessionProps) {
@@ -41,7 +26,7 @@ export function WorkoutSession({ programDayId }: WorkoutSessionProps) {
     return <EmptyState title="Día sin ejercicios cargados" />;
   }
 
-  const steps = groupSteps(day.exercises);
+  const steps = groupBySuperset(day.exercises);
   const step = steps[stepIndex];
   const isLast = stepIndex === steps.length - 1;
   const isSuperset = step.length > 1;

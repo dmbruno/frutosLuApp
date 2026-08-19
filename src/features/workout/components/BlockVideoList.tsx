@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { Play } from 'lucide-react';
 import { Collapse, VideoEmbed } from '../../../components/ui';
+import { toSentenceCase } from '../../../lib/utils/format';
 import { ExerciseThumbnail } from './ExerciseThumbnail';
 import type { ProgramExerciseWithExercise } from '../../../types/domain';
 
@@ -11,26 +13,26 @@ export function BlockVideoList({ exercises }: BlockVideoListProps) {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="mt-2">
+    <div>
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-white py-3 text-sm font-semibold text-neutral-600 transition-colors hover:text-brand-pink"
+        className="flex w-full cursor-pointer items-center gap-2.5 py-4 text-sm font-medium text-neutral-700 transition-colors hover:text-brand-pink"
       >
-        <span className="flex h-5 w-5 items-center justify-center rounded-full bg-brand-pink/10 text-[10px] text-brand-pink">
-          ▶
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-neutral-300 text-neutral-500">
+          <Play size={13} fill="currentColor" strokeWidth={0} />
         </span>
-        {open ? 'Ocultar videos' : 'Ver videos'}
+        {open ? 'Ocultar ejercicios' : 'Ver ejercicios'}
       </button>
 
       <div className="-mx-4">
         <Collapse open={open} duration={0.45}>
-          <div className="flex flex-col gap-6 pt-3">
+          <div className="flex flex-col gap-6 pb-1 pt-1">
             {exercises.map((ex) => (
               <div key={ex.id}>
                 <div className="mb-2 flex items-center gap-3 px-4">
                   <ExerciseThumbnail exercise={ex.exercise} size="sm" />
-                  <span className="text-sm font-medium text-neutral-700">{ex.exercise.name}</span>
+                  <span className="text-sm text-neutral-900">{toSentenceCase(ex.exercise.name)}</span>
                 </div>
                 {ex.exercise.video_url ? (
                   <div className="pt-5">

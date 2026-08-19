@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { getUniformSets, stripSetsPrefix } from './blockSummary';
+import { getUniformSets, getDisplaySets, stripSetsPrefix } from './blockSummary';
 import type { ProgramExerciseWithExercise } from '../../types/domain';
 
 function withSets(parsed_sets: number | null): ProgramExerciseWithExercise {
@@ -21,6 +21,24 @@ describe('getUniformSets', () => {
 
   it('devuelve null con lista vacía', () => {
     expect(getUniformSets([])).toBeNull();
+  });
+});
+
+describe('getDisplaySets', () => {
+  it('devuelve el valor uniforme cuando todos comparten parsed_sets', () => {
+    expect(getDisplaySets([withSets(3), withSets(3)])).toBe(3);
+  });
+
+  it('devuelve el mayor parsed_sets cuando difieren, en vez de null', () => {
+    expect(getDisplaySets([withSets(2), withSets(3)])).toBe(3);
+  });
+
+  it('ignora ejercicios sin parsed_sets al buscar el máximo', () => {
+    expect(getDisplaySets([withSets(null), withSets(4)])).toBe(4);
+  });
+
+  it('devuelve null si ningún ejercicio tiene parsed_sets', () => {
+    expect(getDisplaySets([withSets(null), withSets(null)])).toBeNull();
   });
 });
 

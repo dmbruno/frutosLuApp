@@ -1,8 +1,6 @@
 import { Check } from 'lucide-react';
 import type { WeekDay } from '../../../types/domain';
 
-const WEEKDAY_LETTERS = ['L', 'M', 'X', 'J', 'V', 'S', 'D'];
-
 interface WeekdayPillsProps {
   days: WeekDay[];
   todayDayId: string | null;
@@ -14,7 +12,7 @@ export function WeekdayPills({ days, todayDayId }: WeekdayPillsProps) {
   return (
     <div className="flex gap-3">
       {days.map((day, index) => {
-        const letter = WEEKDAY_LETTERS[((day.weekday ?? index + 1) - 1 + 7) % 7];
+        const dayNumber = index + 1;
         const isToday = day.id === todayDayId;
 
         return (
@@ -28,7 +26,7 @@ export function WeekdayPills({ days, todayDayId }: WeekdayPillsProps) {
                     : 'border border-neutral-200 text-neutral-300'
               }`}
             >
-              {letter}
+              {dayNumber}
             </span>
             {day.completed && (
               <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-brand-pink text-white">
