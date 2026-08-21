@@ -67,9 +67,19 @@ export function WorkoutSession({ programDayId }: WorkoutSessionProps) {
       {isSuperset && <Pill variant="accent" className="self-start">Superserie</Pill>}
 
       {isSuperset ? (
-        <SupersetStep exercises={step} sessionId={session.id} onSetLogged={(restSec) => start(restSec ?? 60)} />
+        <SupersetStep
+          key={stepIndex}
+          exercises={step}
+          sessionId={session.id}
+          onSetLogged={(restSec) => start(restSec ?? 60)}
+        />
       ) : (
-        <ExerciseStep exercise={step[0]} sessionId={session.id} onSetLogged={(restSec) => start(restSec ?? 60)} />
+        <ExerciseStep
+          key={stepIndex}
+          exercise={step[0]}
+          sessionId={session.id}
+          onSetLogged={(restSec) => start(restSec ?? 60)}
+        />
       )}
 
       <Button onClick={handleNext} className="w-full">
