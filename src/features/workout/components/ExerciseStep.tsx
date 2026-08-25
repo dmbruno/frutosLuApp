@@ -4,14 +4,16 @@ import { ExerciseHeader } from './ExerciseHeader';
 import { SetRow } from './SetRow';
 import { Card } from '../../../components/ui';
 import type { ProgramExerciseWithExercise } from '../../../types/domain';
+import type { SessionSetLog } from '../api';
 
 interface ExerciseStepProps {
   exercise: ProgramExerciseWithExercise;
   sessionId: string;
+  sessionLogs?: Record<number, SessionSetLog>;
   onSetLogged: (restSec: number | null) => void;
 }
 
-export function ExerciseStep({ exercise, sessionId, onSetLogged }: ExerciseStepProps) {
+export function ExerciseStep({ exercise, sessionId, sessionLogs, onSetLogged }: ExerciseStepProps) {
   const { data: lastPerformances } = useLastPerformance(exercise.id);
   const slots = buildSetSlots(exercise);
 
@@ -33,6 +35,7 @@ export function ExerciseStep({ exercise, sessionId, onSetLogged }: ExerciseStepP
               parsedReps={exercise.parsed_reps}
               lastWeightKg={lastPerformances?.[slot.setNumber]?.weight_kg ?? null}
               lastReps={lastPerformances?.[slot.setNumber]?.reps ?? null}
+              sessionLog={sessionLogs?.[slot.setNumber] ?? null}
               onLogged={() => onSetLogged(exercise.rest_sec)}
             />
           ))}

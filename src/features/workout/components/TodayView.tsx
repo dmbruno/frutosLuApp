@@ -33,7 +33,9 @@ export function TodayView({ day, loading, pendingLabel = 'Hoy toca' }: TodayView
   return (
     <div className="flex flex-col gap-3">
       <div>
-        <p className="text-sm text-neutral-500">{day.completed ? 'Ya entrenado' : pendingLabel}</p>
+        <p className="text-sm text-neutral-500">
+          {day.completed ? 'Ya entrenado' : day.inProgress ? 'Entrenamiento en curso' : pendingLabel}
+        </p>
         <h2 className="font-display text-2xl font-extrabold text-neutral-900">{day.title}</h2>
       </div>
 
@@ -56,7 +58,9 @@ export function TodayView({ day, loading, pendingLabel = 'Hoy toca' }: TodayView
       })}
 
       <Link to={`/entrenar/${day.id}`}>
-        <Button className="w-full">{day.completed ? 'Repetir' : 'Comenzar entrenamiento'}</Button>
+        <Button className="w-full">
+          {day.completed ? 'Repetir' : day.inProgress ? 'Continuar entrenamiento' : 'Comenzar entrenamiento'}
+        </Button>
       </Link>
     </div>
   );

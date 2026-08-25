@@ -6,10 +6,12 @@ import { ExerciseHeader } from './ExerciseHeader';
 import { SetRow } from './SetRow';
 import { Card } from '../../../components/ui';
 import type { ProgramExerciseWithExercise } from '../../../types/domain';
+import type { SessionSetLog } from '../api';
 
 interface SupersetStepProps {
   exercises: ProgramExerciseWithExercise[];
   sessionId: string;
+  sessionLogs?: Record<string, Record<number, SessionSetLog>>;
   onSetLogged: (restSec: number | null) => void;
 }
 
@@ -18,7 +20,7 @@ interface RoundEntry {
   slot: SetSlot;
 }
 
-export function SupersetStep({ exercises, sessionId, onSetLogged }: SupersetStepProps) {
+export function SupersetStep({ exercises, sessionId, sessionLogs, onSetLogged }: SupersetStepProps) {
   // Coordina cuándo se completó la ronda entera (todos los ejercicios del
   // grupo en esa ronda), no si visualmente se re-renderiza: es puro estado
   // de coordinación, por eso va en un ref y no en useState.
@@ -63,7 +65,7 @@ export function SupersetStep({ exercises, sessionId, onSetLogged }: SupersetStep
       <Card>
         {rounds.map((roundEntries, roundIndex) => (
           <div key={roundIndex} className="mb-4 last:mb-0">
-            <p className="mb-1 text-xs font-bold uppercase tracking-wide text-neutral-400">Ronda {roundIndex + 1}</p>
+            <p className="mb-1 text-xs font-bold uppercase tracking-wide text-neutral-400">Serie {roundIndex + 1}</p>
             <div className="flex flex-col">
               {roundEntries.map(({ exercise, slot }) => {
                 const exerciseIndex = exercises.indexOf(exercise);
@@ -75,12 +77,13 @@ export function SupersetStep({ exercises, sessionId, onSetLogged }: SupersetStep
                     programExerciseId={exercise.id}
                     exerciseId={exercise.exercise_id}
                     setNumber={slot.setNumber}
-                    label={`${exercise.exercise.name} · ${slot.label}`}
+                    label={exercise.exercise.name}
                     unit={exercise.rep_unit}
                     trackWeight={exercise.exercise.kind !== 'movilidad'}
                     parsedReps={exercise.parsed_reps}
                     lastWeightKg={lastPerformances?.[slot.setNumber]?.weight_kg ?? null}
                     lastReps={lastPerformances?.[slot.setNumber]?.reps ?? null}
+                    sessionLog={sessionLogs?.[exercise.id]?.[slot.setNumber] ?? null}
                     onLogged={() => handleSetLogged(roundIndex, exercise.id, roundEntries)}
                   />
                 );

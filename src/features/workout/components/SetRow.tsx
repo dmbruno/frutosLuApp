@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Check } from 'lucide-react';
 import { useSetLogger } from '../hooks/useSetLogger';
+import type { SessionSetLog } from '../api';
 
 interface SetRowProps {
   sessionId: string;
@@ -13,6 +14,10 @@ interface SetRowProps {
   parsedReps: number | null;
   lastWeightKg: number | null;
   lastReps: number | null;
+  // Ya registrada en la sesión actual (el alumno la cargó y salió/volvió a
+  // entrar): a diferencia de last*, que es "la vez anterior", esto marca la
+  // serie como hecha y evita que se vuelva a insertar por error.
+  sessionLog?: SessionSetLog | null;
   onLogged: () => void;
 }
 
@@ -27,13 +32,16 @@ export function SetRow({
   parsedReps,
   lastWeightKg,
   lastReps,
+  sessionLog,
   onLogged,
 }: SetRowProps) {
-  const [weight, setWeight] = useState(lastWeightKg?.toString() ?? '');
+  const [weight, setWeight] = useState(sessionLog?.weight_kg?.toString() ?? lastWeightKg?.toString() ?? '');
   // Precarga con lo registrado la vez anterior; si es la primera vez, con las
   // reps pautadas en el texto de la profe (ej. "3X12/12" → 12).
-  const [reps, setReps] = useState(lastReps?.toString() ?? parsedReps?.toString() ?? '');
-  const [status, setStatus] = useState<'idle' | 'saving' | 'saved' | 'queued'>('idle');
+  const [reps, setReps] = useState(
+    sessionLog?.reps?.toString() ?? lastReps?.toString() ?? parsedReps?.toString() ?? '',
+  );
+  const [status, setStatus] = useState<'idle' | 'saving' | 'saved' | 'queued'>(sessionLog ? 'saved' : 'idle');
   const { submit } = useSetLogger();
 
   const isTimed = unit === 'seg' || unit === 'min';
@@ -62,7 +70,7 @@ export function SetRow({
   const checkButton = (
     <button
       onClick={handleCheck}
-      disabled={status === 'saving'}
+      disabled={status === 'saving' || done}
       className={`flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-full transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-60 ${
         done ? 'bg-brand-pink text-white' : 'bg-neutral-900 text-white'
       }`}

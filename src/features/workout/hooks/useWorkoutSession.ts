@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useAuth } from '../../auth/hooks/useAuth';
-import { startSession, getProgramDay, finishSession as finishSessionApi } from '../api';
+import { startSession, getProgramDay, getSessionSetLogs, finishSession as finishSessionApi } from '../api';
 import type { WorkoutSession } from '../../../types/domain';
 
 export function useWorkoutSession(programDayId: string) {
@@ -20,6 +20,15 @@ export function useWorkoutSession(programDayId: string) {
     startSession(user.id, programDayId).then(setSession);
   }, [user, programDayId]);
 
+  // Series ya registradas en esta sesión (por si el alumno retoma un
+  // entrenamiento a medio hacer): permite arrancar en el ejercicio donde quedó
+  // y mostrar esas series como ya tildadas.
+  const sessionLogsQuery = useQuery({
+    queryKey: ['session-set-logs', session?.id],
+    queryFn: () => getSessionSetLogs(session!.id),
+    enabled: !!session,
+  });
+
   async function finish(feeling: number, note: string | null) {
     if (!session) return;
     await finishSessionApi(session.id, feeling, note);
@@ -29,8 +38,9 @@ export function useWorkoutSession(programDayId: string) {
 
   return {
     day: dayQuery.data,
-    loading: dayQuery.isLoading || !session,
+    loading: dayQuery.isLoading || !session || sessionLogsQuery.isLoading,
     session,
+    sessionLogs: sessionLogsQuery.data,
     finish,
   };
 }

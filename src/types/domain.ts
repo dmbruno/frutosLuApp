@@ -26,6 +26,7 @@ export interface WeekPlan {
 
 export interface WeekDay extends DayWithExercises {
   completed: boolean;
+  inProgress: boolean;
 }
 
 export interface ProgramFull extends Program {

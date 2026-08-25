@@ -30,18 +30,19 @@ async function getCurrentWeekDays(userId: string): Promise<WeekDay[]> {
   const dayIds = days.map((d) => d.id);
   const { data: sessions, error: sessionsError } = await supabase
     .from('workout_sessions')
-    .select('program_day_id')
+    .select('program_day_id, finished_at')
     .eq('user_id', userId)
-    .in('program_day_id', dayIds)
-    .not('finished_at', 'is', null);
+    .in('program_day_id', dayIds);
   if (sessionsError) throw sessionsError;
-  const completedIds = new Set((sessions ?? []).map((s) => s.program_day_id));
+  const completedIds = new Set((sessions ?? []).filter((s) => s.finished_at).map((s) => s.program_day_id));
+  const inProgressIds = new Set((sessions ?? []).filter((s) => !s.finished_at).map((s) => s.program_day_id));
 
   return days.map((day) => {
     const { program_exercises, ...rest } = day;
     return {
       ...rest,
       completed: completedIds.has(day.id),
+      inProgress: inProgressIds.has(day.id),
       exercises: [...program_exercises]
         .sort((a, b) => a.position - b.position)
         .map(({ exercises, ...pe }) => ({ ...pe, exercise: exercises })),
@@ -128,6 +129,31 @@ export async function getSessionSummary(sessionId: string, startedAt: string) {
   const durationMin = Math.max(1, Math.round((Date.now() - new Date(startedAt).getTime()) / 60_000));
 
   return { totalVolumeKg, totalSets, durationMin };
+}
+
+export interface SessionSetLog {
+  weight_kg: number | null;
+  reps: number | null;
+}
+
+// Series ya registradas en la sesión actual, por ejercicio y número de serie:
+// permite retomar el entrenamiento en el ejercicio donde el alumno se quedó
+// (en vez de arrancar siempre desde el primero) Y mostrar esas series como ya
+// tildadas al volver a entrar, en vez de pedirle que las repita.
+export async function getSessionSetLogs(sessionId: string): Promise<Record<string, Record<number, SessionSetLog>>> {
+  const { data, error } = await supabase
+    .from('set_logs')
+    .select('program_exercise_id, set_number, weight_kg, reps')
+    .eq('session_id', sessionId);
+  if (error) throw error;
+
+  const result: Record<string, Record<number, SessionSetLog>> = {};
+  for (const row of data ?? []) {
+    if (!row.program_exercise_id) continue;
+    const byExercise = result[row.program_exercise_id] ?? (result[row.program_exercise_id] = {});
+    byExercise[row.set_number] = { weight_kg: row.weight_kg, reps: row.reps };
+  }
+  return result;
 }
 
 export async function getLastPerformances(
