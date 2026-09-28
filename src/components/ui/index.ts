@@ -6,6 +6,7 @@ export * from './Select';
 export * from './PasswordInput';
 export * from './Toggle';
 export * from './Pill';
+export * from './CheckboxGroupWithOther';
 export * from './Modal';
 export * from './Collapse';
 export * from './ConfirmDialog';

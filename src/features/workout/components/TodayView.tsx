@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import { Button, EmptyState, Spinner } from '../../../components/ui';
-import { EXERCISE_BLOCKS } from '../../exercises/constants';
+import { EXERCISE_BLOCKS, BLOCK_LABELS } from '../../exercises/constants';
 import { groupBySuperset } from '../../../lib/utils/supersets';
 import { ExerciseBlockCard } from './ExerciseBlockCard';
+import { IntervalDayPreview } from './IntervalDayPreview';
 import type { WeekDay } from '../../../types/domain';
 
 interface TodayViewProps {
@@ -11,20 +12,13 @@ interface TodayViewProps {
   pendingLabel?: string;
 }
 
-const BLOCK_LABELS: Record<string, string> = {
-  movilidad: 'Movilidad',
-  core: 'Core',
-  estructura: 'Estructura',
-  cardio: 'Cardio',
-  otro: 'Otro',
-};
-
 export function TodayView({ day, loading, pendingLabel = 'Hoy toca' }: TodayViewProps) {
   if (loading) return <Spinner />;
   if (!day) {
     return <EmptyState title="Sin rutina activa" description="Pedile a tu profe que te asigne un programa." />;
   }
 
+  const isIntervalos = day.format === 'intervalos';
   const blocks = EXERCISE_BLOCKS.map((block) => ({
     block,
     exercises: day.exercises.filter((e) => e.block === block),
@@ -39,29 +33,42 @@ export function TodayView({ day, loading, pendingLabel = 'Hoy toca' }: TodayView
         <h2 className="font-display text-2xl font-extrabold text-neutral-900">{day.title}</h2>
       </div>
 
-      {blocks.map(({ block, exercises }) => {
-        const supersetGroups = groupBySuperset(exercises);
-        const hasSupersets = supersetGroups.some((g) => g.length > 1);
+      {isIntervalos ? (
+        <IntervalDayPreview day={day} />
+      ) : (
+        blocks.map(({ block, exercises }) => {
+          const supersetGroups = groupBySuperset(exercises);
+          const hasSupersets = supersetGroups.some((g) => g.length > 1);
 
-        if (!hasSupersets) {
-          return <ExerciseBlockCard key={block} title={BLOCK_LABELS[block]} exercises={exercises} />;
-        }
+          if (!hasSupersets) {
+            return <ExerciseBlockCard key={block} title={BLOCK_LABELS[block]} exercises={exercises} />;
+          }
 
-        return supersetGroups.map((group) => (
-          <ExerciseBlockCard
-            key={group[0].id}
-            title={BLOCK_LABELS[block]}
-            subtitle={group[0].superset_group ? `Bloque ${group[0].superset_group}` : undefined}
-            exercises={group}
-          />
-        ));
-      })}
+          return supersetGroups.map((group) => (
+            <ExerciseBlockCard
+              key={group[0].id}
+              title={BLOCK_LABELS[block]}
+              subtitle={group[0].superset_group ? `Bloque ${group[0].superset_group}` : undefined}
+              exercises={group}
+            />
+          ));
+        })
+      )}
 
       <Link to={`/entrenar/${day.id}`}>
         <Button className="w-full">
           {day.completed ? 'Repetir' : day.inProgress ? 'Continuar entrenamiento' : 'Comenzar entrenamiento'}
         </Button>
       </Link>
+
+      {!day.completed && !day.inProgress && (
+        <Link
+          to="/reemplazos"
+          className="text-center text-sm font-medium text-neutral-400 transition-colors hover:text-neutral-600"
+        >
+          ¿No tenés ganas de esta rutina? Elegí un reemplazo →
+        </Link>
+      )}
     </div>
   );
 }

@@ -10,9 +10,13 @@ export type SubStatus = 'active' | 'inactive';
 export type MuscleGroup =
   | 'pecho' | 'espalda' | 'hombros' | 'biceps' | 'triceps' | 'antebrazos'
   | 'cuadriceps' | 'isquiotibiales' | 'gluteos' | 'gemelos'
+  | 'abductores' | 'aductores'
   | 'abdominales' | 'lumbares' | 'cardio' | 'cuerpo_completo';
-export type ExerciseKind = 'fuerza' | 'cardio' | 'movilidad';
-export type ExerciseBlock = 'movilidad' | 'core' | 'estructura' | 'cardio' | 'otro';
+export type ExerciseKind = 'fuerza' | 'cardio' | 'movilidad' | 'activacion' | 'potencia' | 'pliometria' | 'sprint';
+export type ExerciseBlock =
+  | 'movilidad' | 'core' | 'estructura' | 'cardio' | 'otro'
+  | 'activacion' | 'potencia' | 'pliometria' | 'sprint';
+export type DayFormat = 'tradicional' | 'intervalos';
 export type SetType = 'normal' | 'calentamiento' | 'fallo' | 'drop';
 
 export interface Database {
@@ -136,19 +140,29 @@ export interface Database {
       program_days: {
         Row: {
           id: string;
-          program_id: string;
+          program_id: string | null;
           week_number: number;
           title: string;
           position: number;
           weekday: number | null;
+          format: DayFormat;
+          duration_min: number | null;
+          equipment_items: string[];
+          cover_image_url: string | null;
+          created_at: string;
         };
         Insert: {
           id?: string;
-          program_id: string;
+          program_id?: string | null;
           week_number?: number;
           title: string;
           position: number;
           weekday?: number | null;
+          format?: DayFormat;
+          duration_min?: number | null;
+          equipment_items?: string[];
+          cover_image_url?: string | null;
+          created_at?: string;
         };
         Update: Partial<Database['public']['Tables']['program_days']['Insert']>;
         Relationships: [

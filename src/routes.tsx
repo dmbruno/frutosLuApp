@@ -13,12 +13,15 @@ import { DayPreviewPage } from './pages/DayPreviewPage';
 import { WorkoutPage } from './pages/WorkoutPage';
 import { ProgressPage } from './pages/ProgressPage';
 import { ProfilePage } from './pages/ProfilePage';
+import { ReplacementsPage } from './pages/ReplacementsPage';
 import { DashboardPage } from './pages/admin/DashboardPage';
 import { StudentsPage } from './pages/admin/StudentsPage';
 import { StudentDetailPage } from './pages/admin/StudentDetailPage';
 import { ExercisesPage } from './pages/admin/ExercisesPage';
 import { TemplatesPage } from './pages/admin/TemplatesPage';
 import { ProgramEditorPage } from './pages/admin/ProgramEditorPage';
+import { ReplacementsPage as AdminReplacementsPage } from './pages/admin/ReplacementsPage';
+import { ReplacementEditorPage } from './pages/admin/ReplacementEditorPage';
 
 export const router = createBrowserRouter([
   { path: '/login', element: <LoginPage /> },
@@ -75,6 +78,16 @@ export const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <WorkoutPage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/reemplazos',
+    element: (
+      <ProtectedRoute>
+        <AppShell>
+          <ReplacementsPage />
+        </AppShell>
       </ProtectedRoute>
     ),
   },
@@ -154,6 +167,26 @@ export const router = createBrowserRouter([
       <ProtectedRoute requireRole="admin">
         <AdminShell>
           <ProgramEditorPage />
+        </AdminShell>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/admin/reemplazos',
+    element: (
+      <ProtectedRoute requireRole="admin">
+        <AdminShell>
+          <AdminReplacementsPage />
+        </AdminShell>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/admin/reemplazos/:dayId',
+    element: (
+      <ProtectedRoute requireRole="admin">
+        <AdminShell>
+          <ReplacementEditorPage />
         </AdminShell>
       </ProtectedRoute>
     ),

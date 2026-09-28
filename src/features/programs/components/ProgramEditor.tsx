@@ -16,8 +16,18 @@ interface ProgramEditorProps {
 type PendingRemoval = { type: 'day' | 'exercise'; id: string; label: string };
 
 export function ProgramEditor({ programId }: ProgramEditorProps) {
-  const { program, loading, error, addDay, removeDay, addExercise, editExercise, removeExercise, editProgram } =
-    useProgramEditor(programId);
+  const {
+    program,
+    loading,
+    error,
+    addDay,
+    editDay,
+    removeDay,
+    addExercise,
+    editExercise,
+    removeExercise,
+    editProgram,
+  } = useProgramEditor(programId);
   const { showToast } = useToast();
   const pending = usePendingChanges();
 
@@ -176,6 +186,7 @@ export function ProgramEditor({ programId }: ProgramEditorProps) {
             key={day.id}
             day={day}
             onAddExercise={(block) => setPickerTarget({ dayId: day.id, block })}
+            onEditDay={(input) => editDay.mutateAsync({ id: day.id, input }).then(() => {})}
             onEditExercise={(id, input) => editExercise.mutateAsync({ id, input }).then(() => {})}
             onRemoveExercise={(id, name) => setPendingRemoval({ type: 'exercise', id, label: name })}
             onRemoveDay={() => setPendingRemoval({ type: 'day', id: day.id, label: day.title })}

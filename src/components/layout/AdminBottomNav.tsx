@@ -1,11 +1,12 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, Dumbbell, ClipboardList } from 'lucide-react';
+import { LayoutDashboard, Users, Dumbbell, ClipboardList, Shuffle } from 'lucide-react';
 
 const links = [
   { to: '/admin', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/admin/alumnos', label: 'Alumnos', icon: Users },
   { to: '/admin/ejercicios', label: 'Ejercicios', icon: Dumbbell },
   { to: '/admin/plantillas', label: 'Plantillas', icon: ClipboardList },
+  { to: '/admin/reemplazos', label: 'Reemplazos', icon: Shuffle },
 ];
 
 export function AdminBottomNav() {

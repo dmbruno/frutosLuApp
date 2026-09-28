@@ -1,6 +1,6 @@
 import { useState, type ChangeEvent, type FormEvent, type PropsWithChildren, type ReactNode } from 'react';
 import { Button, Input, Select, Toggle } from '../../../components/ui';
-import { MUSCLE_GROUPS, EXERCISE_KINDS, EXERCISE_BLOCKS, EQUIPMENT_OPTIONS } from '../constants';
+import { MUSCLE_GROUPS, EXERCISE_KINDS, EXERCISE_BLOCKS, KIND_LABELS, BLOCK_LABELS, EQUIPMENT_OPTIONS } from '../constants';
 import type { Exercise } from '../../../types/domain';
 import type { Database } from '../../../types/database';
 
@@ -13,20 +13,6 @@ interface ExerciseFormProps {
   submitting?: boolean;
   onUploadThumbnail: (file: File) => Promise<string>;
 }
-
-const KIND_LABELS: Record<string, string> = {
-  fuerza: 'Fuerza',
-  cardio: 'Cardio',
-  movilidad: 'Movilidad',
-};
-
-const BLOCK_LABELS: Record<string, string> = {
-  movilidad: 'Movilidad',
-  core: 'Core',
-  estructura: 'Estructura',
-  cardio: 'Cardio',
-  otro: 'Otro',
-};
 
 function Field({ label, children }: PropsWithChildren<{ label: ReactNode }>) {
   return (

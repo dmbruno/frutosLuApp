@@ -1,4 +1,5 @@
 import { supabase } from '../../lib/supabase';
+import { compressImage } from '../../lib/utils/compressImage';
 import type { Database } from '../../types/database';
 import type { Program, ProgramFull, DayWithExercises } from '../../types/domain';
 
@@ -7,6 +8,18 @@ type ProgramDayInsert = Database['public']['Tables']['program_days']['Insert'];
 type ProgramDayUpdate = Database['public']['Tables']['program_days']['Update'];
 type ProgramExerciseInsert = Database['public']['Tables']['program_exercises']['Insert'];
 type ProgramExerciseUpdate = Database['public']['Tables']['program_exercises']['Update'];
+
+// Mismo bucket público que las miniaturas de ejercicios (features/exercises/api.ts):
+// mismo tipo de archivo, mismas políticas de storage (solo admin sube/edita/borra).
+const THUMBNAILS_BUCKET = 'exercise-thumbnails';
+
+export async function uploadReplacementCoverImage(file: File): Promise<string> {
+  const compressed = await compressImage(file, { maxWidth: 800, maxHeight: 800 });
+  const path = `${crypto.randomUUID()}.jpg`;
+  const { error } = await supabase.storage.from(THUMBNAILS_BUCKET).upload(path, compressed);
+  if (error) throw error;
+  return supabase.storage.from(THUMBNAILS_BUCKET).getPublicUrl(path).data.publicUrl;
+}
 
 export async function listTemplates(): Promise<Program[]> {
   const { data, error } = await supabase.from('programs').select('*').is('user_id', null).order('name');
@@ -62,6 +75,45 @@ export async function getProgramFull(programId: string): Promise<ProgramFull> {
   }) as DayWithExercises[];
 
   return { ...program, days: daysWithExercises };
+}
+
+// Biblioteca de reemplazos: program_days con program_id = null, no atados a
+// ningún programa/semana. Cualquier alumno con suscripción activa los puede
+// tomar en vez de su rutina del día (ver RLS en 0011_replacement_library.sql).
+export async function listReplacementDays(): Promise<DayWithExercises[]> {
+  const { data, error } = await supabase
+    .from('program_days')
+    .select('*, program_exercises(*, exercises(*))')
+    .is('program_id', null)
+    .order('created_at', { ascending: false });
+  if (error) throw error;
+
+  return (data ?? []).map((day) => {
+    const { program_exercises, ...rest } = day;
+    return {
+      ...rest,
+      exercises: [...program_exercises]
+        .sort((a, b) => a.position - b.position)
+        .map(({ exercises, ...pe }) => ({ ...pe, exercise: exercises })),
+    };
+  }) as DayWithExercises[];
+}
+
+export async function getReplacementDay(id: string): Promise<DayWithExercises> {
+  const { data, error } = await supabase
+    .from('program_days')
+    .select('*, program_exercises(*, exercises(*))')
+    .eq('id', id)
+    .single();
+  if (error) throw error;
+
+  const { program_exercises, ...rest } = data;
+  return {
+    ...rest,
+    exercises: [...program_exercises]
+      .sort((a, b) => a.position - b.position)
+      .map(({ exercises, ...pe }) => ({ ...pe, exercise: exercises })),
+  } as DayWithExercises;
 }
 
 export async function createDay(input: ProgramDayInsert) {

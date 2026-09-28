@@ -7,19 +7,11 @@ import { useExercises } from '../../features/exercises/hooks/useExercises';
 import { useExerciseMutations } from '../../features/exercises/hooks/useExerciseMutations';
 import { useToast } from '../../lib/ToastProvider';
 import { useAdminHeaderAction } from '../../lib/AdminHeaderContext';
-import { EXERCISE_BLOCKS } from '../../features/exercises/constants';
+import { EXERCISE_BLOCKS, BLOCK_LABELS } from '../../features/exercises/constants';
 import type { Exercise } from '../../types/domain';
 import type { Database, ExerciseBlock } from '../../types/database';
 
 type ExerciseInsert = Database['public']['Tables']['exercises']['Insert'];
-
-const BLOCK_LABELS: Record<ExerciseBlock, string> = {
-  movilidad: 'Movilidad',
-  core: 'Core',
-  estructura: 'Estructura',
-  cardio: 'Cardio',
-  otro: 'Otro',
-};
 
 export function ExercisesPage() {
   const [search, setSearch] = useState('');
